@@ -9,7 +9,9 @@
     "noEmit": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "allowJs": true
+    "allowJs": true,
+    // The cron imports the reminder code, which uses the @/ alias (worker/cron.ts).
+    "paths": { "@/*": ["./*"] }
   },
   "include": ["worker/**/*.ts", "cloudflare-env.d.ts"]
 }

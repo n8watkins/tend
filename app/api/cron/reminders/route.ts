@@ -1,21 +1,16 @@
-import { runReminders } from '@/lib/server/reminders'
-import { ensureTelegramWebhook } from '@/lib/server/telegram'
+import { runReminderCron } from '@/lib/server/reminder-cron'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * The Cron Trigger's run (worker/index.ts calls this in-process every 15
- * minutes with `Authorization: Bearer $CRON_SECRET`). The end-to-end suite
- * calls it the same way.
+ * A manual (and end-to-end) trigger for the reminder run, with
+ * `Authorization: Bearer $CRON_SECRET`. The Cron Trigger itself does not come
+ * through here: worker/cron.ts calls the same code directly every 15 minutes.
  */
 export async function POST(request: Request): Promise<Response> {
   const secret = process.env.CRON_SECRET
   if (!secret || request.headers.get('authorization') !== `Bearer ${secret}`) {
     return new Response('Unauthorized', { status: 401 })
   }
-  // Registers the Telegram webhook once the bot's secrets are set (or change).
-  const webhook = await ensureTelegramWebhook().catch(() => 'failed' as const)
-  const result = await runReminders()
-  console.log(JSON.stringify({ event: 'reminders', webhook, ...result }))
-  return Response.json(result)
+  return Response.json(await runReminderCron())
 }

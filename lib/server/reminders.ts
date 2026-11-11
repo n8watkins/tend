@@ -2,7 +2,7 @@ import 'server-only'
 
 /**
  * The reminder run (docs/SPEC.md section 8), called by the Cron Trigger every
- * 15 minutes through /api/cron/reminders.
+ * 15 minutes (worker/cron.ts, via lib/server/reminder-cron.ts).
  *
  * 1. Messages whose contact no longer allows them are canceled.
  * 2. Due, unreminded messages of users with email reminders on and not paused

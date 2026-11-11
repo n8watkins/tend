@@ -22,7 +22,9 @@
     // caps there: 30 a day, 150 a month, 8 per recipient a day.
     { "binding": "MAILROOM", "service": "mailroom", "entrypoint": "Mailroom", "props": { "app": "tend" } }
   ],
-  // The reminder run (lib/server/reminders.ts).
+  // The reminder run (lib/server/reminders.ts), called directly by worker/cron.ts.
+  // "server-only" only guards against client bundles, which this entry is not.
+  "alias": { "server-only": "./worker/server-only.ts" },
   "triggers": { "crons": ["*/15 * * * *"] },
   "vars": {
     "APP_ENV": "production",
