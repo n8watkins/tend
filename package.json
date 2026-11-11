@@ -23,7 +23,10 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/migrate.mjs",
     "content:scripture": "node scripts/fetch-scripture.mjs",
-    "content:verify": "node scripts/verify-quotes.mjs"
+    "content:verify": "node scripts/verify-quotes.mjs",
+    "release": "release-kit release",
+    "release:check": "release-kit check && npm run lint && npm run typecheck && npm test && npm run build",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",
@@ -48,6 +51,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.38.0",
     "eslint-config-next": "^16.4.3",
+    "release-kit": "github:n8watkins/release-kit#v2.10.1",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
