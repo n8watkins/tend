@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Tend as one Cloudflare Worker, built by OpenNext (docs/SPEC.md section 13).
+  // worker/index.ts wraps the generated .open-next/worker.js and adds the cron.
+  "name": "tend",
+  "account_id": "b2c564cf83cb9184dd6d7cc4ff8b38bf",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  // nodejs_compat is required by OpenNext; global_fetch_strictly_public keeps
+  // the server's own fetches (Turso, Turnstile) on the public internet.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Served only at its custom domain; Cloudflare creates the DNS record and
+  // certificate when a deploy with OAuth or DNS rights first attaches it.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "tend.n8builds.dev", "custom_domain": true }],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "tend" }],
+  // Sign-in links and reminders through Cloudflare Email Service; n8builds.dev
+  // is onboarded for sending, so there is no API key. The binding may send
+  // from this one address only.
+  "send_email": [{ "name": "EMAIL", "allowed_sender_addresses": ["tend@n8builds.dev"] }],
+  // The reminder run (lib/server/reminders.ts).
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "vars": {
+    "APP_ENV": "production",
+    "PUBLIC_URL": "https://tend.n8builds.dev",
+    "AUTH_URL": "https://tend.n8builds.dev",
+    "EMAIL_FROM": "tend@n8builds.dev"
+  },
+  // Secrets (wrangler secret put <NAME>, values in pass under tend/):
+  // AUTH_SECRET, DATA_ENCRYPTION_KEY, CRON_SECRET, TURSO_DATABASE_URL,
+  // TURSO_AUTH_TOKEN; optional AUTH_GITHUB_ID, AUTH_GITHUB_SECRET,
+  // TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY.
+  // Run next to the Turso database: every page makes several queries.
+  "placement": { "mode": "targeted", "region": "aws:us-east-2" },
+  "observability": { "enabled": true, "head_sampling_rate": 1 }
+}

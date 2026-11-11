@@ -144,7 +144,7 @@ Every page works in light and dark (follows the system), meets WCAG 2.2 AA contr
 
 | Route | Access | Purpose |
 | --- | --- | --- |
-| `/` | public | What Tend is, how it works in three steps, sign-in button; signed-in users go to `/today` |
+| `/` | public | What Tend is, how it works in three steps, sign-in button ("Open Tend" when signed in) |
 | `/signin` | public | Email form (with Turnstile when configured) and GitHub button when configured |
 | `/signin/check-email` | public | "Check your email" |
 | `/today` | user | Pause banner; Due now; Upcoming (next 14 days); people who could use a message (consent yes, nothing in the last `minDaysBetween` days and nothing scheduled) |
@@ -173,7 +173,7 @@ The send screen shows the exact message in a read-only box and, in order:
 1. **Share to Signal** (only when `navigator.share` exists, which covers Android and iOS): shares the text; the user picks Signal and the person.
 2. **Copy message**: copies the text and shows "Copied".
 3. **Open chat with <name>** (only when a phone number is stored): `https://signal.me/#p/<E.164>`, opened in a new tab; on a phone it opens Signal, on a desktop it opens Signal Desktop through the signal.me page.
-4. **I sent it**: marks the message sent (`sentAt = now`); re-checks the caps and refuses if the contact is no longer at consent `yes` (or `not_asked`/`asked` for a consent request).
+4. **I sent it**: marks the message sent (`sentAt = now`). The person has already sent it, so only consent is re-checked: it refuses if the contact is now at `no` or `stopped`. Marking a consent request sent moves the contact from `not_asked` to `asked`.
 5. **Skip** and **Reschedule**.
 
 Signal links cannot carry text (PRD-REVIEW.md, 3c), so copy plus open is the universal path.
@@ -226,11 +226,12 @@ type ContentItem = {
 
 ### Verification
 
-- `scripts/fetch-scripture.mjs` reads `content/scripture-refs.json` (id, reference, topics, context) and fetches each passage from bible-api.com in `web` and `kjv`, two seconds apart (under its 15 per 30 seconds limit), normalising whitespace only.
-  Reading links point to the passage on eBible.org's WEB reader or BibleGateway's WEB.
-- `scripts/verify-quotes.mjs` downloads each quote's Project Gutenberg plain text and fails unless the exact quote (whitespace and quote marks normalised) is present.
+- `scripts/build-library.mjs` reads `content/scripture-refs.json` (id, reference, chapter, topics, context) and fetches each passage from bible-api.com in `web` and `kjv`, 2.2 seconds apart (under its 15 per 30 seconds limit), normalising whitespace only.
+  Reading links point to the chapter on BibleGateway in the same translation.
+- The same script downloads each quote's Project Gutenberg plain text (`content/quotes.json`) and fails unless the exact quote (whitespace normalised) is present, then writes `content/library.json`.
+  With `--check` it writes nothing and fails if the committed library differs from its sources; the Content workflow runs that on every pull request that touches `content/`.
 - A unit test checks the committed library: unique ids, valid topics, non-empty text, `license` is `public-domain`, HTTPS URLs, at least two items per topic.
-- New content arrives by pull request and must pass both scripts; CONTRIBUTING.md explains how.
+- New content arrives by pull request and must pass the script; CONTRIBUTING.md explains how.
 
 ### Suggestions
 
@@ -261,7 +262,7 @@ The compose screen offers "Next good time" (the default, shows the result), "Now
 
 ### Rules enforced on the server
 
-At schedule time and at mark-sent time:
+At schedule time (and consent only, at mark-sent time):
 
 - Consent: `content` and `personal` need `yes`; `consent_request` needs `not_asked` or `asked`; nothing for `no` or `stopped`.
 - `minDaysBetween` since the last sent or scheduled message to this contact (consent requests are exempt from content spacing but limited to one open at a time).
@@ -300,14 +301,14 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 
 - **Sessions:** Auth.js database sessions, `__Secure-` cookies, `SameSite=Lax`, 30-day expiry.
 - **Isolation:** every query is scoped by `userId`; a helper `requireUser()` returns the id or redirects; contact and message lookups use `(id, userId)`.
-- **Encryption:** `lib/crypto.ts` encrypts `phone` and `notes` with AES-256-GCM via WebCrypto; key from the `DATA_ENCRYPTION_KEY` secret (32 random bytes, base64); each value is `v1.<iv>.<ciphertext>`; a key version prefix allows rotation.
+- **Encryption:** `lib/crypto.ts` encrypts `phone` and `notes` with AES-256-GCM via WebCrypto; key derived with HKDF-SHA-256 from the `DATA_ENCRYPTION_KEY` secret (a random string of 32 or more characters); each value is `v1.<iv>.<ciphertext>`; a key version prefix allows rotation.
 - **Headers:** CSP with per-request nonce (scripts from self and `challenges.cloudflare.com` only), `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, HSTS, `Permissions-Policy` denying camera, microphone and geolocation.
-- **Abuse:** Turnstile on the email sign-in form when `TURNSTILE_SECRET_KEY` is set (skipped otherwise, logged once); sign-in emails at most 5 per address and 20 per IP a day, and 300 a day site-wide; reminder emails as in section 8.
+- **Abuse:** Turnstile on the email sign-in form when both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set as Worker settings (skipped otherwise, so turning it on needs no rebuild); the Auth.js route refuses a direct POST to `/api/auth/signin/email`, so every email link goes through that check; sign-in emails at most 5 per address and 20 per IP a day, and 300 a day site-wide; reminder emails as in section 8.
 - **Stop tokens:** 256-bit random, compared by exact lookup; rate-limited by Cloudflare's default protections.
 - **Logging:** structured JSON logs with ids and outcomes only; never names, numbers, notes, message bodies or emails.
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
 - **Export:** `/api/export` returns contacts (decrypted), topics, messages and consent events as JSON.
-- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SECRET_KEY`), kept in pass under `tend/`.
+- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`), kept in pass under `tend/`.
 
 ## 11. Limits
 
@@ -331,9 +332,9 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 
 - Worker `tend`, custom domain `tend.n8builds.dev` (`routes` with `custom_domain: true`, `workers_dev: false`).
   The first deploy that attaches the domain runs from the owner's machine with wrangler's OAuth login (the CI token cannot create DNS); later deploys run in GitHub Actions.
-- `.github/workflows/deploy.yml` on push to `main`: install, apply migrations to Turso, build, `opennextjs-cloudflare deploy`, with `CLOUDFLARE_API_TOKEN` (from `shared/CLOUDFLARE_DEPLOY_TOKEN`), `CLOUDFLARE_ACCOUNT_ID`, `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` as repository secrets.
-- Placement near the Turso region (`aws-us-east-2` or whatever `turso db show` reports).
-- Turnstile: the owner creates widget "Tend sign-in" for hostname `tend.n8builds.dev`, then sets `TURNSTILE_SECRET_KEY` as a Worker secret and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` as a repository variable.
+- `.github/workflows/deploy.yml` on push to `main`: install, apply migrations to Turso (`scripts/migrate.mjs`), build, `opennextjs-cloudflare deploy`, with `CLOUDFLARE_API_TOKEN` (from `shared/CLOUDFLARE_DEPLOY_TOKEN`), `CLOUDFLARE_ACCOUNT_ID`, `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` as repository secrets.
+- Placement near the Turso region, `aws-us-east-2`.
+- Turnstile: the owner creates widget "Tend sign-in" (Managed) for hostname `tend.n8builds.dev`, then sets `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` as Worker secrets; no rebuild is needed.
 
 ## 14. Milestones
 
