@@ -14,13 +14,14 @@ import { suggest } from '@/lib/suggest'
 import { formatDate, formatMinutes, formatWhen } from '@/lib/time'
 import { topicLabel } from '@/lib/topics'
 
-import { deleteContact, setConsent } from '../../actions'
+import { deleteContact, setConsent, surpriseMe } from '../../actions'
 
 export const metadata: Metadata = { title: 'Person' }
 
 const ERRORS: Record<string, string> = {
   consent: 'That change is not possible from their current consent state.',
   confirm: 'Tick the box to confirm they told you they want messages again.',
+  surprise: 'Everything in the library has gone to them in the last 180 days or is already scheduled. Write your own message instead.',
 }
 
 function maskPhone(phone: string) {
@@ -202,6 +203,9 @@ export default async function ContactPage({
 
       {contact.consent === 'yes' ? (
         <Section title="Suggestions" id="suggestions">
+          {contact.topics.length ? (
+            <p className="hint mb-3">Picked for what {contact.name} cares about: {contact.topics.map((t) => topicLabel(t.topic).toLowerCase()).join(', ')}.</p>
+          ) : null}
           {contact.topics.length === 0 ? (
             <p className="hint mb-3">
               <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
@@ -234,9 +238,15 @@ export default async function ContactPage({
           ) : (
             <Empty>Nothing new fits their topics right now. Browse the library or write your own.</Empty>
           )}
-          <Link href={`/library?contact=${contact.id}`} className="btn btn-ghost mt-3">
-            Browse the whole library
-          </Link>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <form action={surpriseMe.bind(null, contact.id)}>
+              <SubmitButton className="btn btn-secondary">Surprise me</SubmitButton>
+            </form>
+            <Link href={`/library?contact=${contact.id}`} className="btn btn-ghost">
+              Browse the whole library
+            </Link>
+          </div>
+          <p className="hint mt-2">Surprise me picks any passage or quote at random, never one {contact.name} has had in the last 180 days.</p>
         </Section>
       ) : null}
 

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+import { topicLabel } from '@/lib/topics'
+
 export type ShowcasePassage = {
   id: string
   reference: string
@@ -81,8 +83,8 @@ export function PassageShowcase({ passages }: { passages: ShowcasePassage[] }) {
               </span>
               <span className="flex flex-wrap gap-1.5">
                 {p.topics.map((t) => (
-                  <span key={t} className="badge badge-good capitalize">
-                    {t.replace('-', ' ')}
+                  <span key={t} className="badge badge-good">
+                    {topicLabel(t)}
                   </span>
                 ))}
               </span>

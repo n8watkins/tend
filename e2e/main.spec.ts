@@ -49,6 +49,22 @@ test('ask first, record yes, choose a suggestion and schedule it', async ({ page
   await expect(page.getByText('That is too soon after another message to them.')).toBeVisible()
 })
 
+test('Surprise me opens a random passage for that person, and can pick again', async ({ page }, info) => {
+  await signIn(page, testEmail(info, 'surprise'))
+  await addPerson(page, { name: 'Ada', consent: 'yes', topics: ['Joy'] })
+  await expect(page.getByText('Picked for what Ada cares about: joy.')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Surprise me' }).click()
+  await expect(page).toHaveURL(/\/compose\?contact=[^&]+&content=[^&]+&surprise=1$/)
+  await expect(page.getByText('A surprise pick for Ada.')).toBeVisible()
+  const first = new URL(page.url()).searchParams.get('content')
+
+  await page.getByRole('button', { name: 'Surprise me again' }).click()
+  await expect(page).not.toHaveURL(new RegExp(`content=${first}&`))
+  await expect(page).toHaveURL(/surprise=1$/)
+  await expect(page.getByTestId('preview')).not.toBeEmpty()
+})
+
 test('a due message shows on Today and is emailed once by the reminder run', async ({ page }, info) => {
   const address = testEmail(info, 'remind')
   await signIn(page, address)

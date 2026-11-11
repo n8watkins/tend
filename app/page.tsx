@@ -1,14 +1,17 @@
 import { auth } from '@/auth'
-import { Avatar, PEOPLE } from '@/components/landing/People'
+import { Avatar, PEOPLE, ScenePhoto, type Scene } from '@/components/landing/People'
 import { HeroStage } from '@/components/landing/HeroStage'
 import { Motion } from '@/components/landing/Motion'
 import { PassageShowcase, type ShowcasePassage } from '@/components/landing/PassageShowcase'
-import { Circle, Steps } from '@/components/landing/Steps'
+import { Steps } from '@/components/landing/Steps'
+import { SuggestDemo, type DemoItem, type DemoPerson } from '@/components/landing/SuggestDemo'
 import { PublicHeader } from '@/components/PublicHeader'
 import { SignInLink } from '@/components/SignIn'
 import { SiteFooter } from '@/components/SiteFooter'
-import { getItem, LIBRARY } from '@/lib/content'
+import { getItem, itemHeading, LIBRARY } from '@/lib/content'
 import type { ContentItem } from '@/lib/item'
+import { suggest } from '@/lib/suggest'
+import { topicLabel } from '@/lib/topics'
 
 import './landing.css'
 
@@ -31,6 +34,29 @@ const SHOWCASE = ['lamentations-3-22-23', 'john-15-13', 'romans-15-13', 'psalm-3
 
 // Epigraphs for "Why Tend": scripture on staying close to one another.
 const EPIGRAPHS = ['philippians-1-3', 'proverbs-17-17', '1-thessalonians-5-11', 'galatians-6-2']
+
+// Made-up people for the suggestions demo, with topics they care about. Their
+// picks come from the real suggestion code (lib/suggest), run on the server.
+const DEMO_PEOPLE = [
+  { name: 'Mum', topics: ['hope', 'gratitude'] },
+  { name: 'Grandpa Joe', topics: ['comfort', 'peace'] },
+  { name: 'Priya', topics: ['joy', 'new-beginnings'] },
+  { name: 'Sam', topics: ['courage', 'strength'] },
+] as const
+
+// Real photos (Pexels licence; credits in CREDITS.md).
+const SCENES: (Scene & { caption: string })[] = [
+  { photo: 'friends', alt: 'Three friends laughing together, arms around each other.', caption: 'Friends who make you laugh' },
+  { photo: 'grandma-phone', alt: 'An older woman on her sofa, smiling at a message on her phone.', caption: 'Grandma, smiling at your message' },
+  { photo: 'family', alt: 'A family of three generations in a big, happy hug.', caption: 'Family, near and far' },
+  { photo: 'sam-phone', alt: 'A young man with glasses smiling at his phone on the train.', caption: 'Sam, the morning of the interview' },
+]
+
+function demoItem(item: ContentItem): DemoItem {
+  return item.kind === 'scripture'
+    ? { id: item.id, heading: `${item.reference} (WEB)`, text: clean(item.text.web), topics: item.topics.map(topicLabel) }
+    : { id: item.id, heading: itemHeading(item), text: clean(item.text), topics: item.topics.map(topicLabel) }
+}
 
 const PROMISES = [
   { title: 'You send every message', body: 'Tend never logs in to Signal and never sends anything for you. Your words come from you, in your own chat.', icon: 'M4 12h11M11 6l6 6-6 6M20 5v14' },
@@ -62,6 +88,14 @@ export default async function Home() {
   })
   const epigraphs = EPIGRAPHS.map(scripture)
   const closing = scripture('3-john-1-2')
+  const now = Date.now()
+  const demoPeople: DemoPerson[] = DEMO_PEOPLE.map((d) => ({
+    person: PEOPLE.find((p) => p.name === d.name)!,
+    topics: d.topics.map((t) => topicLabel(t).toLowerCase()),
+    picks: suggest(LIBRARY, `landing-${d.name}`, d.topics.map((topic, i) => ({ topic, weight: 2 - i })), [], now, 2).map(demoItem),
+  }))
+  // "Surprise me" draws from the shorter passages, so the card stays a calm size.
+  const surprisePool = LIBRARY.filter((i): i is Scripture => i.kind === 'scripture' && i.text.web.length <= 180).map(demoItem)
   const references = LIBRARY.filter((i): i is Scripture => i.kind === 'scripture').map((i) => i.reference)
 
   const primaryCta = (label: string, className = 'btn btn-primary btn-lg') =>
@@ -103,7 +137,7 @@ export default async function Home() {
               <div className="mt-8 flex items-center gap-3 text-sm text-muted">
                 <span className="flex -space-x-2" aria-hidden="true">
                   {PEOPLE.slice(0, 5).map((p) => (
-                    <Avatar key={p.name} person={p} className="size-8 ring-2 ring-bg" />
+                    <Avatar key={p.name} person={p} className="size-8 ring-2 ring-bg" eager />
                   ))}
                 </span>
                 <span>No passwords. Nothing sent for you. WEB and KJV, checked word for word.</span>
@@ -137,6 +171,18 @@ export default async function Home() {
           <Steps reference={hero.reference} topics={hero.topics} />
         </section>
 
+        {/* Suggestions */}
+        <section id="suggestions" className="section">
+          <div className="section-head" data-reveal>
+            <p className="eyebrow">Finding the words</p>
+            <h2 className="section-title">You think of someone. Tend helps with what to say.</h2>
+            <p className="mt-4 text-lg text-muted">
+              Everyone you add has a few things they care about, like hope, courage or rest. Tend uses them to suggest words that fit that one person. Or tap Surprise me and let it choose.
+            </p>
+          </div>
+          <SuggestDemo people={demoPeople} pool={surprisePool} />
+        </section>
+
         {/* Passages */}
         <section id="passages" className="section">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
@@ -156,9 +202,14 @@ export default async function Home() {
         {/* Why */}
         <section id="why" className="section">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            <div data-reveal>
-              <Circle />
-            </div>
+            <ul className="collage" data-reveal>
+              {SCENES.map((scene, i) => (
+                <li key={scene.photo} className="collage-item" style={{ '--i': i } as React.CSSProperties}>
+                  <ScenePhoto scene={scene} sizes="(min-width: 1024px) 18rem, 46vw" className="collage-photo" />
+                  <span className="collage-caption">{scene.caption}</span>
+                </li>
+              ))}
+            </ul>
             <div>
               <div className="section-head" data-reveal>
                 <p className="eyebrow">Why Tend</p>

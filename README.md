@@ -60,7 +60,7 @@ Sign in with any address; the link is in `.e2e/email/<address>.jsonl`.
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript for the app and the Worker |
 | `npm test` | Unit tests (Vitest) |
-| `npm run build && npm run test:e2e` | End-to-end tests (Playwright) on phone and desktop, with axe checks in light and dark |
+| `npm run build && npm run test:e2e` | End-to-end tests (Playwright) on phone and desktop, with axe checks |
 | `npm run db:generate` | Write a migration after changing `db/schema.ts` |
 | `npm run build:worker` | The Cloudflare Worker bundle |
 

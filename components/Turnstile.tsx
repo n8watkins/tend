@@ -28,7 +28,7 @@ export function Turnstile({ siteKey, nonce }: { siteKey: string; nonce?: string 
 
   const render = useCallback(() => {
     if (!container.current || !window.turnstile || widget.current) return
-    widget.current = window.turnstile.render(container.current, { sitekey: siteKey, theme: 'auto', size: 'flexible' })
+    widget.current = window.turnstile.render(container.current, { sitekey: siteKey, theme: 'light', size: 'flexible' })
   }, [siteKey])
 
   useEffect(() => {

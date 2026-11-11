@@ -3,8 +3,9 @@ import { expect, test } from '@playwright/test'
 
 import { addPerson, signIn, testEmail } from './helpers'
 
-for (const colorScheme of ['light', 'dark'] as const) {
-  test.describe(`accessibility (${colorScheme})`, () => {
+// Tend is light only. A dark system setting must change nothing, so axe runs with it.
+for (const colorScheme of ['dark'] as const) {
+  test.describe('accessibility', () => {
     // Reduced motion, so axe measures colours at rest rather than mid fade-in.
     test.use({ colorScheme, timezoneId: 'UTC', reducedMotion: 'reduce' })
 

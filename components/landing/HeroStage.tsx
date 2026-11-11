@@ -13,19 +13,19 @@ export function HeroStage({ passage, reference }: { passage: string; reference: 
       <div className="hero-halo" />
 
       <div className="hero-float hero-float-a">
-        <Avatar person={mum} className="size-14 ring-4 ring-surface" />
+        <Avatar person={mum} className="size-14 ring-4 ring-surface" eager />
         <span className="hero-pill">
           <b>{mum.name}</b> · {mum.topic}
         </span>
       </div>
       <div className="hero-float hero-float-b">
-        <Avatar person={joe} className="size-16 ring-4 ring-surface" />
+        <Avatar person={joe} className="size-16 ring-4 ring-surface" eager />
         <span className="hero-pill">
           <b>{joe.name}</b> · {joe.topic}
         </span>
       </div>
       <div className="hero-float hero-float-c">
-        <Avatar person={priya} className="size-12 ring-4 ring-surface" />
+        <Avatar person={priya} className="size-12 ring-4 ring-surface" eager />
         <span className="hero-pill">
           <b>{priya.name}</b> · {priya.topic}
         </span>
@@ -37,7 +37,7 @@ export function HeroStage({ passage, reference }: { passage: string; reference: 
             <svg viewBox="0 0 24 24" className="size-4 opacity-70" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
               <path d="m15 6-6 6 6 6" />
             </svg>
-            <Avatar person={sam} className="size-8" />
+            <Avatar person={sam} className="size-8" eager />
             <div className="leading-tight">
               <p className="text-[0.8rem] font-semibold">{sam.name}</p>
               <p className="text-[0.65rem] opacity-60">Signal</p>
@@ -79,7 +79,7 @@ export function HeroStage({ passage, reference }: { passage: string; reference: 
 
       <div className="suggest-card msg-card">
         <div className="flex items-center gap-2.5">
-          <Avatar person={sam} className="size-9" />
+          <Avatar person={sam} className="size-9" eager />
           <div className="leading-tight">
             <p className="text-[0.7rem] font-semibold tracking-wide text-accent uppercase">Time for Sam</p>
             <p className="text-sm font-semibold">

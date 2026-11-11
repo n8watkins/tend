@@ -87,36 +87,3 @@ export function Steps({ reference, topics }: { reference: string; topics: string
     </ol>
   )
 }
-
-/** The people you love around you, joined by gently flowing threads. */
-export function Circle() {
-  const you = PEOPLE[4]
-  const others = PEOPLE.filter((p) => p !== you)
-  // Five people evenly round a circle, starting at the top.
-  const spots = others.map((p, i) => {
-    const angle = (-90 + (360 / others.length) * i) * (Math.PI / 180)
-    return { p, x: 50 + 38 * Math.cos(angle), y: 50 + 38 * Math.sin(angle) }
-  })
-  return (
-    <div className="circle" data-loop aria-hidden="true">
-      <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <circle cx="50" cy="50" r="38" fill="none" className="circle-ring" />
-        {spots.map(({ p, x, y }, i) => (
-          <line key={p.name} x1="50" y1="50" x2={x} y2={y} className="circle-thread" style={{ '--n': i } as React.CSSProperties} />
-        ))}
-      </svg>
-      {spots.map(({ p, x, y }, i) => (
-        <span key={p.name} className="circle-person" style={{ left: `${x}%`, top: `${y}%`, '--n': i } as React.CSSProperties}>
-          <Avatar person={p} className="size-[4.25rem] ring-4 ring-surface sm:size-20" />
-          <span className="hero-pill">{p.name}</span>
-        </span>
-      ))}
-      <span className="circle-you">
-        <Avatar person={you} className="size-24 ring-4 ring-surface sm:size-28" />
-        <span className="hero-pill">
-          <b>You</b>
-        </span>
-      </span>
-    </div>
-  )
-}

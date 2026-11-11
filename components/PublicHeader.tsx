@@ -9,6 +9,7 @@ import { SignInDialog, SignInLink } from './SignIn'
 
 const LANDING_NAV = [
   { href: '#how', label: 'How it works' },
+  { href: '#suggestions', label: 'Suggestions' },
   { href: '#passages', label: 'Passages' },
   { href: '#why', label: 'Why Tend' },
   { href: '#questions', label: 'Questions' },

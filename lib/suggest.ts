@@ -40,6 +40,36 @@ export function isoWeek(ms: number): string {
   return `${date.getUTCFullYear()}-W${week}`
 }
 
+/** Content ids that must not be offered: sent in the last 180 days, or already scheduled. */
+export function excludedIds(past: PastMessage[], now: number): Set<string> {
+  return new Set(
+    past
+      .filter((m) => m.contentId && (m.status === 'scheduled' || (m.status === 'sent' && now - m.at < REPEAT_DAYS * DAY)))
+      .map((m) => m.contentId as string),
+  )
+}
+
+/**
+ * "Surprise me": one passage or quote at random from the whole library,
+ * whatever their topics, still never one sent to them in the last 180 days
+ * or already scheduled. `random` is injectable for tests. Returns undefined
+ * when every item is excluded.
+ */
+export function surprise(
+  library: ContentItem[],
+  past: PastMessage[],
+  now: number,
+  options: { kind?: ContentItem['kind']; avoid?: string; random?: () => number } = {},
+): ContentItem | undefined {
+  const excluded = excludedIds(past, now)
+  const pool = library.filter((item) => !excluded.has(item.id) && (!options.kind || item.kind === options.kind))
+  // Prefer something other than the last surprise, when there is a choice.
+  const fresh = pool.length > 1 && options.avoid ? pool.filter((item) => item.id !== options.avoid) : pool
+  if (!fresh.length) return undefined
+  const random = options.random ?? Math.random
+  return fresh[Math.min(fresh.length - 1, Math.floor(random() * fresh.length))]
+}
+
 export function suggest(
   library: ContentItem[],
   contactId: string,
@@ -48,11 +78,7 @@ export function suggest(
   now: number,
   limit = 5,
 ): ContentItem[] {
-  const excluded = new Set(
-    past
-      .filter((m) => m.contentId && (m.status === 'scheduled' || (m.status === 'sent' && now - m.at < REPEAT_DAYS * DAY)))
-      .map((m) => m.contentId as string),
-  )
+  const excluded = excludedIds(past, now)
   const lastSent = past
     .filter((m) => m.status === 'sent' && m.contentId)
     .sort((a, b) => b.at - a.at)[0]
