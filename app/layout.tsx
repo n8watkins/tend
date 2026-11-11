@@ -17,8 +17,15 @@ export const metadata: Metadata = {
   title: { default: 'Tend: thoughtful messages, for Signal', template: '%s · Tend' },
   description,
   applicationName: 'Tend',
-  openGraph: { title: 'Tend', description, siteName: 'Tend', type: 'website' },
-  twitter: { card: 'summary_large_image', title: 'Tend', description },
+  // The n8builds family share card, rendered by ops/share-cards/source (render.mjs tend).
+  openGraph: {
+    title: 'Tend',
+    description,
+    siteName: 'Tend',
+    type: 'website',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Tend: a verse or quote that fits each person, a nudge when it is time, and you send it on Signal.' }],
+  },
+  twitter: { card: 'summary_large_image', title: 'Tend', description, images: ['/og.png'] },
 }
 
 export const viewport: Viewport = {
