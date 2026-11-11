@@ -36,9 +36,17 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 ### Later milestones
 
 - M2: CSV import and export of contacts; "Invite to Signal" text with the native SMS composer link; Signal usernames.
-- M3: Web push reminders (free, no email quota); installable PWA.
+- M3 (part shipped): Telegram reminders through the official Bot API (see below); Web push reminders (free, no email quota); installable PWA.
 - M4: Opt-in AI suggestions that send only topic labels (never names, notes or numbers) to a model, still returning only library items.
 - M5: Community content contributions (articles, videos) with a review queue.
+
+### Telegram reminders (shipped)
+
+- On only when the Worker has `TELEGRAM_BOT_TOKEN` and `TELEGRAM_WEBHOOK_SECRET`; the cron registers the webhook (`/api/telegram`, with the secret token) and the bot's commands whenever they change.
+- Settings, "Connect Telegram": a one-time code (15 minutes, stored hashed) opens `t.me/<bot>?start=<code>`; pressing Start links that private chat to the account. One chat per account, one account per chat. `/stop` in the chat, or Disconnect in Settings, unlinks it.
+- Each due message gets its own Telegram message with the prepared text and buttons: Share (`t.me/share/url`), Open in Tend, and callback buttons "I sent it" and "Snooze a day" that update Tend. Email and Telegram are separate choices.
+- Caps (lib/limits.ts): 20 bot messages a day per user and 300 site-wide; replies to chats linked to nobody have their own caps (3 a day per chat, 50 overall). If a cap or its counter is unavailable, nothing is sent.
+- The send screen also offers free share links for WhatsApp (`wa.me/?text=`), a text message (`sms:?&body=`) and Telegram, beside Signal. No paid WhatsApp Business API.
 
 ### Not planned
 
@@ -325,6 +333,7 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 | Notes | 1,000 characters |
 | Sign-in emails | 5 per address, 20 per IP, 10 site-wide, per UTC day |
 | Reminder emails | 6 per user, 10 site-wide, per UTC day |
+| Telegram bot messages | 20 per user, 300 site-wide; replies to unlinked chats 3 per chat and 50 overall; per UTC day |
 
 ## 12. Tests
 

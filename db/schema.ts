@@ -4,7 +4,7 @@
  * userId and every query filters by it.
  */
 
-import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core'
 import type { AdapterAccountType } from 'next-auth/adapters'
 
 import type { ConsentState, MessageKind, MessageStatus, SignalStatus, Translation } from '@/lib/enums'
@@ -74,15 +74,40 @@ export {
   type Translation,
 } from '@/lib/enums'
 
-export const userSettings = sqliteTable('user_settings', {
+export const userSettings = sqliteTable(
+  'user_settings',
+  {
+    userId: text('userId')
+      .primaryKey()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    timezone: text('timezone').notNull().default('UTC'),
+    emailReminders: integer('emailReminders', { mode: 'boolean' }).notNull().default(true),
+    pausedAt: integer('pausedAt'),
+    translation: text('translation').$type<Translation>().notNull().default('web'),
+    // Telegram (lib/server/telegram.ts): the linked private chat, if any, and
+    // whether due reminders also go there.
+    telegramChatId: text('telegramChatId'),
+    telegramLinkedAt: integer('telegramLinkedAt'),
+    telegramReminders: integer('telegramReminders', { mode: 'boolean' }).notNull().default(true),
+    createdAt: integer('createdAt').notNull(),
+  },
+  (t) => [uniqueIndex('user_settings_telegram_chat_idx').on(t.telegramChatId)],
+)
+
+/** One-time codes for linking a Telegram chat: t.me/<bot>?start=<code>. Only a hash is kept. */
+export const telegramLinkCodes = sqliteTable('telegram_link_code', {
+  codeHash: text('codeHash').primaryKey(),
   userId: text('userId')
-    .primaryKey()
+    .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  timezone: text('timezone').notNull().default('UTC'),
-  emailReminders: integer('emailReminders', { mode: 'boolean' }).notNull().default(true),
-  pausedAt: integer('pausedAt'),
-  translation: text('translation').$type<Translation>().notNull().default('web'),
-  createdAt: integer('createdAt').notNull(),
+  expiresAt: integer('expiresAt').notNull(),
+})
+
+/** Small site-wide facts, such as the Telegram bot's username and webhook fingerprint. */
+export const appState = sqliteTable('app_state', {
+  key: text('key').primaryKey(),
+  value: text('value').notNull(),
+  updatedAt: integer('updatedAt').notNull(),
 })
 
 export const contacts = sqliteTable(

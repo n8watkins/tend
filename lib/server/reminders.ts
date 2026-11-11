@@ -8,9 +8,11 @@ import 'server-only'
  * 2. Due, unreminded messages of users with email reminders on and not paused
  *    are grouped by user. Each user's rows are claimed with a conditional
  *    UPDATE (remindedAt IS NULL), so overlapping runs never email twice.
- * 3. One email per user per run, within the per-user and site-wide daily caps.
- *    Over a cap, the claim is handed back so a run after the daily reset tries
- *    again; "Due now" in the app shows them either way.
+ * 3. Each user's channels, as they chose in Settings: one email per run, and
+ *    (when Telegram is linked) one Telegram message per due item with its
+ *    buttons, each within its own per-user and site-wide daily caps. When no
+ *    channel delivers, the claim is handed back so a later run (after the
+ *    daily reset) tries again; "Due now" in the app shows them either way.
  */
 
 import { and, eq, inArray, isNull, lte } from 'drizzle-orm'
@@ -21,6 +23,7 @@ import { REMINDERS_PER_USER_DAILY, REMINDERS_SITE_DAILY } from '@/lib/limits'
 import { allowedKinds } from '@/lib/schedule'
 import { emailKey, layout, sendEmail } from '@/lib/server/email'
 import { pruneLimits, readLimit, spend } from '@/lib/server/limits'
+import { sendTelegramReminders, telegramConfigured } from '@/lib/server/telegram'
 import { publicUrl } from '@/lib/url'
 
 const MAX_USERS_PER_RUN = 100
@@ -29,17 +32,19 @@ export interface ReminderRun {
   canceled: number
   users: number
   emailed: number
+  telegram: number
   capped: number
 }
 
 export async function runReminders(now = Date.now()): Promise<ReminderRun> {
-  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, capped: 0 }
+  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, capped: 0 }
 
   const due = await db
     .select({
       id: messages.id,
       userId: messages.userId,
       kind: messages.kind,
+      body: messages.body,
       scheduledFor: messages.scheduledFor,
       contactName: contacts.name,
       consent: contacts.consent,
@@ -67,13 +72,24 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
   }
 
   const recipients = await db
-    .select({ id: users.id, email: users.email, emailReminders: userSettings.emailReminders, pausedAt: userSettings.pausedAt })
+    .select({
+      id: users.id,
+      email: users.email,
+      emailReminders: userSettings.emailReminders,
+      pausedAt: userSettings.pausedAt,
+      telegramChatId: userSettings.telegramChatId,
+      telegramReminders: userSettings.telegramReminders,
+    })
     .from(users)
     .leftJoin(userSettings, eq(userSettings.userId, users.id))
     .where(inArray(users.id, userIds))
 
+  const telegramOn = telegramConfigured()
   for (const user of recipients) {
-    if (!user.email || user.emailReminders === false || user.pausedAt) continue
+    if (user.pausedAt) continue
+    const byEmail = Boolean(user.email) && user.emailReminders !== false
+    const telegramChat = telegramOn && user.telegramReminders !== false ? user.telegramChatId : null
+    if (!byEmail && !telegramChat) continue
     result.users++
     const mine = ready.filter((m) => m.userId === user.id)
     const claimed = await db
@@ -84,35 +100,58 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
     const claimedIds = claimed.map((c) => c.id)
     const items = mine.filter((m) => claimedIds.includes(m.id))
     if (!items.length) continue
-    const allowed = await spend(
-      [
-        { key: `reminder:user:${user.id}`, limit: readLimit('REMINDERS_PER_USER_DAILY', REMINDERS_PER_USER_DAILY) },
-        { key: 'reminder:site', limit: readLimit('REMINDER_EMAILS_DAILY', REMINDERS_SITE_DAILY) },
-      ],
-      now,
-    )
-    if (!allowed) {
-      // Hand the claim back so a later run (after the daily reset) can try.
-      await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
-      result.capped++
-      continue
+
+    let delivered = false
+    let retry = false
+    if (byEmail) {
+      const outcome = await emailReminder(user.id, user.email!, items, claimedIds, now)
+      if (outcome === 'sent') {
+        delivered = true
+        result.emailed++
+      } else if (outcome === 'retry') retry = true
     }
-    const sent = await sendEmail('reminder', {
-      ...reminderEmail(user.email, items),
-      key: `reminder-${await emailKey(...[...claimedIds].sort())}`,
-    })
-    if (!sent.ok) {
-      // Refused by the mailroom (over a cap, suppressed, ...): not retried in
-      // this run. Hand the claim back only when a later run can succeed.
-      if (sent.retryable) await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
-      result.capped++
-      continue
+    if (telegramChat) {
+      const sent = await sendTelegramReminders(telegramChat, user.id, items)
+      if (sent > 0) {
+        delivered = true
+        result.telegram += sent
+      } else retry = true
     }
-    result.emailed++
+    if (!delivered) {
+      // Hand the claim back only when a later run can succeed.
+      if (retry) await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
+      result.capped++
+    }
   }
 
   await pruneLimits(now)
   return result
+}
+
+/** One email for the user's due items, within the email caps. */
+async function emailReminder(
+  userId: string,
+  to: string,
+  items: { id: string; contactName: string; kind: string }[],
+  claimedIds: string[],
+  now: number,
+): Promise<'sent' | 'retry' | 'refused'> {
+  const allowed = await spend(
+    [
+      { key: `reminder:user:${userId}`, limit: readLimit('REMINDERS_PER_USER_DAILY', REMINDERS_PER_USER_DAILY) },
+      { key: 'reminder:site', limit: readLimit('REMINDER_EMAILS_DAILY', REMINDERS_SITE_DAILY) },
+    ],
+    now,
+  )
+  if (!allowed) return 'retry'
+  const sent = await sendEmail('reminder', {
+    ...reminderEmail(to, items),
+    key: `reminder-${await emailKey(...[...claimedIds].sort())}`,
+  })
+  // Refused by the mailroom (over a cap, suppressed, ...): not retried in
+  // this run, and only handed back when a later run can succeed.
+  if (!sent.ok) return sent.retryable ? 'retry' : 'refused'
+  return 'sent'
 }
 
 export function reminderEmail(to: string, items: { id: string; contactName: string; kind: string }[]) {

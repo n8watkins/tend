@@ -40,6 +40,8 @@ import {
   getMessage,
   openConsentRequests,
 } from '@/lib/server/data'
+import { recordSent } from '@/lib/server/messages'
+import { createLinkUrl, ensureTelegramWebhook, telegramConfigured, unlinkTelegram } from '@/lib/server/telegram'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
 import { surprise } from '@/lib/suggest'
@@ -305,27 +307,13 @@ export async function surpriseMe(contactId: string, form: FormData): Promise<voi
 
 export async function markSent(messageId: string): Promise<void> {
   const user = await requireUser()
-  const message = await getMessage(user.id, messageId)
-  if (!message || message.status !== 'scheduled') redirect(message ? `/send/${messageId}` : '/today')
-  const contact = await getContact(user.id, message.contactId)
-  if (!contact) redirect('/today')
-  // Already sent by the person, so only consent is checked: never record a
-  // message to someone who said no or asked to stop.
-  if (contact.consent === 'no' || contact.consent === 'stopped') redirect(`/send/${messageId}?error=consent`)
-  const now = Date.now()
-  await db
-    .update(messages)
-    .set({ status: 'sent', sentAt: now, updatedAt: now })
-    .where(and(eq(messages.id, messageId), eq(messages.userId, user.id), eq(messages.status, 'scheduled')))
-  if (message.kind === 'consent_request' && contact.consent === 'not_asked') {
-    await db
-      .update(contacts)
-      .set({ consent: 'asked', consentUpdatedAt: now, updatedAt: now })
-      .where(and(eq(contacts.id, contact.id), eq(contacts.userId, user.id)))
-    await db.insert(consentEvents).values({ userId: user.id, contactId: contact.id, from: 'not_asked', to: 'asked', by: 'you', at: now })
+  const result = await recordSent(user.id, messageId)
+  if (!result.ok) {
+    if (result.reason === 'consent') redirect(`/send/${messageId}?error=consent`)
+    redirect(result.reason === 'not_found' ? '/today' : `/send/${messageId}`)
   }
   revalidatePath('/today')
-  redirect(`/people/${contact.id}?done=sent`)
+  redirect(`/people/${result.contactId}?done=sent`)
 }
 
 export async function skipMessage(messageId: string): Promise<void> {
@@ -386,6 +374,35 @@ export async function updateSettings(_prev: FormState, form: FormData): Promise<
       translation: parsed.data.translation,
       emailReminders: parsed.data.emailReminders === 'on',
     })
+    .where(eq(userSettings.userId, user.id))
+  revalidatePath('/settings')
+  redirect('/settings?done=saved')
+}
+
+/* Telegram ------------------------------------------------------------------ */
+
+/** Opens the bot with a fresh one-time code; the bot links the chat when you press Start. */
+export async function connectTelegram(): Promise<void> {
+  const user = await requireUser()
+  await getSettings(user.id)
+  // Makes sure the webhook is registered before anyone presses Start.
+  const ready = telegramConfigured() && (await ensureTelegramWebhook()) !== 'failed'
+  const url = ready ? await createLinkUrl(user.id) : null
+  redirect(url ?? '/settings?error=telegram')
+}
+
+export async function disconnectTelegram(): Promise<void> {
+  const user = await requireUser()
+  await unlinkTelegram(user.id)
+  revalidatePath('/settings')
+  redirect('/settings?done=telegram-off')
+}
+
+export async function setTelegramReminders(form: FormData): Promise<void> {
+  const user = await requireUser()
+  await db
+    .update(userSettings)
+    .set({ telegramReminders: form.get('telegramReminders') === 'on' })
     .where(eq(userSettings.userId, user.id))
   revalidatePath('/settings')
   redirect('/settings?done=saved')

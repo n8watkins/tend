@@ -1,4 +1,5 @@
 import { runReminders } from '@/lib/server/reminders'
+import { ensureTelegramWebhook } from '@/lib/server/telegram'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,7 +13,9 @@ export async function POST(request: Request): Promise<Response> {
   if (!secret || request.headers.get('authorization') !== `Bearer ${secret}`) {
     return new Response('Unauthorized', { status: 401 })
   }
+  // Registers the Telegram webhook once the bot's secrets are set (or change).
+  const webhook = await ensureTelegramWebhook().catch(() => 'failed' as const)
   const result = await runReminders()
-  console.log(JSON.stringify({ event: 'reminders', ...result }))
+  console.log(JSON.stringify({ event: 'reminders', webhook, ...result }))
   return Response.json(result)
 }

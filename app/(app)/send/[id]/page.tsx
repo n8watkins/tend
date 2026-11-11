@@ -9,6 +9,7 @@ import { ShareButton } from '@/components/ShareButton'
 import { SubmitButton } from '@/components/SubmitButton'
 import { PageTitle } from '@/components/ui'
 import { signalChatUrl } from '@/lib/format'
+import { smsShareUrl, telegramShareUrl, whatsappShareUrl } from '@/lib/share'
 import { getContact, getMessage } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { formatWhen, toLocalInput } from '@/lib/time'
@@ -82,6 +83,21 @@ export default async function SendPage({ params, searchParams }: { params: Promi
                   to open the chat in one tap next time.
                 </p>
               )}
+              <details className="text-sm">
+                <summary className="cursor-pointer text-muted">Not on Signal? Send it another way</summary>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a href={whatsappShareUrl(message.body)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+                    WhatsApp
+                  </a>
+                  <a href={smsShareUrl(message.body)} className="btn btn-secondary btn-sm">
+                    Text message
+                  </a>
+                  <a href={telegramShareUrl(message.body)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+                    Telegram
+                  </a>
+                </div>
+                <p className="hint mt-2">Each opens the app with the message filled in; you pick {first} and press send.</p>
+              </details>
             </li>
             <li className="card space-y-3">
               <p className="font-semibold">3. Once it&rsquo;s sent</p>

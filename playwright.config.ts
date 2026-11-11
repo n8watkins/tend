@@ -8,6 +8,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 const PORT = Number(process.env.E2E_PORT || 7842)
 const baseURL = `http://localhost:${PORT}`
+const TELEGRAM_MOCK_PORT = Number(process.env.E2E_TELEGRAM_PORT || 7843)
 
 export const E2E_ENV = {
   APP_ENV: 'test',
@@ -21,6 +22,12 @@ export const E2E_ENV = {
   // Test-only: the suite signs in far more often than the production caps allow.
   SIGNIN_SITE_DAILY: '1000',
   REMINDER_EMAILS_DAILY: '1000',
+  // Telegram goes to e2e/telegram-mock.mjs, which logs every call to .e2e/telegram.jsonl.
+  TELEGRAM_BOT_TOKEN: 'e2e-telegram-token',
+  TELEGRAM_WEBHOOK_SECRET: 'e2e-telegram-webhook-secret',
+  TELEGRAM_API_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}`,
+  TELEGRAM_PER_USER_DAILY: '1000',
+  TELEGRAM_SITE_DAILY: '1000',
   // Dummy GitHub OAuth app, so the GitHub button shows; the test stops at github.com.
   AUTH_GITHUB_ID: 'e2e-github-client-id',
   AUTH_GITHUB_SECRET: 'e2e-github-client-secret',
@@ -39,12 +46,20 @@ export default defineConfig({
     { name: 'phone', use: { ...devices['Pixel 7'] } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
   ],
-  webServer: {
-    command: `node scripts/migrate.mjs --fresh && npx next start -p ${PORT}`,
-    url: baseURL,
-    timeout: 120_000,
-    reuseExistingServer: false,
-    stdout: 'pipe',
-    env: E2E_ENV,
-  },
+  webServer: [
+    {
+      command: 'node e2e/telegram-mock.mjs',
+      url: `http://localhost:${TELEGRAM_MOCK_PORT}`,
+      reuseExistingServer: false,
+      env: { TELEGRAM_MOCK_PORT: String(TELEGRAM_MOCK_PORT) },
+    },
+    {
+      command: `node scripts/migrate.mjs --fresh && npx next start -p ${PORT}`,
+      url: baseURL,
+      timeout: 120_000,
+      reuseExistingServer: false,
+      stdout: 'pipe',
+      env: E2E_ENV,
+    },
+  ],
 })

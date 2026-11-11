@@ -78,6 +78,7 @@ export const DONE_TEXT: Record<string, string> = {
   rescheduled: 'Rescheduled.',
   deleted: 'Deleted.',
   saved: 'Saved.',
+  'telegram-off': 'Telegram disconnected. Tend will not message you there.',
 }
 
 export function Done({ code }: { code?: string }) {
