@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ContactForm } from '@/components/ContactForm'
 import { PageTitle } from '@/components/ui'
 import { getContact } from '@/lib/server/data'
-import { requireUser } from '@/lib/server/session'
+import { getSettings, requireUser } from '@/lib/server/session'
 import { timeZoneOptions } from '@/lib/timezones'
 
 import { updateContact } from '../../../actions'
@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: 'Edit' }
 export default async function EditContactPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireUser()
   const { id } = await params
-  const contact = await getContact(user.id, id)
+  const [contact, settings] = await Promise.all([getContact(user.id, id), getSettings(user.id)])
   if (!contact) notFound()
   return (
     <>
@@ -22,6 +22,7 @@ export default async function EditContactPage({ params }: { params: Promise<{ id
       <ContactForm
         action={updateContact.bind(null, contact.id)}
         isNew={false}
+        defaultTranslation={settings.translation}
         timezones={timeZoneOptions(contact.timezone)}
         initial={{
           name: contact.name,
@@ -35,6 +36,7 @@ export default async function EditContactPage({ params }: { params: Promise<{ id
           windowEnd: contact.windowEnd,
           allowedDays: contact.allowedDays,
           notes: contact.notes ?? '',
+          translation: contact.translation ?? '',
         }}
       />
     </>

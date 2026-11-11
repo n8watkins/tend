@@ -27,7 +27,7 @@ The full reasoning is in [docs/PRD-REVIEW.md](docs/PRD-REVIEW.md).
 
 ## Content
 
-- Bible passages in the World English Bible (public domain) and the King James Version (public domain outside the UK), fetched from [bible-api.com](https://bible-api.com).
+- Bible passages in eight public-domain translations (WEB, WEB British Edition, KJV, ASV, Berean Standard Bible, Bible in Basic English, Darby and Douay-Rheims), fetched from [bible-api.com](https://bible-api.com). Everyone picks a default, and can choose another per person. Licences and sources, and the translations we cannot offer yet, are in [docs/TRANSLATIONS.md](docs/TRANSLATIONS.md).
 - Quotes from public-domain works (Marcus Aurelius, Epictetus, Emerson, Thoreau, Augustine, Boethius, Thomas à Kempis), each checked word for word against its Project Gutenberg text.
 
 `node scripts/build-library.mjs` rebuilds `content/library.json` from `content/scripture-refs.json` and `content/quotes.json`, and fails if any quote is not found in its source.

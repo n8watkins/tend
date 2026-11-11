@@ -65,6 +65,27 @@ test('Surprise me opens a random passage for that person, and can pick again', a
   await expect(page.getByTestId('preview')).not.toBeEmpty()
 })
 
+test('each person can have their own Bible translation', async ({ page }, info) => {
+  await signIn(page, testEmail(info, 'translation'))
+  const id = await addPerson(page, { name: 'Ruth', consent: 'yes', topics: ['Comfort'] })
+
+  // The sender's default (WEB) applies until Ruth gets her own.
+  await page.goto(`/compose?contact=${id}&content=psalm-23-1-4`)
+  await expect(page.getByTestId('preview')).toContainText('Psalm 23:1-4 (WEB)')
+
+  await page.goto(`/people/${id}/edit`)
+  await expect(page.getByLabel('Bible translation for them')).toHaveValue('')
+  await page.getByLabel('Bible translation for them').selectOption('bsb')
+  await page.getByRole('button', { name: 'Save changes' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Ruth' })).toBeVisible()
+
+  await page.goto(`/compose?contact=${id}&content=psalm-23-1-4`)
+  await expect(page.getByLabel('Translation')).toHaveValue('bsb')
+  await expect(page.getByTestId('preview')).toContainText('Psalm 23:1-4 (BSB)')
+  await page.getByLabel('Translation').selectOption('dra')
+  await expect(page.getByTestId('preview')).toContainText('Psalm 22:1-4 (DRA)')
+})
+
 test('a due message shows on Today and is emailed once by the reminder run', async ({ page }, info) => {
   const address = testEmail(info, 'remind')
   await signIn(page, address)

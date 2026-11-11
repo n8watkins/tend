@@ -80,7 +80,7 @@ Every application row carries `userId`, and every query filters by the signed-in
 | timezone | text | IANA zone, default from the browser at first visit, else `UTC` |
 | emailReminders | integer bool | default true |
 | pausedAt | integer null | global pause: no reminders, no scheduling while set |
-| translation | text | `web` (default) or `kjv`: preferred scripture translation |
+| translation | text | `web` (default) or another code from `TRANSLATIONS` (docs/TRANSLATIONS.md): preferred scripture translation |
 | createdAt | integer | |
 
 ### `contact`
@@ -102,6 +102,7 @@ Every application row carries `userId`, and every query filters by the signed-in
 | windowStart | integer | minutes after local midnight, default 540 (09:00) |
 | windowEnd | integer | default 1200 (20:00); must be after windowStart |
 | allowedDays | integer | bitmask, bit 0 = Sunday; default 127 (every day) |
+| translation | text null | their own Bible translation; null uses the sender's default |
 | stopToken | text unique | 32 random bytes, base64url |
 | archivedAt | integer null | |
 | createdAt, updatedAt | integer | |
@@ -212,7 +213,7 @@ type ContentItem = {
   id: string                 // stable slug, e.g. "psalm-23-1-4"
   kind: 'scripture' | 'quote'
   reference: string          // "Psalm 23:1-4" or "Meditations 4.3"
-  text: { web?: string; kjv?: string } | string  // scripture has both translations, quotes one text
+  text: Record<Translation, string> | string  // scripture has every translation, quotes one text
   author?: string            // quotes
   work?: string              // quotes
   translator?: string        // quotes, e.g. "George Long (1862)"
@@ -226,8 +227,8 @@ type ContentItem = {
 
 ### Verification
 
-- `scripts/build-library.mjs` reads `content/scripture-refs.json` (id, reference, chapter, topics, context) and fetches each passage from bible-api.com in `web` and `kjv`, 2.2 seconds apart (under its 15 per 30 seconds limit), normalising whitespace only.
-  Reading links point to the chapter on BibleGateway in the same translation.
+- `scripts/build-library.mjs` reads `content/scripture-refs.json` (id, reference, chapter, topics, context) and fetches each passage from bible-api.com in every translation in `TRANSLATIONS`, 2.2 seconds apart (under its 15 per 30 seconds limit), normalising whitespace only.
+  Reading links point to the chapter in the same translation, on Bible Gateway where it has it and on ebible.org otherwise.
 - The same script downloads each quote's Project Gutenberg plain text (`content/quotes.json`) and fails unless the exact quote (whitespace normalised) is present, then writes `content/library.json`.
   With `--check` it writes nothing and fails if the committed library differs from its sources; the Content workflow runs that on every pull request that touches `content/`.
 - A unit test checks the committed library: unique ids, valid topics, non-empty text, `license` is `public-domain`, HTTPS URLs, at least two items per topic.

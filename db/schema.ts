@@ -105,6 +105,8 @@ export const contacts = sqliteTable(
     windowStart: integer('windowStart').notNull().default(540),
     windowEnd: integer('windowEnd').notNull().default(1200),
     allowedDays: integer('allowedDays').notNull().default(127),
+    // Their own Bible translation; null means the sender's default.
+    translation: text('translation').$type<Translation>(),
     stopToken: text('stopToken').notNull().unique(),
     archivedAt: integer('archivedAt'),
     createdAt: integer('createdAt').notNull(),

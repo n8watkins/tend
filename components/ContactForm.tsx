@@ -3,12 +3,14 @@
 import { useActionState } from 'react'
 
 import type { FormState } from '@/app/(app)/actions'
-import { SIGNAL_STATUSES, type SignalStatus } from '@/lib/enums'
+import { SIGNAL_STATUSES, type SignalStatus, type Translation } from '@/lib/enums'
+import { TRANSLATION_LABEL } from '@/lib/item'
 import { DAY_NAMES } from '@/lib/schedule'
 import { formatMinutes } from '@/lib/time'
 import { MAX_TOPICS_PER_CONTACT, TOPICS } from '@/lib/topics'
 
 import { SubmitButton } from './SubmitButton'
+import { TranslationOptions } from './TranslationOptions'
 import { SIGNAL_LABEL } from './ui'
 
 export interface ContactValues {
@@ -23,6 +25,8 @@ export interface ContactValues {
   windowEnd: number
   allowedDays: number
   notes: string
+  /** '' for the sender's default. */
+  translation: Translation | ''
 }
 
 export function ContactForm({
@@ -30,11 +34,13 @@ export function ContactForm({
   initial,
   timezones,
   isNew,
+  defaultTranslation,
 }: {
   action: (state: FormState, form: FormData) => Promise<FormState>
   initial: ContactValues
   timezones: string[]
   isNew: boolean
+  defaultTranslation: Translation
 }) {
   const [state, formAction] = useActionState(action, undefined)
   return (
@@ -105,6 +111,15 @@ export function ContactForm({
               {t.label}
             </label>
           ))}
+        </div>
+        <div className="mt-4">
+          <label htmlFor="translation" className="label">
+            Bible translation for them
+          </label>
+          <select id="translation" name="translation" defaultValue={initial.translation} className="input">
+            <option value="">Your default ({TRANSLATION_LABEL[defaultTranslation]})</option>
+            <TranslationOptions />
+          </select>
         </div>
       </fieldset>
 

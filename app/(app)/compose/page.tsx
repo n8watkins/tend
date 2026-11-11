@@ -91,7 +91,7 @@ export default async function ComposePage({
         contactName={contact.name}
         kind={kind}
         item={item}
-        translation={settings.translation}
+        translation={contact.translation ?? settings.translation}
         initialNote={kind === 'consent_request' ? consentRequestBody(contact.name, contact.minDaysBetween) : ''}
         stopUrl={publicUrl(`/stop/${contact.stopToken}`)}
         stopLinkDefault={sent < 3}

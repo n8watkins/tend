@@ -14,6 +14,8 @@ export interface ItemCommon {
 
 export interface ScriptureItem extends ItemCommon {
   kind: 'scripture'
+  /** The reference in a translation that numbers it differently (Douay-Rheims Psalms). */
+  references?: Partial<Record<Translation, string>>
   text: Record<Translation, string>
   sourceUrl: Record<Translation, string>
   readingUrl: Record<Translation, string>
@@ -33,7 +35,37 @@ export type ContentItem = ScriptureItem | QuoteItem
 
 export const TRANSLATION_LABEL: Record<Translation, string> = {
   web: 'World English Bible',
+  webbe: 'World English Bible, British Edition',
   kjv: 'King James Version',
+  asv: 'American Standard Version (1901)',
+  bsb: 'Berean Standard Bible',
+  bbe: 'Bible in Basic English',
+  darby: 'Darby Translation',
+  dra: 'Douay-Rheims (Catholic)',
+}
+
+/** The short form in citations: "Psalm 23:1-4 (BSB)". */
+export const TRANSLATION_SHORT: Record<Translation, string> = {
+  web: 'WEB',
+  webbe: 'WEBBE',
+  kjv: 'KJV',
+  asv: 'ASV',
+  bsb: 'BSB',
+  bbe: 'BBE',
+  darby: 'Darby',
+  dra: 'DRA',
+}
+
+/** A line for pickers: what it is and why someone might choose it. */
+export const TRANSLATION_HINT: Record<Translation, string> = {
+  web: 'modern English',
+  webbe: 'modern, British spelling',
+  kjv: 'traditional, 1611',
+  asv: 'traditional, close to the original',
+  bsb: 'modern and clear',
+  bbe: 'simple everyday words',
+  darby: 'literal, 1890',
+  dra: 'traditional Catholic',
 }
 
 export function itemText(item: ContentItem, translation: Translation): string {
@@ -46,7 +78,7 @@ export function itemReadingUrl(item: ContentItem, translation: Translation): str
 
 /** "Psalm 23:1-4 (WEB)" or "Marcus Aurelius, Meditations 7.67 (tr. George Long)". */
 export function citation(item: ContentItem, translation: Translation): string {
-  if (item.kind === 'scripture') return `${item.reference} (${translation.toUpperCase()})`
+  if (item.kind === 'scripture') return `${item.references?.[translation] ?? item.reference} (${TRANSLATION_SHORT[translation]})`
   const translator = item.translator ? ` (tr. ${item.translator.replace(/\s*\(\d{4}\)$/, '')})` : ''
   return `${item.author}, ${shortReference(item.reference)}${translator}`
 }

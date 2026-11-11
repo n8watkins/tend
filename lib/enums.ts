@@ -12,5 +12,6 @@ export type MessageKind = (typeof MESSAGE_KINDS)[number]
 export const MESSAGE_STATUSES = ['scheduled', 'sent', 'skipped', 'canceled'] as const
 export type MessageStatus = (typeof MESSAGE_STATUSES)[number]
 
-export const TRANSLATIONS = ['web', 'kjv'] as const
+// Public-domain translations, full text in content/library.json (docs/TRANSLATIONS.md).
+export const TRANSLATIONS = ['web', 'webbe', 'kjv', 'asv', 'bsb', 'bbe', 'darby', 'dra'] as const
 export type Translation = (typeof TRANSLATIONS)[number]

@@ -3,18 +3,39 @@
     "id": "psalm-23-1-4",
     "kind": "scripture",
     "reference": "Psalm 23:1-4",
+    "references": {
+      "dra": "Psalm 22:1-4"
+    },
     "text": {
       "web": "Yahweh is my shepherd: I shall lack nothing. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul. He guides me in the paths of righteousness for his name’s sake. Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.",
-      "kjv": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me."
+      "webbe": "The LORD is my shepherd; I shall lack nothing. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul. He guides me in the paths of righteousness for his name’s sake. Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.",
+      "kjv": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+      "asv": "Jehovah is my shepherd; I shall not want. He maketh me to lie down in green pastures; He leadeth me beside still waters. He restoreth my soul: He guideth me in the paths of righteousness for his name`s sake. Yea, thou I walk through the valley of the shadow of death, I will fear no evil; for thou art with me; Thy rod and thy staff, they comfort me.",
+      "bsb": "The LORD is my shepherd; I shall not want. He makes me lie down in green pastures; He leads me beside quiet waters. He restores my soul; He guides me in the paths of righteousness for the sake of His name. Even though I walk through the valley of the shadow of death, I will fear no evil, for You are with me; Your rod and Your staff, they comfort me.",
+      "bbe": "<A Psalm. Of David.> The Lord takes care of me as his sheep; I will not be without any good thing. He makes a resting-place for me in the green fields: he is my guide by the quiet waters. He gives new life to my soul: he is my guide in the ways of righteousness because of his name. Yes, though I go through the valley of deep shade, I will have no fear of evil; for you are with me, your rod and your support are my comfort.",
+      "darby": "{A Psalm of David.} Jehovah is my shepherd; I shall not want. He maketh me to lie down in green pastures; he leadeth me beside still waters. He restoreth my soul; he leadeth me in paths of righteousness for his name's sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff, they comfort me.",
+      "dra": "A psalm for David. The Lord ruleth me: and I shall want nothing. He hath set me in a place of pasture. He hath brought me up, on the water of refreshment: He hath converted my soul. He hath led me on the paths of justice, for his own name’s sake. For though I should walk in the midst of the shadow of death, I will fear no evils, for thou art with me. Thy rod and thy staff, they have comforted me."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%2023%3A1-4?translation=web",
-      "kjv": "https://bible-api.com/Psalm%2023%3A1-4?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%2023%3A1-4?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%2023%3A1-4?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%2023%3A1-4?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%2023%3A1-4?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%2023%3A1-4?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%2023%3A1-4?translation=darby",
+      "dra": "https://bible-api.com/Psalm%2022%3A1-4?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%2023&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2023&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA023.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2023&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%2023&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA023.htm",
+      "bbe": "https://ebible.org/engBBE/PSA023.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%2023&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%2022&version=DRA"
     },
     "context": "David's psalm of the Lord as a shepherd who leads, restores and stays near, even in the darkest valley.",
     "topics": [
@@ -29,16 +50,34 @@
     "reference": "Matthew 11:28-30",
     "text": {
       "web": "“Come to me, all you who labor and are heavily burdened, and I will give you rest. Take my yoke upon you, and learn from me, for I am gentle and humble in heart; and you will find rest for your souls. For my yoke is easy, and my burden is light.”",
-      "kjv": "Come unto me, all ye that labour and are heavy laden, and I will give you rest. Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls. For my yoke is easy, and my burden is light."
+      "webbe": "“Come to me, all you who labour and are heavily burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart; and you will find rest for your souls. For my yoke is easy, and my burden is light.”",
+      "kjv": "Come unto me, all ye that labour and are heavy laden, and I will give you rest. Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls. For my yoke is easy, and my burden is light.",
+      "asv": "Come unto me, all ye that labor and are heavy laden, and I will give you rest. Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls. For my yoke is easy, and my burden is light.",
+      "bsb": "Come to Me, all you who are weary and burdened, and I will give you rest. Take My yoke upon you and learn from Me; for I am gentle and humble in heart, and you will find rest for your souls. For My yoke is easy and My burden is light.”",
+      "bbe": "Come to me, all you who are troubled and weighted down with care, and I will give you rest. Take my yoke on you and become like me, for I am gentle and without pride, and you will have rest for your souls; For my yoke is good, and the weight I take up is not hard.",
+      "darby": "Come to me, all ye who labour and are burdened, and *I* will give you rest. Take my yoke upon you, and learn from me; for I am meek and lowly in heart; and ye shall find rest to your souls; for my yoke is easy, and my burden is light.",
+      "dra": "Come to me, all you that labour, and are burdened, and I will refresh you. Take up my yoke upon you, and learn of me, because I am meek, and humble of heart: and you shall find rest to your souls. For my yoke is sweet and my burden light."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Matthew%2011%3A28-30?translation=web",
-      "kjv": "https://bible-api.com/Matthew%2011%3A28-30?translation=kjv"
+      "webbe": "https://bible-api.com/Matthew%2011%3A28-30?translation=webbe",
+      "kjv": "https://bible-api.com/Matthew%2011%3A28-30?translation=kjv",
+      "asv": "https://bible-api.com/Matthew%2011%3A28-30?translation=asv",
+      "bsb": "https://bible-api.com/Matthew%2011%3A28-30?translation=bsb",
+      "bbe": "https://bible-api.com/Matthew%2011%3A28-30?translation=bbe",
+      "darby": "https://bible-api.com/Matthew%2011%3A28-30?translation=darby",
+      "dra": "https://bible-api.com/Matthew%2011%3A28-30?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/MAT11.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=ASV",
+      "bsb": "https://ebible.org/engbsb/MAT11.htm",
+      "bbe": "https://ebible.org/engBBE/MAT11.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Matthew%2011&version=DRA"
     },
     "context": "Jesus invites the tired and burdened to come to him and find rest.",
     "topics": [
@@ -52,16 +91,34 @@
     "reference": "Isaiah 41:10",
     "text": {
       "web": "Don’t you be afraid, for I am with you. Don’t be dismayed, for I am your God. I will strengthen you. Yes, I will help you. Yes, I will uphold you with the right hand of my righteousness.",
-      "kjv": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness."
+      "webbe": "Don’t you be afraid, for I am with you. Don’t be dismayed, for I am your God. I will strengthen you. Yes, I will help you. Yes, I will uphold you with the right hand of my righteousness.",
+      "kjv": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+      "asv": "Fear thou not, for I am with thee; be not dismayed, for I am thy God; I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+      "bsb": "Do not fear, for I am with you; do not be afraid, for I am your God. I will strengthen you; I will surely help you; I will uphold you with My right hand of righteousness.",
+      "bbe": "Have no fear, for I am with you; do not be looking about in trouble, for I am your God; I will give you strength, yes, I will be your helper; yes, my true right hand will be your support.",
+      "darby": "Fear not, for I [am] with thee; be not dismayed, for I [am] thy God: I will strengthen thee, yea, I will help thee, yea, I will uphold thee with the right hand of my righteousness.",
+      "dra": "Fear not, for I am with thee: turn not aside, for I am thy God: I have strengthened thee, and have helped thee, and the right hand of my just one hath upheld thee."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Isaiah%2041%3A10?translation=web",
-      "kjv": "https://bible-api.com/Isaiah%2041%3A10?translation=kjv"
+      "webbe": "https://bible-api.com/Isaiah%2041%3A10?translation=webbe",
+      "kjv": "https://bible-api.com/Isaiah%2041%3A10?translation=kjv",
+      "asv": "https://bible-api.com/Isaiah%2041%3A10?translation=asv",
+      "bsb": "https://bible-api.com/Isaiah%2041%3A10?translation=bsb",
+      "bbe": "https://bible-api.com/Isaiah%2041%3A10?translation=bbe",
+      "darby": "https://bible-api.com/Isaiah%2041%3A10?translation=darby",
+      "dra": "https://bible-api.com/Isaiah%2041%3A10?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ISA41.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ISA41.htm",
+      "bbe": "https://ebible.org/engBBE/ISA41.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Isaiah%2041&version=DRA"
     },
     "context": "God's promise to Israel in exile: do not be afraid, I am with you and will hold you up.",
     "topics": [
@@ -76,16 +133,34 @@
     "reference": "Joshua 1:9",
     "text": {
       "web": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for Yahweh your God is with you wherever you go.”",
-      "kjv": "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest."
+      "webbe": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.”",
+      "kjv": "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+      "asv": "Have not I commanded thee? Be strong and of good courage; be not affrighted, neither be thou dismayed: for Jehovah thy God is with thee whithersoever thou goest.",
+      "bsb": "Have I not commanded you to be strong and courageous? Do not be afraid; do not be discouraged, for the LORD your God is with you wherever you go.”",
+      "bbe": "Have I not given you your orders? Take heart and be strong; have no fear and do not be troubled; for the Lord your God is with you wherever you go,",
+      "darby": "Have I not commanded thee: Be strong and courageous? Be not afraid, neither be dismayed; for Jehovah thy God is with thee whithersoever thou goest.",
+      "dra": "Behold I command thee, take courage, and be strong. Fear not and be not dismayed: because the Lord thy God is with thee in all things whatsoever thou shalt go to."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Joshua%201%3A9?translation=web",
-      "kjv": "https://bible-api.com/Joshua%201%3A9?translation=kjv"
+      "webbe": "https://bible-api.com/Joshua%201%3A9?translation=webbe",
+      "kjv": "https://bible-api.com/Joshua%201%3A9?translation=kjv",
+      "asv": "https://bible-api.com/Joshua%201%3A9?translation=asv",
+      "bsb": "https://bible-api.com/Joshua%201%3A9?translation=bsb",
+      "bbe": "https://bible-api.com/Joshua%201%3A9?translation=bbe",
+      "darby": "https://bible-api.com/Joshua%201%3A9?translation=darby",
+      "dra": "https://bible-api.com/Joshua%201%3A9?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Joshua%201&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Joshua%201&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JOS01.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Joshua%201&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Joshua%201&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JOS01.htm",
+      "bbe": "https://ebible.org/engBBE/JOS01.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Joshua%201&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Joshua%201&version=DRA"
     },
     "context": "God's charge to Joshua as he takes over from Moses and leads the people into a new land.",
     "topics": [
@@ -99,16 +174,34 @@
     "reference": "Philippians 4:6-7",
     "text": {
       "web": "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.",
-      "kjv": "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus."
+      "webbe": "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.",
+      "kjv": "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+      "asv": "In nothing be anxious; but in everything by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall guard your hearts and your thoughts in Christ Jesus.",
+      "bsb": "Be anxious for nothing, but in everything, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.",
+      "bbe": "Have no cares; but in everything with prayer and praise put your requests before God. And the peace of God, which is deeper than all knowledge, will keep your hearts and minds in Christ Jesus.",
+      "darby": "Be careful about nothing; but in everything, by prayer and supplication with thanksgiving, let your requests be made known to God; and the peace of God, which surpasses every understanding, shall guard your hearts and your thoughts by Christ Jesus.",
+      "dra": "Be nothing solicitous; but in every thing, by prayer and supplication, with thanksgiving, let your petitions be made known to God. And the peace of God, which surpasseth all understanding, keep your hearts and minds in Christ Jesus."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Philippians%204%3A6-7?translation=web",
-      "kjv": "https://bible-api.com/Philippians%204%3A6-7?translation=kjv"
+      "webbe": "https://bible-api.com/Philippians%204%3A6-7?translation=webbe",
+      "kjv": "https://bible-api.com/Philippians%204%3A6-7?translation=kjv",
+      "asv": "https://bible-api.com/Philippians%204%3A6-7?translation=asv",
+      "bsb": "https://bible-api.com/Philippians%204%3A6-7?translation=bsb",
+      "bbe": "https://bible-api.com/Philippians%204%3A6-7?translation=bbe",
+      "darby": "https://bible-api.com/Philippians%204%3A6-7?translation=darby",
+      "dra": "https://bible-api.com/Philippians%204%3A6-7?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Philippians%204&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Philippians%204&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PHP04.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Philippians%204&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Philippians%204&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PHP04.htm",
+      "bbe": "https://ebible.org/engBBE/PHP04.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Philippians%204&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Philippians%204&version=DRA"
     },
     "context": "Paul, writing from prison, tells a church he loves to bring every worry to God in prayer.",
     "topics": [
@@ -121,16 +214,34 @@
     "reference": "John 14:27",
     "text": {
       "web": "Peace I leave with you. My peace I give to you; not as the world gives, give I to you. Don’t let your heart be troubled, neither let it be fearful.",
-      "kjv": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid."
+      "webbe": "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful.",
+      "kjv": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+      "asv": "Peace I leave with you; my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be fearful.",
+      "bsb": "Peace I leave with you; My peace I give to you. I do not give to you as the world gives. Do not let your hearts be troubled; do not be afraid.",
+      "bbe": "May peace be with you; my peace I give to you: I give it not as the world gives. Let not your heart be troubled; let it be without fear.",
+      "darby": "I leave peace with you; I give *my* peace to you: not as the world gives do I give to you. Let not your heart be troubled, neither let it fear.",
+      "dra": "Peace I leave with you, my peace I give unto you: not as the world giveth, do I give unto you. Let not your heart be troubled, nor let it be afraid."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/John%2014%3A27?translation=web",
-      "kjv": "https://bible-api.com/John%2014%3A27?translation=kjv"
+      "webbe": "https://bible-api.com/John%2014%3A27?translation=webbe",
+      "kjv": "https://bible-api.com/John%2014%3A27?translation=kjv",
+      "asv": "https://bible-api.com/John%2014%3A27?translation=asv",
+      "bsb": "https://bible-api.com/John%2014%3A27?translation=bsb",
+      "bbe": "https://bible-api.com/John%2014%3A27?translation=bbe",
+      "darby": "https://bible-api.com/John%2014%3A27?translation=darby",
+      "dra": "https://bible-api.com/John%2014%3A27?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=John%2014&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=John%2014&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JHN14.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=John%2014&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=John%2014&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JHN14.htm",
+      "bbe": "https://ebible.org/engBBE/JHN14.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=John%2014&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=John%2014&version=DRA"
     },
     "context": "Jesus comforts his friends the night before he dies, and leaves them his peace.",
     "topics": [
@@ -144,16 +255,34 @@
     "reference": "Romans 15:13",
     "text": {
       "web": "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope, in the power of the Holy Spirit.",
-      "kjv": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost."
+      "webbe": "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope in the power of the Holy Spirit.",
+      "kjv": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+      "asv": "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, in the power of the Holy Spirit.",
+      "bsb": "Now may the God of hope fill you with all joy and peace as you believe in Him, so that you may overflow with hope by the power of the Holy Spirit.",
+      "bbe": "Now may the God of hope make you full of joy and peace through faith, so that all hope may be yours in the power of the Holy Spirit.",
+      "darby": "Now the God of hope fill you with all joy and peace in believing, so that ye should abound in hope by [the] power of [the] Holy Spirit.",
+      "dra": "Now the God of hope fill you with all joy and peace in believing; that you may abound in hope, and in the power of the Holy Ghost."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Romans%2015%3A13?translation=web",
-      "kjv": "https://bible-api.com/Romans%2015%3A13?translation=kjv"
+      "webbe": "https://bible-api.com/Romans%2015%3A13?translation=webbe",
+      "kjv": "https://bible-api.com/Romans%2015%3A13?translation=kjv",
+      "asv": "https://bible-api.com/Romans%2015%3A13?translation=asv",
+      "bsb": "https://bible-api.com/Romans%2015%3A13?translation=bsb",
+      "bbe": "https://bible-api.com/Romans%2015%3A13?translation=bbe",
+      "darby": "https://bible-api.com/Romans%2015%3A13?translation=darby",
+      "dra": "https://bible-api.com/Romans%2015%3A13?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Romans%2015&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2015&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ROM15.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2015&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Romans%2015&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ROM15.htm",
+      "bbe": "https://ebible.org/engBBE/ROM15.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Romans%2015&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Romans%2015&version=DRA"
     },
     "context": "Paul's blessing near the end of his letter to the church in Rome.",
     "topics": [
@@ -168,16 +297,34 @@
     "reference": "Jeremiah 29:11",
     "text": {
       "web": "For I know the thoughts that I think toward you,” says Yahweh, “thoughts of peace, and not of evil, to give you hope and a future.",
-      "kjv": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end."
+      "webbe": "For I know the thoughts that I think towards you,” says the LORD, “thoughts of peace, and not of evil, to give you hope and a future.",
+      "kjv": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+      "asv": "For I know the thoughts that I think toward you, saith Jehovah, thoughts of peace, and not of evil, to give you hope in your latter end.",
+      "bsb": "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, to give you a future and a hope.",
+      "bbe": "For I am conscious of my thoughts about you, says the Lord, thoughts of peace and not of evil, to give you hope at the end.",
+      "darby": "For I know the thoughts that I think toward you, saith Jehovah, thoughts of peace, and not of evil, to give you in your latter end a hope.",
+      "dra": "For I know the thoughts that I think towards you, saith the Lord, thoughts of peace, and not of affliction, to give you an end and patience."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Jeremiah%2029%3A11?translation=web",
-      "kjv": "https://bible-api.com/Jeremiah%2029%3A11?translation=kjv"
+      "webbe": "https://bible-api.com/Jeremiah%2029%3A11?translation=webbe",
+      "kjv": "https://bible-api.com/Jeremiah%2029%3A11?translation=kjv",
+      "asv": "https://bible-api.com/Jeremiah%2029%3A11?translation=asv",
+      "bsb": "https://bible-api.com/Jeremiah%2029%3A11?translation=bsb",
+      "bbe": "https://bible-api.com/Jeremiah%2029%3A11?translation=bbe",
+      "darby": "https://bible-api.com/Jeremiah%2029%3A11?translation=darby",
+      "dra": "https://bible-api.com/Jeremiah%2029%3A11?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JER29.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JER29.htm",
+      "bbe": "https://ebible.org/engBBE/JER29.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Jeremiah%2029&version=DRA"
     },
     "context": "From Jeremiah's letter to exiles in Babylon: settle in, seek the good of the city, and trust that God has a future for you.",
     "topics": [
@@ -191,16 +338,34 @@
     "reference": "Lamentations 3:22-23",
     "text": {
       "web": "It is because of Yahweh’s loving kindnesses that we are not consumed, because his compassion doesn’t fail. They are new every morning. Great is your faithfulness.",
-      "kjv": "It is of the LORD’S mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness."
+      "webbe": "It is because of The LORD’s loving kindnesses that we are not consumed, because his mercies don’t fail. They are new every morning. Great is your faithfulness.",
+      "kjv": "It is of the LORD’S mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.",
+      "asv": "[It is of] Jehovah`s lovingkindnesses that we are not consumed, because his compassions fail not. They are new every morning; great is thy faithfulness.",
+      "bsb": "Because of the loving devotion of the LORD we are not consumed, for His mercies never fail. They are new every morning; great is Your faithfulness!",
+      "bbe": "It is through the Lord's love that we have not come to destruction, because his mercies have no limit. They are new every morning; great is your good faith.",
+      "darby": "It is of Jehovah's loving-kindness we are not consumed, because his compassions fail not; they are new every morning: great is thy faithfulness.",
+      "dra": "Heth. The mercies of the Lord that we are not consumed: because his commiserations have not failed. Heth. They are new every morning, great is thy faithfulness."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Lamentations%203%3A22-23?translation=web",
-      "kjv": "https://bible-api.com/Lamentations%203%3A22-23?translation=kjv"
+      "webbe": "https://bible-api.com/Lamentations%203%3A22-23?translation=webbe",
+      "kjv": "https://bible-api.com/Lamentations%203%3A22-23?translation=kjv",
+      "asv": "https://bible-api.com/Lamentations%203%3A22-23?translation=asv",
+      "bsb": "https://bible-api.com/Lamentations%203%3A22-23?translation=bsb",
+      "bbe": "https://bible-api.com/Lamentations%203%3A22-23?translation=bbe",
+      "darby": "https://bible-api.com/Lamentations%203%3A22-23?translation=darby",
+      "dra": "https://bible-api.com/Lamentations%203%3A22-23?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/LAM03.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=ASV",
+      "bsb": "https://ebible.org/engbsb/LAM03.htm",
+      "bbe": "https://ebible.org/engBBE/LAM03.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Lamentations%203&version=DRA"
     },
     "context": "In the middle of a book of grief over a ruined city, the writer remembers that God's mercies are new every morning.",
     "topics": [
@@ -214,16 +379,34 @@
     "reference": "Isaiah 40:31",
     "text": {
       "web": "But those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
-      "kjv": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."
+      "webbe": "but those who wait for the LORD will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
+      "kjv": "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+      "asv": "but they that wait for Jehovah shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; they shall walk, and not faint.",
+      "bsb": "But those who wait upon the LORD will renew their strength; they will mount up with wings like eagles; they will run and not grow weary, they will walk and not faint.",
+      "bbe": "But those who are waiting for the Lord will have new strength; they will get wings like eagles: running, they will not be tired, and walking, they will have no weariness.",
+      "darby": "but they that wait upon Jehovah shall renew [their] strength: they shall mount up with wings as eagles; they shall run, and not tire; they shall walk, and not faint.",
+      "dra": "But they that hope in the Lord shall renew their strength, they shall take wings as eagles, they shall run and not be weary, they shall walk and not faint."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Isaiah%2040%3A31?translation=web",
-      "kjv": "https://bible-api.com/Isaiah%2040%3A31?translation=kjv"
+      "webbe": "https://bible-api.com/Isaiah%2040%3A31?translation=webbe",
+      "kjv": "https://bible-api.com/Isaiah%2040%3A31?translation=kjv",
+      "asv": "https://bible-api.com/Isaiah%2040%3A31?translation=asv",
+      "bsb": "https://bible-api.com/Isaiah%2040%3A31?translation=bsb",
+      "bbe": "https://bible-api.com/Isaiah%2040%3A31?translation=bbe",
+      "darby": "https://bible-api.com/Isaiah%2040%3A31?translation=darby",
+      "dra": "https://bible-api.com/Isaiah%2040%3A31?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ISA40.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ISA40.htm",
+      "bbe": "https://ebible.org/engBBE/ISA40.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Isaiah%2040&version=DRA"
     },
     "context": "Comfort for a weary people: those who wait for the Lord will renew their strength.",
     "topics": [
@@ -236,18 +419,39 @@
     "id": "psalm-46-1",
     "kind": "scripture",
     "reference": "Psalm 46:1",
+    "references": {
+      "dra": "Psalm 45:2"
+    },
     "text": {
       "web": "God is our refuge and strength, a very present help in trouble.",
-      "kjv": "God is our refuge and strength, a very present help in trouble."
+      "webbe": "God is our refuge and strength, a very present help in trouble.",
+      "kjv": "God is our refuge and strength, a very present help in trouble.",
+      "asv": "God is our refuge and strength, A very present help in trouble.",
+      "bsb": "God is our refuge and strength, an ever-present help in times of trouble.",
+      "bbe": "<To the chief music-maker. Of the sons of Korah; put to Alamoth. A Song.> God is our harbour and our strength, a very present help in trouble.",
+      "darby": "{To the chief Musician. Of the sons of Korah. On Alamoth. A song.} God is our refuge and strength, a help in distresses, very readily found.",
+      "dra": "Our God is our refuge and strength: a helper in troubles, which have found us exceedingly."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%2046%3A1?translation=web",
-      "kjv": "https://bible-api.com/Psalm%2046%3A1?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%2046%3A1?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%2046%3A1?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%2046%3A1?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%2046%3A1?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%2046%3A1?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%2046%3A1?translation=darby",
+      "dra": "https://bible-api.com/Psalm%2045%3A2?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%2046&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2046&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA046.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2046&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%2046&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA046.htm",
+      "bbe": "https://ebible.org/engBBE/PSA046.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%2046&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%2045&version=DRA"
     },
     "context": "A song of trust in God when the world seems to be falling apart.",
     "topics": [
@@ -261,16 +465,34 @@
     "reference": "2 Corinthians 12:9",
     "text": {
       "web": "He has said to me, “My grace is sufficient for you, for my power is made perfect in weakness.” Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.",
-      "kjv": "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me."
+      "webbe": "He has said to me, “My grace is sufficient for you, for my power is made perfect in weakness.” Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.",
+      "kjv": "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me.",
+      "asv": "And he hath said unto me, My grace is sufficient for thee: for [my] power is made perfect in weakness. Most gladly therefore will I rather glory in my weaknesses, that the power of Christ may rest upon me.",
+      "bsb": "But He said to me, “My grace is sufficient for you, for My power is perfected in weakness.” Therefore I will boast all the more gladly in my weaknesses, so that the power of Christ may rest on me.",
+      "bbe": "And he said to me, My grace is enough for you, for my power is made complete in what is feeble. Most gladly, then, will I take pride in my feeble body, so that the power of Christ may be on me.",
+      "darby": "And he said to me, My grace suffices thee; for [my] power is perfected in weakness. Most gladly therefore will I rather boast in my weaknesses, that the power of the Christ may dwell upon me.",
+      "dra": "And he said to me: My grace is sufficient for thee; for power is made perfect in infirmity. Gladly therefore will I glory in my infirmities, that the power of Christ may dwell in me."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=web",
-      "kjv": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=kjv"
+      "webbe": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=webbe",
+      "kjv": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=kjv",
+      "asv": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=asv",
+      "bsb": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=bsb",
+      "bbe": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=bbe",
+      "darby": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=darby",
+      "dra": "https://bible-api.com/2%20Corinthians%2012%3A9?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/2CO12.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=ASV",
+      "bsb": "https://ebible.org/engbsb/2CO12.htm",
+      "bbe": "https://ebible.org/engBBE/2CO12.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=2%20Corinthians%2012&version=DRA"
     },
     "context": "Paul on a weakness he asked God to take away, and the answer he was given.",
     "topics": [
@@ -283,16 +505,34 @@
     "reference": "1 Thessalonians 5:16-18",
     "text": {
       "web": "Rejoice always. Pray without ceasing. In everything give thanks, for this is the will of God in Christ Jesus toward you.",
-      "kjv": "Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you."
+      "webbe": "Always rejoice. Pray without ceasing. In everything give thanks, for this is the will of God in Christ Jesus towards you.",
+      "kjv": "Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+      "asv": "Rejoice always; pray without ceasing; in everything give thanks: for this is the will of God in Christ Jesus to you-ward.",
+      "bsb": "Rejoice at all times. Pray without ceasing. Give thanks in every circumstance, for this is God’s will for you in Christ Jesus.",
+      "bbe": "Have joy at all times. Keep on with your prayers. In everything give praise: for this is the purpose of God in Christ Jesus for you.",
+      "darby": "rejoice always; pray unceasingly; in everything give thanks, for this is [the] will of God in Christ Jesus towards you;",
+      "dra": "Always rejoice. Pray without ceasing. In all things give thanks; for this is the will of God in Christ Jesus concerning you all."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=web",
-      "kjv": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=kjv"
+      "webbe": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=webbe",
+      "kjv": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=kjv",
+      "asv": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=asv",
+      "bsb": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=bsb",
+      "bbe": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=bbe",
+      "darby": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=darby",
+      "dra": "https://bible-api.com/1%20Thessalonians%205%3A16-18?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/1TH05.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=ASV",
+      "bsb": "https://ebible.org/engbsb/1TH05.htm",
+      "bbe": "https://ebible.org/engBBE/1TH05.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=DRA"
     },
     "context": "Short, practical encouragements at the end of Paul's earliest letter.",
     "topics": [
@@ -304,18 +544,39 @@
     "id": "psalm-118-24",
     "kind": "scripture",
     "reference": "Psalm 118:24",
+    "references": {
+      "dra": "Psalm 117:24"
+    },
     "text": {
       "web": "This is the day that Yahweh has made. We will rejoice and be glad in it!",
-      "kjv": "This is the day which the LORD hath made; we will rejoice and be glad in it."
+      "webbe": "This is the day that the LORD has made. We will rejoice and be glad in it!",
+      "kjv": "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+      "asv": "This is the day which Jehovah hath made; We will rejoice and be glad in it.",
+      "bsb": "This is the day that the LORD has made; we will rejoice and be glad in it.",
+      "bbe": "This is the day which the Lord has made; we will be full of joy and delight in it.",
+      "darby": "This is the day that Jehovah hath made; we will rejoice and be glad in it.",
+      "dra": "This is the day which the Lord hath made: let us be glad and rejoice therein."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%20118%3A24?translation=web",
-      "kjv": "https://bible-api.com/Psalm%20118%3A24?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%20118%3A24?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%20118%3A24?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%20118%3A24?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%20118%3A24?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%20118%3A24?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%20118%3A24?translation=darby",
+      "dra": "https://bible-api.com/Psalm%20117%3A24?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%20118&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%20118&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA118.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%20118&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%20118&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA118.htm",
+      "bbe": "https://ebible.org/engBBE/PSA118.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%20118&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%20117&version=DRA"
     },
     "context": "A festival song of thanks: this is the day the Lord has made.",
     "topics": [
@@ -327,18 +588,39 @@
     "id": "psalm-107-1",
     "kind": "scripture",
     "reference": "Psalm 107:1",
+    "references": {
+      "dra": "Psalm 106:1"
+    },
     "text": {
       "web": "Give thanks to Yahweh, for he is good, for his loving kindness endures forever.",
-      "kjv": "O give thanks unto the LORD, for he is good: for his mercy endureth for ever."
+      "webbe": "Give thanks to the LORD, for he is good, for his loving kindness endures forever.",
+      "kjv": "O give thanks unto the LORD, for he is good: for his mercy endureth for ever.",
+      "asv": "O give thanks unto Jehovah; For he is good; For his lovingkindness [endureth] for ever.",
+      "bsb": "Give thanks to the LORD, for He is good; His loving devotion endures forever.",
+      "bbe": "O give praise to the Lord, for he is good: for his mercy is unchanging for ever.",
+      "darby": "Give ye thanks unto Jehovah; for he is good; for his loving-kindness [endureth] for ever.",
+      "dra": "Give glory to the Lord, for he is good: for his mercy endureth for ever."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%20107%3A1?translation=web",
-      "kjv": "https://bible-api.com/Psalm%20107%3A1?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%20107%3A1?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%20107%3A1?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%20107%3A1?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%20107%3A1?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%20107%3A1?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%20107%3A1?translation=darby",
+      "dra": "https://bible-api.com/Psalm%20106%3A1?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%20107&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%20107&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA107.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%20107&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%20107&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA107.htm",
+      "bbe": "https://ebible.org/engBBE/PSA107.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%20107&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%20106&version=DRA"
     },
     "context": "The opening of a long psalm of thanks from people God rescued in many ways.",
     "topics": [
@@ -351,16 +633,34 @@
     "reference": "1 Corinthians 13:4-7",
     "text": {
       "web": "Love is patient and is kind; love doesn’t envy. Love doesn’t brag, is not proud, doesn’t behave itself inappropriately, doesn’t seek its own way, is not provoked, takes no account of evil; doesn’t rejoice in unrighteousness, but rejoices with the truth; bears all things, believes all things, hopes all things, endures all things.",
-      "kjv": "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things."
+      "webbe": "Love is patient and is kind. Love doesn’t envy. Love doesn’t brag, is not proud, doesn’t behave itself inappropriately, doesn’t seek its own way, is not provoked, takes no account of evil; doesn’t rejoice in unrighteousness, but rejoices with the truth; bears all things, believes all things, hopes all things, and endures all things.",
+      "kjv": "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things.",
+      "asv": "Love suffereth long, [and] is kind; love envieth not; love vaunteth not itself, is not puffed up, doth not behave itself unseemly, seeketh not its own, is not provoked, taketh not account of evil; rejoiceth not in unrighteousness, but rejoiceth with the truth; beareth all things, believeth all things, hopeth all things, endureth all things.",
+      "bsb": "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It is not rude, it is not self-seeking, it is not easily angered, it keeps no account of wrongs. Love takes no pleasure in evil, but rejoices in the truth. It bears all things, believes all things, hopes all things, endures all things.",
+      "bbe": "Love is never tired of waiting; love is kind; love has no envy; love has no high opinion of itself, love has no pride; Love's ways are ever fair, it takes no thought for itself; it is not quickly made angry, it takes no account of evil; It takes no pleasure in wrongdoing, but has joy in what is true; Love has the power of undergoing all things, having faith in all things, hoping all things.",
+      "darby": "Love has long patience, is kind; love is not emulous [of others]; love is not insolent and rash, is not puffed up, does not behave in an unseemly manner, does not seek what is its own, is not quickly provoked, does not impute evil, does not rejoice at iniquity but rejoices with the truth, bears all things, believes all things, hopes all things, endures all things.",
+      "dra": "Charity is patient, is kind: charity envieth not, dealeth not perversely; is not puffed up; Is not ambitious, seeketh not her own, is not provoked to anger, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth with the truth; Beareth all things, believeth all things, hopeth all things, endureth all things."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=web",
-      "kjv": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=kjv"
+      "webbe": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=webbe",
+      "kjv": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=kjv",
+      "asv": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=asv",
+      "bsb": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=bsb",
+      "bbe": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=bbe",
+      "darby": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=darby",
+      "dra": "https://bible-api.com/1%20Corinthians%2013%3A4-7?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/1CO13.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=ASV",
+      "bsb": "https://ebible.org/engbsb/1CO13.htm",
+      "bbe": "https://ebible.org/engBBE/1CO13.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=1%20Corinthians%2013&version=DRA"
     },
     "context": "Paul's description of love, written to a church divided by rivalry.",
     "topics": [
@@ -374,16 +674,34 @@
     "reference": "Proverbs 17:17",
     "text": {
       "web": "A friend loves at all times; and a brother is born for adversity.",
-      "kjv": "A friend loveth at all times, and a brother is born for adversity."
+      "webbe": "A friend loves at all times; and a brother is born for adversity.",
+      "kjv": "A friend loveth at all times, and a brother is born for adversity.",
+      "asv": "A friend loveth at all times; And a brother is born for adversity.",
+      "bsb": "A friend loves at all times, and a brother is born for adversity.",
+      "bbe": "A friend is loving at all times, and becomes a brother in times of trouble.",
+      "darby": "The friend loveth at all times, and a brother is born for adversity.",
+      "dra": "He that is a friend loveth at all times: and a brother is proved in distress."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Proverbs%2017%3A17?translation=web",
-      "kjv": "https://bible-api.com/Proverbs%2017%3A17?translation=kjv"
+      "webbe": "https://bible-api.com/Proverbs%2017%3A17?translation=webbe",
+      "kjv": "https://bible-api.com/Proverbs%2017%3A17?translation=kjv",
+      "asv": "https://bible-api.com/Proverbs%2017%3A17?translation=asv",
+      "bsb": "https://bible-api.com/Proverbs%2017%3A17?translation=bsb",
+      "bbe": "https://bible-api.com/Proverbs%2017%3A17?translation=bbe",
+      "darby": "https://bible-api.com/Proverbs%2017%3A17?translation=darby",
+      "dra": "https://bible-api.com/Proverbs%2017%3A17?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PRO17.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PRO17.htm",
+      "bbe": "https://ebible.org/engBBE/PRO17.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Proverbs%2017&version=DRA"
     },
     "context": "A proverb on the friend who loves at all times.",
     "topics": [
@@ -397,16 +715,34 @@
     "reference": "Ecclesiastes 4:9-10",
     "text": {
       "web": "Two are better than one, because they have a good reward for their labor. For if they fall, the one will lift up his fellow; but woe to him who is alone when he falls, and doesn’t have another to lift him up.",
-      "kjv": "Two are better than one; because they have a good reward for their labour. For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up."
+      "webbe": "Two are better than one, because they have a good reward for their labour. For if they fall, the one will lift up his fellow; but woe to him who is alone when he falls, and doesn’t have another to lift him up.",
+      "kjv": "Two are better than one; because they have a good reward for their labour. For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up.",
+      "asv": "Two are better than one, because they have a good reward for their labor. For if they fall, the one will lift up his fellow; but woe to him that is alone when he falleth, and hath not another to lift him up.",
+      "bsb": "Two are better than one, because they have a good return for their labor. For if one falls down, his companion can lift him up; but pity the one who falls without another to help him up!",
+      "bbe": "Two are better than one, because they have a good reward for their work. And if one has a fall, the other will give him a hand; but unhappy is the man who is by himself, because he has no helper.",
+      "darby": "Two are better than one; because they have a good reward for their labour. For if they fall, the one will lift up his fellow; but woe to him that is alone when he falleth, and who hath not another to lift him up!",
+      "dra": "It is better therefore that two should be together, than one: for they have the advantage of their society: If one fall he shall be supported by the other: woe to him that is alone, for when he falleth, he hath none to lift him up."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=web",
-      "kjv": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=kjv"
+      "webbe": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=webbe",
+      "kjv": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=kjv",
+      "asv": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=asv",
+      "bsb": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=bsb",
+      "bbe": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=bbe",
+      "darby": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=darby",
+      "dra": "https://bible-api.com/Ecclesiastes%204%3A9-10?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ECC04.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ECC04.htm",
+      "bbe": "https://ebible.org/engBBE/ECC04.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Ecclesiastes%204&version=DRA"
     },
     "context": "Two are better than one: if one falls, the other can help them up.",
     "topics": [
@@ -419,16 +755,34 @@
     "reference": "John 15:13",
     "text": {
       "web": "Greater love has no one than this, that someone lay down his life for his friends.",
-      "kjv": "Greater love hath no man than this, that a man lay down his life for his friends."
+      "webbe": "Greater love has no one than this, that someone lay down his life for his friends.",
+      "kjv": "Greater love hath no man than this, that a man lay down his life for his friends.",
+      "asv": "Greater love hath no man than this, that a man lay down his life for his friends.",
+      "bsb": "Greater love has no one than this, that he lay down his life for his friends.",
+      "bbe": "Greater love has no man than this, that a man gives up his life for his friends.",
+      "darby": "No one has greater love than this, that one should lay down his life for his friends.",
+      "dra": "Greater love than this no man hath, that a man lay down his life for his friends."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/John%2015%3A13?translation=web",
-      "kjv": "https://bible-api.com/John%2015%3A13?translation=kjv"
+      "webbe": "https://bible-api.com/John%2015%3A13?translation=webbe",
+      "kjv": "https://bible-api.com/John%2015%3A13?translation=kjv",
+      "asv": "https://bible-api.com/John%2015%3A13?translation=asv",
+      "bsb": "https://bible-api.com/John%2015%3A13?translation=bsb",
+      "bbe": "https://bible-api.com/John%2015%3A13?translation=bbe",
+      "darby": "https://bible-api.com/John%2015%3A13?translation=darby",
+      "dra": "https://bible-api.com/John%2015%3A13?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=John%2015&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=John%2015&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JHN15.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=John%2015&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=John%2015&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JHN15.htm",
+      "bbe": "https://ebible.org/engBBE/JHN15.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=John%2015&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=John%2015&version=DRA"
     },
     "context": "Jesus to his disciples, whom he calls friends, on the greatest love.",
     "topics": [
@@ -442,16 +796,34 @@
     "reference": "Ephesians 4:32",
     "text": {
       "web": "And be kind to one another, tender hearted, forgiving each other, just as God also in Christ forgave you.",
-      "kjv": "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ’s sake hath forgiven you."
+      "webbe": "And be kind to one another, tender hearted, forgiving each other, just as God also in Christ forgave you.",
+      "kjv": "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ’s sake hath forgiven you.",
+      "asv": "and be ye kind one to another, tenderhearted, forgiving each other, even as God also in Christ forgave you.",
+      "bsb": "Be kind and tenderhearted to one another, forgiving each other just as in Christ God forgave you.",
+      "bbe": "And be kind to one another, full of pity, having forgiveness for one another, even as God in Christ had forgiveness for you.",
+      "darby": "and be to one another kind, compassionate, forgiving one another, so as God also in Christ has forgiven you.",
+      "dra": "And be ye kind one to another; merciful, forgiving one another, even as God hath forgiven you in Christ."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Ephesians%204%3A32?translation=web",
-      "kjv": "https://bible-api.com/Ephesians%204%3A32?translation=kjv"
+      "webbe": "https://bible-api.com/Ephesians%204%3A32?translation=webbe",
+      "kjv": "https://bible-api.com/Ephesians%204%3A32?translation=kjv",
+      "asv": "https://bible-api.com/Ephesians%204%3A32?translation=asv",
+      "bsb": "https://bible-api.com/Ephesians%204%3A32?translation=bsb",
+      "bbe": "https://bible-api.com/Ephesians%204%3A32?translation=bbe",
+      "darby": "https://bible-api.com/Ephesians%204%3A32?translation=darby",
+      "dra": "https://bible-api.com/Ephesians%204%3A32?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/EPH04.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=ASV",
+      "bsb": "https://ebible.org/engbsb/EPH04.htm",
+      "bbe": "https://ebible.org/engBBE/EPH04.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Ephesians%204&version=DRA"
     },
     "context": "How to live together: kind, tender-hearted, forgiving one another.",
     "topics": [
@@ -465,16 +837,34 @@
     "reference": "Colossians 3:13",
     "text": {
       "web": "bearing with one another, and forgiving each other, if any man has a complaint against any; even as Christ forgave you, so you also do.",
-      "kjv": "Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye."
+      "webbe": "bearing with one another, and forgiving each other, if any man has a complaint against any; even as Christ forgave you, so you also do.",
+      "kjv": "Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye.",
+      "asv": "forbearing one another, and forgiving each other, if any man have a complaint against any; even as the Lord forgave you, so also do ye:",
+      "bsb": "Bear with one another and forgive any complaint you may have against someone else. Forgive as the Lord forgave you.",
+      "bbe": "Being gentle to one another and having forgiveness for one another, if anyone has done wrong to his brother, even as the Lord had forgiveness for you:",
+      "darby": "forbearing one another, and forgiving one another, if any should have a complaint against any; even as the Christ has forgiven you, so also [do] *ye*.",
+      "dra": "Bearing with one another, and forgiving one another, if any have a complaint against another: even as the Lord hath forgiven you, so do you also."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Colossians%203%3A13?translation=web",
-      "kjv": "https://bible-api.com/Colossians%203%3A13?translation=kjv"
+      "webbe": "https://bible-api.com/Colossians%203%3A13?translation=webbe",
+      "kjv": "https://bible-api.com/Colossians%203%3A13?translation=kjv",
+      "asv": "https://bible-api.com/Colossians%203%3A13?translation=asv",
+      "bsb": "https://bible-api.com/Colossians%203%3A13?translation=bsb",
+      "bbe": "https://bible-api.com/Colossians%203%3A13?translation=bbe",
+      "darby": "https://bible-api.com/Colossians%203%3A13?translation=darby",
+      "dra": "https://bible-api.com/Colossians%203%3A13?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Colossians%203&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Colossians%203&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/COL03.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Colossians%203&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Colossians%203&version=ASV",
+      "bsb": "https://ebible.org/engbsb/COL03.htm",
+      "bbe": "https://ebible.org/engBBE/COL03.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Colossians%203&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Colossians%203&version=DRA"
     },
     "context": "Bearing with one another and forgiving, as the Lord forgave you.",
     "topics": [
@@ -488,16 +878,34 @@
     "reference": "James 1:5",
     "text": {
       "web": "But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach; and it will be given to him.",
-      "kjv": "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him."
+      "webbe": "But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
+      "kjv": "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+      "asv": "But if any of you lacketh wisdom, let him ask of God, who giveth to all liberally and upbraideth not; and it shall be given him.",
+      "bsb": "Now if any of you lacks wisdom, he should ask God, who gives generously to all without finding fault, and it will be given to him.",
+      "bbe": "But if any man among you is without wisdom, let him make his request to God, who gives freely to all without an unkind word, and it will be given to him.",
+      "darby": "But if any one of you lack wisdom, let him ask of God, who gives to all freely and reproaches not, and it shall be given to him:",
+      "dra": "But if any of you want wisdom, let him ask of God, who giveth to all men abundantly, and upbraideth not; and it shall be given him."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/James%201%3A5?translation=web",
-      "kjv": "https://bible-api.com/James%201%3A5?translation=kjv"
+      "webbe": "https://bible-api.com/James%201%3A5?translation=webbe",
+      "kjv": "https://bible-api.com/James%201%3A5?translation=kjv",
+      "asv": "https://bible-api.com/James%201%3A5?translation=asv",
+      "bsb": "https://bible-api.com/James%201%3A5?translation=bsb",
+      "bbe": "https://bible-api.com/James%201%3A5?translation=bbe",
+      "darby": "https://bible-api.com/James%201%3A5?translation=darby",
+      "dra": "https://bible-api.com/James%201%3A5?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=James%201&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=James%201&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JAS01.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=James%201&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=James%201&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JAS01.htm",
+      "bbe": "https://ebible.org/engBBE/JAS01.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=James%201&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=James%201&version=DRA"
     },
     "context": "If you lack wisdom, ask God, who gives generously.",
     "topics": [
@@ -510,16 +918,34 @@
     "reference": "Proverbs 3:5-6",
     "text": {
       "web": "Trust in Yahweh with all your heart, and don’t lean on your own understanding. In all your ways acknowledge him, and he will make your paths straight.",
-      "kjv": "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths."
+      "webbe": "Trust in the LORD with all your heart, and don’t lean on your own understanding. In all your ways acknowledge him, and he will make your paths straight.",
+      "kjv": "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",
+      "asv": "Trust in Jehovah with all thy heart, And lean not upon thine own understanding: In all thy ways acknowledge him, And he will direct thy paths.",
+      "bsb": "Trust in the LORD with all your heart, and lean not on your own understanding; in all your ways acknowledge Him, and He will make your paths straight.",
+      "bbe": "Put all your hope in God, not looking to your reason for support. In all your ways give ear to him, and he will make straight your footsteps.",
+      "darby": "Confide in Jehovah with all thy heart, and lean not unto thine own intelligence; in all thy ways acknowledge him, and he will make plain thy paths.",
+      "dra": "Have confidence in the Lord with all thy heart, and lean not upon thy own prudence. In all thy ways think on him, and he will direct thy steps."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Proverbs%203%3A5-6?translation=web",
-      "kjv": "https://bible-api.com/Proverbs%203%3A5-6?translation=kjv"
+      "webbe": "https://bible-api.com/Proverbs%203%3A5-6?translation=webbe",
+      "kjv": "https://bible-api.com/Proverbs%203%3A5-6?translation=kjv",
+      "asv": "https://bible-api.com/Proverbs%203%3A5-6?translation=asv",
+      "bsb": "https://bible-api.com/Proverbs%203%3A5-6?translation=bsb",
+      "bbe": "https://bible-api.com/Proverbs%203%3A5-6?translation=bbe",
+      "darby": "https://bible-api.com/Proverbs%203%3A5-6?translation=darby",
+      "dra": "https://bible-api.com/Proverbs%203%3A5-6?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PRO03.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PRO03.htm",
+      "bbe": "https://ebible.org/engBBE/PRO03.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Proverbs%203&version=DRA"
     },
     "context": "A father's advice to trust the Lord rather than your own understanding.",
     "topics": [
@@ -533,16 +959,34 @@
     "reference": "Romans 8:28",
     "text": {
       "web": "We know that all things work together for good for those who love God, to those who are called according to his purpose.",
-      "kjv": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose."
+      "webbe": "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
+      "kjv": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+      "asv": "And we know that to them that love God all things work together for good, [even] to them that are called according to [his] purpose.",
+      "bsb": "And we know that God works all things together for the good of those who love Him, who are called according to His purpose.",
+      "bbe": "And we are conscious that all things are working together for good to those who have love for God, and have been marked out by his purpose.",
+      "darby": "But we *do* know that all things work together for good to those who love God, to those who are called according to purpose.",
+      "dra": "And we know that to them that love God, all things work together unto good, to such as, according to his purpose, are called to be saints."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Romans%208%3A28?translation=web",
-      "kjv": "https://bible-api.com/Romans%208%3A28?translation=kjv"
+      "webbe": "https://bible-api.com/Romans%208%3A28?translation=webbe",
+      "kjv": "https://bible-api.com/Romans%208%3A28?translation=kjv",
+      "asv": "https://bible-api.com/Romans%208%3A28?translation=asv",
+      "bsb": "https://bible-api.com/Romans%208%3A28?translation=bsb",
+      "bbe": "https://bible-api.com/Romans%208%3A28?translation=bbe",
+      "darby": "https://bible-api.com/Romans%208%3A28?translation=darby",
+      "dra": "https://bible-api.com/Romans%208%3A28?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Romans%208&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Romans%208&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ROM08.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Romans%208&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Romans%208&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ROM08.htm",
+      "bbe": "https://ebible.org/engBBE/ROM08.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Romans%208&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Romans%208&version=DRA"
     },
     "context": "Paul on how God works for good in all things for those who love him.",
     "topics": [
@@ -554,18 +998,39 @@
     "id": "psalm-34-18",
     "kind": "scripture",
     "reference": "Psalm 34:18",
+    "references": {
+      "dra": "Psalm 33:19"
+    },
     "text": {
       "web": "Yahweh is near to those who have a broken heart, and saves those who have a crushed spirit.",
-      "kjv": "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit."
+      "webbe": "The LORD is near to those who have a broken heart, and saves those who have a crushed spirit.",
+      "kjv": "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+      "asv": "Jehovah is nigh unto them that are of a broken heart, And saveth such as are of a contrite spirit.",
+      "bsb": "The LORD is near to the brokenhearted; He saves the contrite in spirit.",
+      "bbe": "The Lord is near the broken-hearted; he is the saviour of those whose spirits are crushed down.",
+      "darby": "Jehovah is nigh to those that are of a broken heart, and saveth them that are of a contrite spirit.",
+      "dra": "The Lord is nigh unto them that are of a contrite heart: and he will save the humble of spirit."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%2034%3A18?translation=web",
-      "kjv": "https://bible-api.com/Psalm%2034%3A18?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%2034%3A18?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%2034%3A18?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%2034%3A18?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%2034%3A18?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%2034%3A18?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%2034%3A18?translation=darby",
+      "dra": "https://bible-api.com/Psalm%2033%3A19?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%2034&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2034&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA034.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%2034&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%2034&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA034.htm",
+      "bbe": "https://ebible.org/engBBE/PSA034.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%2034&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%2033&version=DRA"
     },
     "context": "The Lord is near to the broken-hearted.",
     "topics": [
@@ -579,16 +1044,34 @@
     "reference": "Matthew 5:4",
     "text": {
       "web": "Blessed are those who mourn, for they shall be comforted.",
-      "kjv": "Blessed are they that mourn: for they shall be comforted."
+      "webbe": "Blessed are those who mourn, for they shall be comforted.",
+      "kjv": "Blessed are they that mourn: for they shall be comforted.",
+      "asv": "Blessed are they that mourn: for they shall be comforted.",
+      "bsb": "Blessed are those who mourn, for they will be comforted.",
+      "bbe": "Happy are those who are sad: for they will be comforted.",
+      "darby": "Blessed they that mourn, for *they* shall be comforted.",
+      "dra": "Blessed are the meek: for they shall possess the land."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Matthew%205%3A4?translation=web",
-      "kjv": "https://bible-api.com/Matthew%205%3A4?translation=kjv"
+      "webbe": "https://bible-api.com/Matthew%205%3A4?translation=webbe",
+      "kjv": "https://bible-api.com/Matthew%205%3A4?translation=kjv",
+      "asv": "https://bible-api.com/Matthew%205%3A4?translation=asv",
+      "bsb": "https://bible-api.com/Matthew%205%3A4?translation=bsb",
+      "bbe": "https://bible-api.com/Matthew%205%3A4?translation=bbe",
+      "darby": "https://bible-api.com/Matthew%205%3A4?translation=darby",
+      "dra": "https://bible-api.com/Matthew%205%3A4?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Matthew%205&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Matthew%205&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/MAT05.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Matthew%205&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Matthew%205&version=ASV",
+      "bsb": "https://ebible.org/engbsb/MAT05.htm",
+      "bbe": "https://ebible.org/engBBE/MAT05.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Matthew%205&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Matthew%205&version=DRA"
     },
     "context": "From the Beatitudes at the start of the Sermon on the Mount: blessed are those who mourn.",
     "topics": [
@@ -602,16 +1085,34 @@
     "reference": "Revelation 21:4",
     "text": {
       "web": "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain, any more. The first things have passed away.”",
-      "kjv": "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away."
+      "webbe": "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain any more. The first things have passed away.”",
+      "kjv": "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",
+      "asv": "and he shall wipe away every tear from their eyes; and death shall be no more; neither shall there be mourning, nor crying, nor pain, any more: the first things are passed away.",
+      "bsb": "‘He will wipe away every tear from their eyes,’ and there will be no more death or mourning or crying or pain, for the former things have passed away.”",
+      "bbe": "And he will put an end to all their weeping; and there will be no more death, or sorrow, or crying, or pain; for the first things have come to an end.",
+      "darby": "And he shall wipe away every tear from their eyes; and death shall not exist any more, nor grief, nor cry, nor distress shall exist any more, for the former things have passed away.",
+      "dra": "And God shall wipe away all tears from their eyes: and death shall be no more, nor mourning, nor crying, nor sorrow shall be any more, for the former things are passed away."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Revelation%2021%3A4?translation=web",
-      "kjv": "https://bible-api.com/Revelation%2021%3A4?translation=kjv"
+      "webbe": "https://bible-api.com/Revelation%2021%3A4?translation=webbe",
+      "kjv": "https://bible-api.com/Revelation%2021%3A4?translation=kjv",
+      "asv": "https://bible-api.com/Revelation%2021%3A4?translation=asv",
+      "bsb": "https://bible-api.com/Revelation%2021%3A4?translation=bsb",
+      "bbe": "https://bible-api.com/Revelation%2021%3A4?translation=bbe",
+      "darby": "https://bible-api.com/Revelation%2021%3A4?translation=darby",
+      "dra": "https://bible-api.com/Revelation%2021%3A4?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/REV21.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=ASV",
+      "bsb": "https://ebible.org/engbsb/REV21.htm",
+      "bbe": "https://ebible.org/engBBE/REV21.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Revelation%2021&version=DRA"
     },
     "context": "The vision of a new heaven and earth, where every tear is wiped away.",
     "topics": [
@@ -625,16 +1126,34 @@
     "reference": "2 Corinthians 5:17",
     "text": {
       "web": "Therefore if anyone is in Christ, he is a new creation. The old things have passed away. Behold, all things have become new.",
-      "kjv": "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new."
+      "webbe": "Therefore if anyone is in Christ, he is a new creation. The old things have passed away. Behold, all things have become new.",
+      "kjv": "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.",
+      "asv": "Wherefore if any man is in Christ, [he is] a new creature: the old things are passed away; behold, they are become new.",
+      "bsb": "Therefore if anyone is in Christ, he is a new creation. The old has passed away. Behold, the new has come!",
+      "bbe": "So if any man is in Christ, he is in a new world: the old things have come to an end; they have truly become new.",
+      "darby": "So if any one [be] in Christ, [there is] a new creation; the old things have passed away; behold all things have become new:",
+      "dra": "If then any be in Christ a new creature, the old things are passed away, behold all things are made new."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/2%20Corinthians%205%3A17?translation=web",
-      "kjv": "https://bible-api.com/2%20Corinthians%205%3A17?translation=kjv"
+      "webbe": "https://bible-api.com/2%20Corinthians%205%3A17?translation=webbe",
+      "kjv": "https://bible-api.com/2%20Corinthians%205%3A17?translation=kjv",
+      "asv": "https://bible-api.com/2%20Corinthians%205%3A17?translation=asv",
+      "bsb": "https://bible-api.com/2%20Corinthians%205%3A17?translation=bsb",
+      "bbe": "https://bible-api.com/2%20Corinthians%205%3A17?translation=bbe",
+      "darby": "https://bible-api.com/2%20Corinthians%205%3A17?translation=darby",
+      "dra": "https://bible-api.com/2%20Corinthians%205%3A17?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/2CO05.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=ASV",
+      "bsb": "https://ebible.org/engbsb/2CO05.htm",
+      "bbe": "https://ebible.org/engBBE/2CO05.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=2%20Corinthians%205&version=DRA"
     },
     "context": "If anyone is in Christ, they are a new creation.",
     "topics": [
@@ -647,16 +1166,34 @@
     "reference": "Isaiah 43:18-19",
     "text": {
       "web": "“Don’t remember the former things, and don’t consider the things of old. Behold, I will do a new thing. It springs out now. Don’t you know it? I will even make a way in the wilderness, and rivers in the desert.",
-      "kjv": "Remember ye not the former things, neither consider the things of old. Behold, I will do a new thing; now it shall spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert."
+      "webbe": "“Don’t remember the former things, and don’t consider the things of old. Behold, I will do a new thing. It springs out now. Don’t you know it? I will even make a way in the wilderness, and rivers in the desert.",
+      "kjv": "Remember ye not the former things, neither consider the things of old. Behold, I will do a new thing; now it shall spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
+      "asv": "Remember ye not the former things, neither consider the things of old. Behold, I will do a new thing; now shall it spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
+      "bsb": "“Do not call to mind the former things; pay no attention to the things of old. Behold, I am about to do something new; even now it is coming. Do you not see it? Indeed, I will make a way in the wilderness and streams in the desert.",
+      "bbe": "Give no thought to the things which are past; let the early times go out of your minds. See, I am doing a new thing; now it is starting; will you not take note of it? I will even make a way in the waste land, and rivers in the dry country.",
+      "darby": "Remember not the former things, neither consider the ancient things: behold, I do a new thing; now it shall spring forth: shall ye not know it? I will even make a way in the wilderness, rivers in the waste.",
+      "dra": "Remember not former things, and look not on things of old. Behold I do new things, and now they shall spring forth, verily you shall know them: I will make a way in the wilderness, and rivers in the desert."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Isaiah%2043%3A18-19?translation=web",
-      "kjv": "https://bible-api.com/Isaiah%2043%3A18-19?translation=kjv"
+      "webbe": "https://bible-api.com/Isaiah%2043%3A18-19?translation=webbe",
+      "kjv": "https://bible-api.com/Isaiah%2043%3A18-19?translation=kjv",
+      "asv": "https://bible-api.com/Isaiah%2043%3A18-19?translation=asv",
+      "bsb": "https://bible-api.com/Isaiah%2043%3A18-19?translation=bsb",
+      "bbe": "https://bible-api.com/Isaiah%2043%3A18-19?translation=bbe",
+      "darby": "https://bible-api.com/Isaiah%2043%3A18-19?translation=darby",
+      "dra": "https://bible-api.com/Isaiah%2043%3A18-19?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ISA43.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ISA43.htm",
+      "bbe": "https://ebible.org/engBBE/ISA43.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Isaiah%2043&version=DRA"
     },
     "context": "Do not dwell on the past: God is doing a new thing.",
     "topics": [
@@ -670,16 +1207,34 @@
     "reference": "Galatians 6:9",
     "text": {
       "web": "Let us not be weary in doing good, for we will reap in due season, if we don’t give up.",
-      "kjv": "And let us not be weary in well doing: for in due season we shall reap, if we faint not."
+      "webbe": "Let’s not be weary in doing good, for we will reap in due season if we don’t give up.",
+      "kjv": "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+      "asv": "And let us not be weary in well-doing: for in due season we shall reap, if we faint not.",
+      "bsb": "Let us not grow weary in well-doing, for in due time we will reap a harvest if we do not give up.",
+      "bbe": "And let us not get tired of well-doing; for at the right time we will get in the grain, if we do not give way to weariness.",
+      "darby": "but let us not lose heart in doing good; for in due time, if we do not faint, we shall reap.",
+      "dra": "And in doing good, let us not fail. For in due time we shall reap, not failing."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Galatians%206%3A9?translation=web",
-      "kjv": "https://bible-api.com/Galatians%206%3A9?translation=kjv"
+      "webbe": "https://bible-api.com/Galatians%206%3A9?translation=webbe",
+      "kjv": "https://bible-api.com/Galatians%206%3A9?translation=kjv",
+      "asv": "https://bible-api.com/Galatians%206%3A9?translation=asv",
+      "bsb": "https://bible-api.com/Galatians%206%3A9?translation=bsb",
+      "bbe": "https://bible-api.com/Galatians%206%3A9?translation=bbe",
+      "darby": "https://bible-api.com/Galatians%206%3A9?translation=darby",
+      "dra": "https://bible-api.com/Galatians%206%3A9?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Galatians%206&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/GAL06.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=ASV",
+      "bsb": "https://ebible.org/engbsb/GAL06.htm",
+      "bbe": "https://ebible.org/engBBE/GAL06.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Galatians%206&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Galatians%206&version=DRA"
     },
     "context": "Don't grow tired of doing good; in due season you will reap.",
     "topics": [
@@ -693,16 +1248,34 @@
     "reference": "Romans 12:12",
     "text": {
       "web": "rejoicing in hope; enduring in troubles; continuing steadfastly in prayer;",
-      "kjv": "Rejoicing in hope; patient in tribulation; continuing instant in prayer;"
+      "webbe": "rejoicing in hope, enduring in troubles, continuing steadfastly in prayer,",
+      "kjv": "Rejoicing in hope; patient in tribulation; continuing instant in prayer;",
+      "asv": "rejoicing in hope; patient in tribulation; continuing stedfastly in prayer;",
+      "bsb": "Be joyful in hope, patient in affliction, persistent in prayer.",
+      "bbe": "Being glad in hope, quiet in trouble, at all times given to prayer,",
+      "darby": "As regards hope, rejoicing: as regards tribulation, enduring: as regards prayer, persevering:",
+      "dra": "Rejoicing in hope. Patient in tribulation. Instant in prayer."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Romans%2012%3A12?translation=web",
-      "kjv": "https://bible-api.com/Romans%2012%3A12?translation=kjv"
+      "webbe": "https://bible-api.com/Romans%2012%3A12?translation=webbe",
+      "kjv": "https://bible-api.com/Romans%2012%3A12?translation=kjv",
+      "asv": "https://bible-api.com/Romans%2012%3A12?translation=asv",
+      "bsb": "https://bible-api.com/Romans%2012%3A12?translation=bsb",
+      "bbe": "https://bible-api.com/Romans%2012%3A12?translation=bbe",
+      "darby": "https://bible-api.com/Romans%2012%3A12?translation=darby",
+      "dra": "https://bible-api.com/Romans%2012%3A12?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Romans%2012&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ROM12.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ROM12.htm",
+      "bbe": "https://ebible.org/engBBE/ROM12.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Romans%2012&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Romans%2012&version=DRA"
     },
     "context": "Part of Paul's list of what love looks like in practice.",
     "topics": [
@@ -717,16 +1290,34 @@
     "reference": "Micah 6:8",
     "text": {
       "web": "He has shown you, O man, what is good. What does Yahweh require of you, but to act justly, to love mercy, and to walk humbly with your God?",
-      "kjv": "He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?"
+      "webbe": "He has shown you, O man, what is good. What does the LORD require of you, but to act justly, to love mercy, and to walk humbly with your God?",
+      "kjv": "He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?",
+      "asv": "He hath showed thee, O man, what is good; and what doth Jehovah require of thee, but to do justly, and to love kindness, and to walk humbly with thy God?",
+      "bsb": "He has shown you, O man, what is good. And what does the LORD require of you but to act justly, to love mercy, and to walk humbly with your God?",
+      "bbe": "He has made clear to you, O man, what is good; and what is desired from you by the Lord; only doing what is right, and loving mercy, and walking without pride before your God.",
+      "darby": "He hath shewn thee, O man, what is good: and what doth Jehovah require of thee, but to do justly, and to love goodness, and to walk humbly with thy God?",
+      "dra": "I will shew thee, O man, what is good, and what the Lord requireth of thee: Verily, to do judgment, and to love mercy, and to walk solicitous with thy God."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Micah%206%3A8?translation=web",
-      "kjv": "https://bible-api.com/Micah%206%3A8?translation=kjv"
+      "webbe": "https://bible-api.com/Micah%206%3A8?translation=webbe",
+      "kjv": "https://bible-api.com/Micah%206%3A8?translation=kjv",
+      "asv": "https://bible-api.com/Micah%206%3A8?translation=asv",
+      "bsb": "https://bible-api.com/Micah%206%3A8?translation=bsb",
+      "bbe": "https://bible-api.com/Micah%206%3A8?translation=bbe",
+      "darby": "https://bible-api.com/Micah%206%3A8?translation=darby",
+      "dra": "https://bible-api.com/Micah%206%3A8?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Micah%206&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Micah%206&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/MIC06.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Micah%206&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Micah%206&version=ASV",
+      "bsb": "https://ebible.org/engbsb/MIC06.htm",
+      "bbe": "https://ebible.org/engBBE/MIC06.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Micah%206&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Micah%206&version=DRA"
     },
     "context": "What does the Lord require: to act justly, love mercy and walk humbly.",
     "topics": [
@@ -738,18 +1329,39 @@
     "id": "psalm-4-8",
     "kind": "scripture",
     "reference": "Psalm 4:8",
+    "references": {
+      "dra": "Psalm 4:9-10"
+    },
     "text": {
       "web": "In peace I will both lay myself down and sleep, for you, Yahweh alone, make me live in safety.",
-      "kjv": "I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety."
+      "webbe": "In peace I will both lay myself down and sleep, for you alone, the LORD, make me live in safety.",
+      "kjv": "I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety.",
+      "asv": "In peace will I both lay me down and sleep; For thou, Jehovah, alone makest me dwell in safety. Psalm 5 For the Chief Musician; with the Nehiloth. A Psalm of David.",
+      "bsb": "I will lie down and sleep in peace, for You alone, O LORD, make me dwell in safety.",
+      "bbe": "I will take my rest on my bed in peace, because you only, Lord, keep me safe.",
+      "darby": "In peace will I both lay me down and sleep; for thou, Jehovah, alone makest me to dwell in safety.",
+      "dra": "In peace in the selfsame I will sleep, and I will rest: For thou, O Lord, singularly hast settled me in hope."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Psalm%204%3A8?translation=web",
-      "kjv": "https://bible-api.com/Psalm%204%3A8?translation=kjv"
+      "webbe": "https://bible-api.com/Psalm%204%3A8?translation=webbe",
+      "kjv": "https://bible-api.com/Psalm%204%3A8?translation=kjv",
+      "asv": "https://bible-api.com/Psalm%204%3A8?translation=asv",
+      "bsb": "https://bible-api.com/Psalm%204%3A8?translation=bsb",
+      "bbe": "https://bible-api.com/Psalm%204%3A8?translation=bbe",
+      "darby": "https://bible-api.com/Psalm%204%3A8?translation=darby",
+      "dra": "https://bible-api.com/Psalm%204%3A9-10?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Psalm%204&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%204&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PSA004.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Psalm%204&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Psalm%204&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PSA004.htm",
+      "bbe": "https://ebible.org/engBBE/PSA004.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Psalm%204&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Psalm%204&version=DRA"
     },
     "context": "An evening psalm: I will lie down and sleep in peace.",
     "topics": [
@@ -763,16 +1375,34 @@
     "reference": "Numbers 6:24-26",
     "text": {
       "web": "‘Yahweh bless you, and keep you. Yahweh make his face to shine on you, and be gracious to you. Yahweh lift up his face toward you, and give you peace.’",
-      "kjv": "The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee: The LORD lift up his countenance upon thee, and give thee peace."
+      "webbe": "‘The LORD bless you, and keep you. The LORD make his face to shine on you, and be gracious to you. The LORD lift up his face towards you, and give you peace.’",
+      "kjv": "The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee: The LORD lift up his countenance upon thee, and give thee peace.",
+      "asv": "Jehovah bless thee, and keep thee: Jehovah make his face to shine upon thee, and be gracious unto thee: Jehovah lift up his countenance upon thee, and give thee peace.",
+      "bsb": "‘May the LORD bless you and keep you; may the LORD cause His face to shine upon you and be gracious to you; may the LORD lift up His countenance toward you and give you peace.’",
+      "bbe": "May the Lord send his blessing on you and keep you: May the light of the Lord's face be shining on you in grace: May the Lord's approval be resting on you and may he give you peace.",
+      "darby": "Jehovah bless thee, and keep thee; Jehovah make his face shine upon thee, and be gracious unto thee; Jehovah lift up his countenance upon thee, and give thee peace.",
+      "dra": "The Lord bless thee, and keep thee. The Lord shew his face to thee, and have mercy on thee. The Lord turn his countenance to thee, and give thee peace."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Numbers%206%3A24-26?translation=web",
-      "kjv": "https://bible-api.com/Numbers%206%3A24-26?translation=kjv"
+      "webbe": "https://bible-api.com/Numbers%206%3A24-26?translation=webbe",
+      "kjv": "https://bible-api.com/Numbers%206%3A24-26?translation=kjv",
+      "asv": "https://bible-api.com/Numbers%206%3A24-26?translation=asv",
+      "bsb": "https://bible-api.com/Numbers%206%3A24-26?translation=bsb",
+      "bbe": "https://bible-api.com/Numbers%206%3A24-26?translation=bbe",
+      "darby": "https://bible-api.com/Numbers%206%3A24-26?translation=darby",
+      "dra": "https://bible-api.com/Numbers%206%3A24-26?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Numbers%206&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Numbers%206&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/NUM06.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Numbers%206&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Numbers%206&version=ASV",
+      "bsb": "https://ebible.org/engbsb/NUM06.htm",
+      "bbe": "https://ebible.org/engBBE/NUM06.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Numbers%206&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Numbers%206&version=DRA"
     },
     "context": "The priestly blessing Aaron and his sons were to speak over the people.",
     "topics": [
@@ -786,16 +1416,34 @@
     "reference": "Philippians 1:3",
     "text": {
       "web": "I thank my God whenever I remember you,",
-      "kjv": "I thank my God upon every remembrance of you,"
+      "webbe": "I thank my God whenever I remember you,",
+      "kjv": "I thank my God upon every remembrance of you,",
+      "asv": "I thank my God upon all my remembrance of you,",
+      "bsb": "I thank my God every time I remember you.",
+      "bbe": "I give praise to my God at every memory of you,",
+      "darby": "I thank my God for my whole remembrance of you,",
+      "dra": "I give thanks to my God in every remembrance of you,"
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Philippians%201%3A3?translation=web",
-      "kjv": "https://bible-api.com/Philippians%201%3A3?translation=kjv"
+      "webbe": "https://bible-api.com/Philippians%201%3A3?translation=webbe",
+      "kjv": "https://bible-api.com/Philippians%201%3A3?translation=kjv",
+      "asv": "https://bible-api.com/Philippians%201%3A3?translation=asv",
+      "bsb": "https://bible-api.com/Philippians%201%3A3?translation=bsb",
+      "bbe": "https://bible-api.com/Philippians%201%3A3?translation=bbe",
+      "darby": "https://bible-api.com/Philippians%201%3A3?translation=darby",
+      "dra": "https://bible-api.com/Philippians%201%3A3?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Philippians%201&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Philippians%201&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PHP01.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Philippians%201&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Philippians%201&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PHP01.htm",
+      "bbe": "https://ebible.org/engBBE/PHP01.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Philippians%201&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Philippians%201&version=DRA"
     },
     "context": "Paul, writing from prison, tells his friends in Philippi that every memory of them makes him thankful.",
     "topics": [
@@ -809,16 +1457,34 @@
     "reference": "1 Thessalonians 5:11",
     "text": {
       "web": "Therefore exhort one another, and build each other up, even as you also do.",
-      "kjv": "Wherefore comfort yourselves together, and edify one another, even as also ye do."
+      "webbe": "Therefore exhort one another, and build each other up, even as you also do.",
+      "kjv": "Wherefore comfort yourselves together, and edify one another, even as also ye do.",
+      "asv": "Wherefore exhort one another, and build each other up, even as also ye do.",
+      "bsb": "Therefore encourage and build one another up, just as you are already doing.",
+      "bbe": "So then, go on comforting and building up one another, as you have been doing.",
+      "darby": "Wherefore encourage one another, and build up each one the other, even as also ye do.",
+      "dra": "For which cause comfort one another; and edify one another, as you also do."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=web",
-      "kjv": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=kjv"
+      "webbe": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=webbe",
+      "kjv": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=kjv",
+      "asv": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=asv",
+      "bsb": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=bsb",
+      "bbe": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=bbe",
+      "darby": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=darby",
+      "dra": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/1TH05.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=ASV",
+      "bsb": "https://ebible.org/engbsb/1TH05.htm",
+      "bbe": "https://ebible.org/engBBE/1TH05.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=DRA"
     },
     "context": "Paul asks a young church to keep encouraging one another and building each other up.",
     "topics": [
@@ -832,16 +1498,34 @@
     "reference": "Galatians 6:2",
     "text": {
       "web": "Bear one another’s burdens, and so fulfill the law of Christ.",
-      "kjv": "Bear ye one another’s burdens, and so fulfil the law of Christ."
+      "webbe": "Bear one another’s burdens, and so fulfil the law of Christ.",
+      "kjv": "Bear ye one another’s burdens, and so fulfil the law of Christ.",
+      "asv": "Bear ye one another`s burdens, and so fulfil the law of Christ.",
+      "bsb": "Carry one another’s burdens, and in this way you will fulfill the law of Christ.",
+      "bbe": "Take on yourselves one another's troubles, and so keep the law of Christ.",
+      "darby": "Bear one another's burdens, and thus fulfil the law of the Christ.",
+      "dra": "Bear ye one another’s burdens; and so you shall fulfill the law of Christ."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Galatians%206%3A2?translation=web",
-      "kjv": "https://bible-api.com/Galatians%206%3A2?translation=kjv"
+      "webbe": "https://bible-api.com/Galatians%206%3A2?translation=webbe",
+      "kjv": "https://bible-api.com/Galatians%206%3A2?translation=kjv",
+      "asv": "https://bible-api.com/Galatians%206%3A2?translation=asv",
+      "bsb": "https://bible-api.com/Galatians%206%3A2?translation=bsb",
+      "bbe": "https://bible-api.com/Galatians%206%3A2?translation=bbe",
+      "darby": "https://bible-api.com/Galatians%206%3A2?translation=darby",
+      "dra": "https://bible-api.com/Galatians%206%3A2?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Galatians%206&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/GAL06.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=ASV",
+      "bsb": "https://ebible.org/engbsb/GAL06.htm",
+      "bbe": "https://ebible.org/engBBE/GAL06.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Galatians%206&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Galatians%206&version=DRA"
     },
     "context": "Carry each other's loads; that is how the law of Christ is lived out.",
     "topics": [
@@ -855,16 +1539,34 @@
     "reference": "Romans 12:10",
     "text": {
       "web": "In love of the brothers be tenderly affectionate to one another; in honor preferring one another;",
-      "kjv": "Be kindly affectioned one to another with brotherly love; in honour preferring one another;"
+      "webbe": "In love of the brothers be tenderly affectionate to one another; in honour prefer one another,",
+      "kjv": "Be kindly affectioned one to another with brotherly love; in honour preferring one another;",
+      "asv": "In love of the brethren be tenderly affectioned one to another; in honor preferring one another;",
+      "bsb": "Be devoted to one another in brotherly love. Outdo yourselves in honoring one another.",
+      "bbe": "Be kind to one another with a brother's love, putting others before yourselves in honour;",
+      "darby": "as to brotherly love, kindly affectioned towards one another: as to honour, each taking the lead in paying it to the other:",
+      "dra": "Loving one another with the charity of brotherhood, with honour preventing one another."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Romans%2012%3A10?translation=web",
-      "kjv": "https://bible-api.com/Romans%2012%3A10?translation=kjv"
+      "webbe": "https://bible-api.com/Romans%2012%3A10?translation=webbe",
+      "kjv": "https://bible-api.com/Romans%2012%3A10?translation=kjv",
+      "asv": "https://bible-api.com/Romans%2012%3A10?translation=asv",
+      "bsb": "https://bible-api.com/Romans%2012%3A10?translation=bsb",
+      "bbe": "https://bible-api.com/Romans%2012%3A10?translation=bbe",
+      "darby": "https://bible-api.com/Romans%2012%3A10?translation=darby",
+      "dra": "https://bible-api.com/Romans%2012%3A10?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Romans%2012&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/ROM12.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=ASV",
+      "bsb": "https://ebible.org/engbsb/ROM12.htm",
+      "bbe": "https://ebible.org/engBBE/ROM12.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Romans%2012&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Romans%2012&version=DRA"
     },
     "context": "Part of Paul's picture of real love in a community: warm affection, and honouring one another.",
     "topics": [
@@ -878,16 +1580,34 @@
     "reference": "John 13:34-35",
     "text": {
       "web": "A new commandment I give to you, that you love one another. Just as I have loved you, you also love one another. By this everyone will know that you are my disciples, if you have love for one another.”",
-      "kjv": "A new commandment I give unto you, That ye love one another; as I have loved you, that ye also love one another. By this shall all men know that ye are my disciples, if ye have love one to another."
+      "webbe": "A new commandment I give to you, that you love one another. Just as I have loved you, you also love one another. By this everyone will know that you are my disciples, if you have love for one another.”",
+      "kjv": "A new commandment I give unto you, That ye love one another; as I have loved you, that ye also love one another. By this shall all men know that ye are my disciples, if ye have love one to another.",
+      "asv": "A new commandment I give unto you, that ye love one another; even as I have loved you, that ye also love one another. By this shall all men know that ye are my disciples, if ye have love one to another.",
+      "bsb": "A new commandment I give you: Love one another. As I have loved you, so you also must love one another. By this everyone will know that you are My disciples, if you love one another.”",
+      "bbe": "I give you a new law: Have love one for another; even as I have had love for you, so are you to have love one for another. By this it will be clear to all men that you are my disciples, if you have love one for another.",
+      "darby": "A new commandment I give to you, that ye love one another; as I have loved you, that ye also love one another. By this shall all know that ye are disciples of mine, if ye have love amongst yourselves.",
+      "dra": "A new commandment I give unto you: That you love one another, as I have loved you, that you also love one another. By this shall all men know that you are my disciples, if you have love one for another."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/John%2013%3A34-35?translation=web",
-      "kjv": "https://bible-api.com/John%2013%3A34-35?translation=kjv"
+      "webbe": "https://bible-api.com/John%2013%3A34-35?translation=webbe",
+      "kjv": "https://bible-api.com/John%2013%3A34-35?translation=kjv",
+      "asv": "https://bible-api.com/John%2013%3A34-35?translation=asv",
+      "bsb": "https://bible-api.com/John%2013%3A34-35?translation=bsb",
+      "bbe": "https://bible-api.com/John%2013%3A34-35?translation=bbe",
+      "darby": "https://bible-api.com/John%2013%3A34-35?translation=darby",
+      "dra": "https://bible-api.com/John%2013%3A34-35?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=John%2013&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=John%2013&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/JHN13.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=John%2013&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=John%2013&version=ASV",
+      "bsb": "https://ebible.org/engbsb/JHN13.htm",
+      "bbe": "https://ebible.org/engBBE/JHN13.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=John%2013&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=John%2013&version=DRA"
     },
     "context": "At the last supper Jesus gives a new commandment: love one another as I have loved you.",
     "topics": [
@@ -901,16 +1621,34 @@
     "reference": "1 John 4:7",
     "text": {
       "web": "Beloved, let us love one another, for love is of God; and everyone who loves has been born of God, and knows God.",
-      "kjv": "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God."
+      "webbe": "Beloved, let’s love one another, for love is of God; and everyone who loves has been born of God and knows God.",
+      "kjv": "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God.",
+      "asv": "Beloved, let us love one another: for love is of God; and every one that loveth is begotten of God, and knoweth God.",
+      "bsb": "Beloved, let us love one another, because love comes from God. Everyone who loves has been born of God and knows God.",
+      "bbe": "My loved ones, let us have love for one another: because love is of God, and everyone who has love is a child of God and has knowledge of God.",
+      "darby": "Beloved, let us love one another; because love is of God, and every one that loves has been begotten of God, and knows God.",
+      "dra": "Dearly beloved, let us love one another, for charity is of God. And every one that loveth, is born of God, and knoweth God."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/1%20John%204%3A7?translation=web",
-      "kjv": "https://bible-api.com/1%20John%204%3A7?translation=kjv"
+      "webbe": "https://bible-api.com/1%20John%204%3A7?translation=webbe",
+      "kjv": "https://bible-api.com/1%20John%204%3A7?translation=kjv",
+      "asv": "https://bible-api.com/1%20John%204%3A7?translation=asv",
+      "bsb": "https://bible-api.com/1%20John%204%3A7?translation=bsb",
+      "bbe": "https://bible-api.com/1%20John%204%3A7?translation=bbe",
+      "darby": "https://bible-api.com/1%20John%204%3A7?translation=darby",
+      "dra": "https://bible-api.com/1%20John%204%3A7?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=1%20John%204&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=1%20John%204&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/1JN04.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20John%204&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=1%20John%204&version=ASV",
+      "bsb": "https://ebible.org/engbsb/1JN04.htm",
+      "bbe": "https://ebible.org/engBBE/1JN04.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=1%20John%204&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=1%20John%204&version=DRA"
     },
     "context": "John writes that love comes from God, so everyone who loves has been born of God.",
     "topics": [
@@ -923,16 +1661,34 @@
     "reference": "3 John 1:2",
     "text": {
       "web": "Beloved, I pray that you may prosper in all things and be healthy, even as your soul prospers.",
-      "kjv": "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth."
+      "webbe": "Beloved, I pray that you may prosper in all things and be healthy, even as your soul prospers.",
+      "kjv": "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth.",
+      "asv": "Beloved, I pray that in all things thou mayest prosper and be in health, even as thy soul prospereth.",
+      "bsb": "Beloved, I pray that in every way you may prosper and enjoy good health, as your soul also prospers.",
+      "bbe": "My loved one, it is my prayer that you may do well in all things, and be healthy in body, even as your soul does well.",
+      "darby": "Beloved, I desire that in all things thou shouldest prosper and be in health, even as thy soul prospers.",
+      "dra": "Dearly beloved, concerning all things I make it my prayer that thou mayest proceed prosperously, and fare well as thy soul doth prosperously."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/3%20John%201%3A2?translation=web",
-      "kjv": "https://bible-api.com/3%20John%201%3A2?translation=kjv"
+      "webbe": "https://bible-api.com/3%20John%201%3A2?translation=webbe",
+      "kjv": "https://bible-api.com/3%20John%201%3A2?translation=kjv",
+      "asv": "https://bible-api.com/3%20John%201%3A2?translation=asv",
+      "bsb": "https://bible-api.com/3%20John%201%3A2?translation=bsb",
+      "bbe": "https://bible-api.com/3%20John%201%3A2?translation=bbe",
+      "darby": "https://bible-api.com/3%20John%201%3A2?translation=darby",
+      "dra": "https://bible-api.com/3%20John%201%3A2?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=3%20John%201&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=3%20John%201&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/3JN01.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=3%20John%201&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=3%20John%201&version=ASV",
+      "bsb": "https://ebible.org/engbsb/3JN01.htm",
+      "bbe": "https://ebible.org/engBBE/3JN01.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=3%20John%201&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=3%20John%201&version=DRA"
     },
     "context": "The elder John opens a letter to his dear friend Gaius with a prayer for his health and wellbeing.",
     "topics": [
@@ -946,16 +1702,34 @@
     "reference": "Proverbs 27:9",
     "text": {
       "web": "Perfume and incense bring joy to the heart; so does earnest counsel from a man’s friend.",
-      "kjv": "Ointment and perfume rejoice the heart: so doth the sweetness of a man’s friend by hearty counsel."
+      "webbe": "Perfume and incense bring joy to the heart; so does earnest counsel from a man’s friend.",
+      "kjv": "Ointment and perfume rejoice the heart: so doth the sweetness of a man’s friend by hearty counsel.",
+      "asv": "Oil and perfume rejoice the heart; So doth the sweetness of a man`s friend [that cometh] of hearty counsel.",
+      "bsb": "Oil and incense bring joy to the heart, and the sweetness of a friend is counsel to the soul.",
+      "bbe": "Oil and perfume make glad the heart, and the wise suggestion of a friend is sweet to the soul.",
+      "darby": "Ointment and perfume rejoice the heart; and the sweetness of one's friend is [the fruit] of hearty counsel.",
+      "dra": "Ointment and perfumes rejoice the heart: and the good counsels of a friend are sweet to the soul."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Proverbs%2027%3A9?translation=web",
-      "kjv": "https://bible-api.com/Proverbs%2027%3A9?translation=kjv"
+      "webbe": "https://bible-api.com/Proverbs%2027%3A9?translation=webbe",
+      "kjv": "https://bible-api.com/Proverbs%2027%3A9?translation=kjv",
+      "asv": "https://bible-api.com/Proverbs%2027%3A9?translation=asv",
+      "bsb": "https://bible-api.com/Proverbs%2027%3A9?translation=bsb",
+      "bbe": "https://bible-api.com/Proverbs%2027%3A9?translation=bbe",
+      "darby": "https://bible-api.com/Proverbs%2027%3A9?translation=darby",
+      "dra": "https://bible-api.com/Proverbs%2027%3A9?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/PRO27.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=ASV",
+      "bsb": "https://ebible.org/engbsb/PRO27.htm",
+      "bbe": "https://ebible.org/engBBE/PRO27.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=DRA"
     },
     "context": "A proverb comparing a friend's heartfelt counsel to perfume and oil that delight the heart.",
     "topics": [
@@ -969,16 +1743,34 @@
     "reference": "Hebrews 10:24-25",
     "text": {
       "web": "Let us consider how to provoke one another to love and good works, not forsaking our own assembling together, as the custom of some is, but exhorting one another; and so much the more, as you see the Day approaching.",
-      "kjv": "And let us consider one another to provoke unto love and to good works: Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching."
+      "webbe": "Let’s consider how to provoke one another to love and good works, not forsaking our own assembling together, as the custom of some is, but exhorting one another, and so much the more as you see the Day approaching.",
+      "kjv": "And let us consider one another to provoke unto love and to good works: Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.",
+      "asv": "and let us consider one another to provoke unto love and good works; not forsaking our own assembling together, as the custom of some is, but exhorting [one another]; and so much the more, as ye see the day drawing nigh.",
+      "bsb": "And let us consider how to spur one another on to love and good deeds. Let us not neglect meeting together, as some have made a habit, but let us encourage one another, and all the more as you see the Day approaching.",
+      "bbe": "And let us be moving one another at all times to love and good works; Not giving up our meetings, as is the way of some, but keeping one another strong in faith; and all the more because you see the day coming near.",
+      "darby": "and let us consider one another for provoking to love and good works; not forsaking the assembling of ourselves together, as the custom [is] with some; but encouraging [one another], and by so much the more as ye see the day drawing near.",
+      "dra": "And let us consider one another, to provoke unto charity and to good works: Not forsaking our assembly, as some are accustomed; but comforting one another, and so much the more as you see the day approaching."
     },
     "license": "public-domain",
     "sourceUrl": {
       "web": "https://bible-api.com/Hebrews%2010%3A24-25?translation=web",
-      "kjv": "https://bible-api.com/Hebrews%2010%3A24-25?translation=kjv"
+      "webbe": "https://bible-api.com/Hebrews%2010%3A24-25?translation=webbe",
+      "kjv": "https://bible-api.com/Hebrews%2010%3A24-25?translation=kjv",
+      "asv": "https://bible-api.com/Hebrews%2010%3A24-25?translation=asv",
+      "bsb": "https://bible-api.com/Hebrews%2010%3A24-25?translation=bsb",
+      "bbe": "https://bible-api.com/Hebrews%2010%3A24-25?translation=bbe",
+      "darby": "https://bible-api.com/Hebrews%2010%3A24-25?translation=darby",
+      "dra": "https://bible-api.com/Hebrews%2010%3A24-25?translation=dra"
     },
     "readingUrl": {
       "web": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=WEB",
-      "kjv": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=KJV"
+      "webbe": "https://ebible.org/eng-webbe/HEB10.htm",
+      "kjv": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=KJV",
+      "asv": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=ASV",
+      "bsb": "https://ebible.org/engbsb/HEB10.htm",
+      "bbe": "https://ebible.org/engBBE/HEB10.htm",
+      "darby": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=DARBY",
+      "dra": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=DRA"
     },
     "context": "Keep thinking of ways to stir one another to love and good works, and keep meeting together.",
     "topics": [
