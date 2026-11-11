@@ -31,7 +31,7 @@ export type SendOutcome =
   | { ok: true }
   | { ok: false; code: string; /** Worth trying again later (a cap that resets). */ retryable: boolean }
 
-interface MailroomBinding {
+export interface MailroomBinding {
   send(request: {
     kind: EmailKind
     to: string
@@ -43,9 +43,18 @@ interface MailroomBinding {
   }): Promise<{ ok: true } | { ok: false; code: string; retryable?: boolean }>
 }
 
+// Set by the Worker's Cron Trigger, which runs this code outside any request, where
+// getCloudflareContext() has nothing (worker/cron.ts). Requests never set it.
+let cronMailroom: MailroomBinding | undefined
+
+export function setCronMailroom(mailroom: MailroomBinding | undefined): void {
+  cronMailroom = mailroom
+}
+
 function binding(): MailroomBinding | undefined {
+  if (cronMailroom) return cronMailroom
   try {
-    return (getCloudflareContext().env as { MAILROOM?: MailroomBinding }).MAILROOM
+    return (getCloudflareContext().env as unknown as { MAILROOM?: MailroomBinding }).MAILROOM
   } catch {
     return undefined
   }

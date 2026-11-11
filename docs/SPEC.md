@@ -58,7 +58,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 ```
 browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
                     ├─ Next.js 16 App Router via OpenNext (pages, server actions, /api)
-                    ├─ scheduled(): Cron Trigger "*/15 * * * *" -> /api/cron/reminders (in-process)
+                    ├─ scheduled(): Cron Trigger "*/15 * * * *" -> reminder code, called directly (worker/cron.ts)
                     ├─ MAILROOM: service binding to the shared mailroom
                     └─ Turso (libSQL) over HTTPS via Drizzle
 ```
@@ -285,7 +285,7 @@ At schedule time (and consent only, at mark-sent time):
 
 ### The cron
 
-Cron Trigger `*/15 * * * *` calls `/api/cron/reminders` in-process with `Authorization: Bearer $CRON_SECRET`.
+Cron Trigger `*/15 * * * *` calls the reminder code directly (worker/cron.ts), without a request through Next.js. `POST /api/cron/reminders` with `Authorization: Bearer $CRON_SECRET` runs the same code by hand.
 The run:
 
 1. Selects messages with `status = 'scheduled'`, `scheduledFor <= now`, `remindedAt IS NULL`, whose user has `emailReminders` on and no `pausedAt`, and whose contact still allows sending.
