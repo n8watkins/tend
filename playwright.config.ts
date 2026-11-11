@@ -15,7 +15,7 @@ export const E2E_ENV = {
   AUTH_SECRET: 'e2e-only-auth-secret-not-used-anywhere-else',
   AUTH_URL: baseURL,
   PUBLIC_URL: baseURL,
-  DATA_ENCRYPTION_KEY: 'AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA=',
+  DATA_ENCRYPTION_KEY: 'e2e-only-field-key-not-used-anywhere-else',
   CRON_SECRET: 'e2e-cron-secret',
   E2E_EMAIL_DIR: '.e2e/email',
 }
