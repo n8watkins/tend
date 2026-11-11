@@ -24,7 +24,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 - Sign in with an email link (sent through the shared mailroom) or GitHub (when configured), Turnstile on the email form when configured.
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
-- A curated content library of about 40 verified items across 16 topics.
+- A curated content library of about 65 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.
 - Compose and review: the exact outgoing text, with an optional personal note, citation, reading link and stop link.
 - Scheduling with reminders: pick a time (or "next good time"), get an in-app "Due now" item and an email at that time.

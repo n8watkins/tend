@@ -32,5 +32,14 @@
   { "id": "romans-12-12", "reference": "Romans 12:12", "chapter": "Romans 12", "topics": ["patience", "hope", "joy"], "context": "Part of Paul's list of what love looks like in practice." },
   { "id": "micah-6-8", "reference": "Micah 6:8", "chapter": "Micah 6", "topics": ["purpose", "wisdom"], "context": "What does the Lord require: to act justly, love mercy and walk humbly." },
   { "id": "psalm-4-8", "reference": "Psalm 4:8", "chapter": "Psalm 4", "topics": ["rest", "peace"], "context": "An evening psalm: I will lie down and sleep in peace." },
-  { "id": "numbers-6-24-26", "reference": "Numbers 6:24-26", "chapter": "Numbers 6", "topics": ["peace", "love"], "context": "The priestly blessing Aaron and his sons were to speak over the people." }
+  { "id": "numbers-6-24-26", "reference": "Numbers 6:24-26", "chapter": "Numbers 6", "topics": ["peace", "love"], "context": "The priestly blessing Aaron and his sons were to speak over the people." },
+  { "id": "philippians-1-3", "reference": "Philippians 1:3", "chapter": "Philippians 1", "topics": ["gratitude", "friendship"], "context": "Paul, writing from prison, tells his friends in Philippi that every memory of them makes him thankful." },
+  { "id": "1-thessalonians-5-11", "reference": "1 Thessalonians 5:11", "chapter": "1 Thessalonians 5", "topics": ["friendship", "courage"], "context": "Paul asks a young church to keep encouraging one another and building each other up." },
+  { "id": "galatians-6-2", "reference": "Galatians 6:2", "chapter": "Galatians 6", "topics": ["love", "strength"], "context": "Carry each other's loads; that is how the law of Christ is lived out." },
+  { "id": "romans-12-10", "reference": "Romans 12:10", "chapter": "Romans 12", "topics": ["love", "friendship"], "context": "Part of Paul's picture of real love in a community: warm affection, and honouring one another." },
+  { "id": "john-13-34-35", "reference": "John 13:34-35", "chapter": "John 13", "topics": ["love", "purpose"], "context": "At the last supper Jesus gives a new commandment: love one another as I have loved you." },
+  { "id": "1-john-4-7", "reference": "1 John 4:7", "chapter": "1 John 4", "topics": ["love"], "context": "John writes that love comes from God, so everyone who loves has been born of God." },
+  { "id": "3-john-1-2", "reference": "3 John 1:2", "chapter": "3 John 1", "topics": ["hope", "love"], "context": "The elder John opens a letter to his dear friend Gaius with a prayer for his health and wellbeing." },
+  { "id": "proverbs-27-9", "reference": "Proverbs 27:9", "chapter": "Proverbs 27", "topics": ["friendship", "joy"], "context": "A proverb comparing a friend's heartfelt counsel to perfume and oil that delight the heart." },
+  { "id": "hebrews-10-24-25", "reference": "Hebrews 10:24-25", "chapter": "Hebrews 10", "topics": ["friendship", "courage"], "context": "Keep thinking of ways to stir one another to love and good works, and keep meeting together." }
 ]
