@@ -37,7 +37,7 @@ export default function PrivacyPage() {
 
         <h2>Where it lives</h2>
         <p>
-          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots.
+          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through a shared mail relay on Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots.
         </p>
 
         <h2>Your control</h2>

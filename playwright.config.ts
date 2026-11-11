@@ -18,6 +18,9 @@ export const E2E_ENV = {
   DATA_ENCRYPTION_KEY: 'e2e-only-field-key-not-used-anywhere-else',
   CRON_SECRET: 'e2e-cron-secret',
   E2E_EMAIL_DIR: '.e2e/email',
+  // Test-only: the suite signs in far more often than the production caps allow.
+  SIGNIN_SITE_DAILY: '1000',
+  REMINDER_EMAILS_DAILY: '1000',
 }
 
 export default defineConfig({

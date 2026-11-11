@@ -1,9 +1,11 @@
 import 'server-only'
 
 /**
- * Outgoing email: sign-in links and reminders, through the Cloudflare Email
- * Service binding EMAIL (wrangler.jsonc), from EMAIL_FROM on n8builds.dev.
- * Callers spend from the limits (lib/server/limits.ts) first.
+ * Outgoing email: sign-in links and reminders, sent through the shared mailroom
+ * service binding MAILROOM (wrangler.jsonc), which counts every send against
+ * the account-wide Cloudflare Email cap and the app's own caps (tend: 30 a day,
+ * 150 a month, 8 per recipient a day). Callers spend from Tend's own limits
+ * (lib/server/limits.ts) first.
  *
  * In test mode (APP_ENV=test) messages are appended to
  * <E2E_EMAIL_DIR>/<address>.jsonl for the Playwright suite. Off Workers with
@@ -14,28 +16,36 @@ import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 import { isTestMode } from '@/lib/testMode'
 
-export const EMAIL_FROM = process.env.EMAIL_FROM || 'tend@n8builds.dev'
-
 export interface OutgoingEmail {
   to: string
   subject: string
   text: string
   html: string
+  /** Idempotency key: the same key never sends twice. */
+  key: string
 }
 
-interface EmailBinding {
-  send(message: {
+export type EmailKind = 'signin' | 'reminder'
+
+export type SendOutcome =
+  | { ok: true }
+  | { ok: false; code: string; /** Worth trying again later (a cap that resets). */ retryable: boolean }
+
+interface MailroomBinding {
+  send(request: {
+    kind: EmailKind
     to: string
-    from: { email: string; name: string }
     subject: string
     text: string
     html: string
-  }): Promise<{ messageId?: string }>
+    fromName?: string
+    key?: string
+  }): Promise<{ ok: true } | { ok: false; code: string; retryable?: boolean }>
 }
 
-function binding(): EmailBinding | undefined {
+function binding(): MailroomBinding | undefined {
   try {
-    return (getCloudflareContext().env as { EMAIL?: EmailBinding }).EMAIL
+    return (getCloudflareContext().env as { MAILROOM?: MailroomBinding }).MAILROOM
   } catch {
     return undefined
   }
@@ -45,22 +55,32 @@ export function mailFileName(address: string): string {
   return `${address.toLowerCase().replace(/[^a-z0-9@._-]/g, '_')}.jsonl`
 }
 
-export async function sendEmail(message: OutgoingEmail): Promise<boolean> {
+/** Never throws for a refused send; a refusal is not retried here. */
+export async function sendEmail(kind: EmailKind, message: OutgoingEmail): Promise<SendOutcome> {
   if (isTestMode()) {
     const { appendFile, mkdir } = await import('node:fs/promises')
     const { join } = await import('node:path')
     const dir = process.env.E2E_EMAIL_DIR || join(process.cwd(), '.e2e', 'email')
     await mkdir(dir, { recursive: true })
     await appendFile(join(dir, mailFileName(message.to)), `${JSON.stringify(message)}\n`, 'utf8')
-    return true
+    return { ok: true }
   }
-  const email = binding()
-  if (!email) {
-    if (process.env.NODE_ENV === 'development') console.info(`[email not configured] ${message.subject}\n${message.text}`)
-    return false
+  const mailroom = binding()
+  if (!mailroom) {
+    if (process.env.NODE_ENV === 'development') console.info(`[mailroom not bound] ${message.subject}\n${message.text}`)
+    return { ok: false, code: 'not_configured', retryable: false }
   }
-  await email.send({ ...message, from: { email: EMAIL_FROM, name: 'Tend' } })
-  return true
+  const result = await mailroom.send({ kind, ...message, fromName: 'Tend' })
+  if (result.ok) return { ok: true }
+  const retryable = result.retryable === true || result.code.startsWith('cap_') || result.code === 'rate_limited'
+  console.warn(`[mailroom refused] ${kind}: ${result.code}`)
+  return { ok: false, code: result.code, retryable }
+}
+
+/** A short stable idempotency key from parts. */
+export async function emailKey(...parts: string[]): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts.join('|')))
+  return Array.from(new Uint8Array(digest).slice(0, 12), (b) => b.toString(16).padStart(2, '0')).join('')
 }
 
 function escapeHtml(value: string): string {

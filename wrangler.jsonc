@@ -15,11 +15,13 @@
   "preview_urls": false,
   "routes": [{ "pattern": "tend.n8builds.dev", "custom_domain": true }],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
-  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "tend" }],
-  // Sign-in links and reminders through Cloudflare Email Service; n8builds.dev
-  // is onboarded for sending, so there is no API key. The binding may send
-  // from this one address only.
-  "send_email": [{ "name": "EMAIL", "allowed_sender_addresses": ["tend@n8builds.dev"] }],
+  "services": [
+    { "binding": "WORKER_SELF_REFERENCE", "service": "tend" },
+    // Every email (sign-in links, reminders) goes through the shared mailroom,
+    // which counts it against the account-wide Cloudflare Email cap. Tend's
+    // caps there: 30 a day, 150 a month, 8 per recipient a day.
+    { "binding": "MAILROOM", "service": "mailroom", "entrypoint": "Mailroom", "props": { "app": "tend" } }
+  ],
   // The reminder run (lib/server/reminders.ts).
   "triggers": { "crons": ["*/15 * * * *"] },
   "vars": {

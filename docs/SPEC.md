@@ -22,7 +22,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ### MVP (milestone 1)
 
-- Sign in with an email link (Cloudflare Email Service) or GitHub (when configured), Turnstile on the email form when configured.
+- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured), Turnstile on the email form when configured.
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
 - A curated content library of about 40 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.
@@ -51,7 +51,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
                     ├─ Next.js 16 App Router via OpenNext (pages, server actions, /api)
                     ├─ scheduled(): Cron Trigger "*/15 * * * *" -> /api/cron/reminders (in-process)
-                    ├─ EMAIL: send_email binding, from tend@n8builds.dev
+                    ├─ MAILROOM: service binding to the shared mailroom
                     └─ Turso (libSQL) over HTTPS via Drizzle
 ```
 
@@ -59,7 +59,7 @@ browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
   `worker/index.ts` wraps the OpenNext handler and adds `scheduled()`.
 - **Database:** Turso database `tend` in group `default`, Drizzle ORM, SQL migrations in `db/migrations` applied by `scripts/migrate.mjs`.
 - **Auth:** Auth.js v5, database sessions, Drizzle adapter.
-- **Email:** Cloudflare Email Service binding `EMAIL`, sender `tend@n8builds.dev`.
+- **Email:** every message goes through the shared mailroom service binding `MAILROOM` (entrypoint `Mailroom`, app `tend`), which counts it against the account-wide Cloudflare Email cap. Its caps for Tend: 30 a day, 150 a month, 8 per recipient a day. A refused send (over a cap, suppressed) is a failure and is not retried; reminders hand the claim back when the refusal is a cap that resets. Tests and local dev have no binding: test mode writes to an outbox directory instead. Tend keeps its own site-wide daily caps low (10 sign-in, 10 reminders); the e2e server raises them through env overrides, never the defaults.
 - **Styling:** Tailwind CSS v4, system font stack, CSS variables for light and dark.
 - **Validation:** zod on every server action and route input.
 

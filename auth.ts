@@ -1,5 +1,5 @@
 /**
- * Auth.js (v5): email magic links through Cloudflare Email Service, and GitHub
+ * Auth.js (v5): email magic links through the shared mailroom, and GitHub
  * when AUTH_GITHUB_ID and AUTH_GITHUB_SECRET are set. Database sessions in
  * Turso, so session.user.id is the id every query is scoped by.
  *
@@ -15,7 +15,7 @@ import type { Provider } from 'next-auth/providers'
 
 import { db } from '@/db'
 import { accounts, sessions, users, verificationTokens } from '@/db/schema'
-import { layout, sendEmail } from '@/lib/server/email'
+import { emailKey, layout, sendEmail } from '@/lib/server/email'
 
 export function githubConfigured(): boolean {
   return Boolean(process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET)
@@ -31,7 +31,8 @@ function EmailLink(): Provider {
     maxAge: 60 * 60,
     options: {},
     async sendVerificationRequest({ identifier, url }) {
-      const sent = await sendEmail({
+      const sent = await sendEmail('signin', {
+        key: `signin-${await emailKey(url)}`,
         to: identifier,
         subject: 'Your sign-in link for Tend',
         text: `Sign in to Tend:\n\n${url}\n\nThe link works once and expires in an hour. If you didn't ask for it, you can ignore this email.`,
@@ -42,7 +43,7 @@ function EmailLink(): Provider {
           footer: "If you didn't ask for this, you can ignore this email; nobody can sign in without it.",
         }),
       })
-      if (!sent) throw new Error('Email is not configured')
+      if (!sent.ok) throw new Error(`Sign-in email not sent (${sent.code})`)
     },
   }
 }

@@ -35,7 +35,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to suggest more.
 
 ## Stack
 
-Next.js 16 on Cloudflare Workers (OpenNext), Auth.js email magic links through Cloudflare Email Service (and optional GitHub), Turso (libSQL) with Drizzle, Tailwind CSS 4, a Cron Trigger every 15 minutes for reminders, and Cloudflare Turnstile on sign-in.
+Next.js 16 on Cloudflare Workers (OpenNext), Auth.js email magic links sent through the shared mailroom (account-wide email cap; Tend: 30 a day, 150 a month, 8 per recipient a day) and optional GitHub, Turso (libSQL) with Drizzle, Tailwind CSS 4, a Cron Trigger every 15 minutes for reminders, and Cloudflare Turnstile on sign-in.
 The design is in [docs/SPEC.md](docs/SPEC.md).
 
 ## Development
@@ -67,7 +67,7 @@ Sign in with any address; the link is in `.e2e/email/<address>.jsonl`.
 ## Deploying your own
 
 1. Create a Turso database and apply the migrations: `TURSO_DATABASE_URL=... TURSO_AUTH_TOKEN=... node scripts/migrate.mjs`.
-2. Change `name`, `routes`, `account_id`, `vars` and the sender address in `wrangler.jsonc` (the sending domain must be onboarded to Cloudflare Email Service).
+2. Change `name`, `routes`, `account_id`, `vars` and the `MAILROOM` service binding in `wrangler.jsonc` (a deployed mailroom Worker that allows your app name; Tend sends nothing without it).
 3. Set the Worker secrets with `wrangler secret put`: `AUTH_SECRET`, `DATA_ENCRYPTION_KEY` (a random string of 32 or more characters), `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, and optionally `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`.
 4. `npm run deploy`.
 
