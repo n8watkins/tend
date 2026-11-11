@@ -60,5 +60,10 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "overrides": {
+    "@node-minify/core": {
+      "glob": "^10.5.0"
+    }
   }
 }
