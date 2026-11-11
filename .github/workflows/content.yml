@@ -1,0 +1,24 @@
+# Checks content/library.json against its sources whenever the library
+# changes: every passage is fetched again from bible-api.com and every quote
+# is found word for word in its Project Gutenberg text (scripts/build-library.mjs).
+name: Content
+
+on:
+  pull_request:
+    paths: ['content/**', 'scripts/build-library.mjs']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify the library
+        run: node scripts/build-library.mjs --check

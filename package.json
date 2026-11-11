@@ -1,0 +1,60 @@
+{
+  "name": "tend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Thoughtful messages for the people you care about, for Signal.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 7841",
+    "build": "next build",
+    "start": "next start -p 7841",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "build:worker": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "check:deploy": "wrangler deploy --dry-run",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv --strict-vars=false --include-runtime=false cloudflare-env.d.ts && wrangler types --include-env=false worker/runtime.d.ts",
+    "check:cf-types": "wrangler types --env-interface CloudflareEnv --strict-vars=false --include-runtime=false cloudflare-env.d.ts --check && wrangler types --include-env=false worker/runtime.d.ts --check",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node scripts/migrate.mjs",
+    "content:scripture": "node scripts/fetch-scripture.mjs",
+    "content:verify": "node scripts/verify-quotes.mjs"
+  },
+  "dependencies": {
+    "@auth/drizzle-adapter": "^1.11.2",
+    "@libsql/client": "^0.17.4",
+    "drizzle-orm": "^0.45.2",
+    "next": "^16.4.3",
+    "next-auth": "5.0.0-beta.32",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@eslint/js": "^9.38.0",
+    "@opennextjs/cloudflare": "1.20.15",
+    "@playwright/test": "1.65.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^16.4.3",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2",
+    "vitest": "^4.0.0",
+    "wrangler": "4.157.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
