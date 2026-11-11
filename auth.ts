@@ -1,6 +1,7 @@
 /**
  * Auth.js (v5): email magic links through the shared mailroom, and GitHub
- * when AUTH_GITHUB_ID and AUTH_GITHUB_SECRET are set. Database sessions in
+ * when AUTH_GITHUB_ID and AUTH_GITHUB_SECRET are set (lib/github-auth: linked
+ * to the same account by verified email). Database sessions in
  * Turso, so session.user.id is the id every query is scoped by.
  *
  * Email sign-in only starts from the sign-in action (app/signin/actions.ts),
@@ -10,16 +11,14 @@
 
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import NextAuth from 'next-auth'
-import GitHub from 'next-auth/providers/github'
 import type { Provider } from 'next-auth/providers'
 
 import { db } from '@/db'
 import { accounts, sessions, users, verificationTokens } from '@/db/schema'
+import { githubConfigured, githubProvider, githubSignInAllowed } from '@/lib/github-auth'
 import { emailKey, layout, sendEmail } from '@/lib/server/email'
 
-export function githubConfigured(): boolean {
-  return Boolean(process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET)
-}
+export { githubConfigured }
 
 function EmailLink(): Provider {
   return {
@@ -48,7 +47,9 @@ function EmailLink(): Provider {
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+// A function, so the providers are chosen per request from the Worker's
+// secrets rather than once at module load.
+export const { handlers, auth, signIn, signOut } = NextAuth(() => ({
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
@@ -60,15 +61,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: { signIn: '/signin', verifyRequest: '/signin/check-email', error: '/signin' },
   providers: [
     EmailLink(),
-    ...(githubConfigured()
-      ? [
-          // No automatic linking to an email account with the same address:
-          // GitHub can report an unverified address.
-          GitHub({ authorization: { params: { scope: 'read:user user:email' } } }),
-        ]
-      : []),
+    ...(githubConfigured() ? [githubProvider()] : []),
   ],
   callbacks: {
+    signIn({ account, user }) {
+      return githubSignInAllowed(account?.provider, user.email) ? true : '/signin?error=GitHubEmail'
+    },
     session({ session, user }) {
       if (session.user) session.user.id = user.id
       return session
@@ -82,4 +80,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     warn() {},
     debug() {},
   },
-})
+}))

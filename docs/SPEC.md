@@ -22,7 +22,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ### MVP (milestone 1)
 
-- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured), Turnstile on the email form when configured.
+- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured; linked to the same account by the GitHub account's verified email), Turnstile on the email form when configured.
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
 - A curated content library of about 65 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.

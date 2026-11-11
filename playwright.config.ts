@@ -21,6 +21,9 @@ export const E2E_ENV = {
   // Test-only: the suite signs in far more often than the production caps allow.
   SIGNIN_SITE_DAILY: '1000',
   REMINDER_EMAILS_DAILY: '1000',
+  // Dummy GitHub OAuth app, so the GitHub button shows; the test stops at github.com.
+  AUTH_GITHUB_ID: 'e2e-github-client-id',
+  AUTH_GITHUB_SECRET: 'e2e-github-client-secret',
 }
 
 export default defineConfig({

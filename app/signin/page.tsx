@@ -15,7 +15,8 @@ export const metadata: Metadata = { title: 'Sign in' }
 
 const ERRORS: Record<string, string> = {
   Verification: 'That sign-in link has expired or was already used. Ask for a new one below.',
-  OAuthAccountNotLinked: 'That email already signs in with an email link. Use the email form below.',
+  OAuthAccountNotLinked: 'That GitHub account is linked to a different Tend account. Use the email form below.',
+  GitHubEmail: 'Your GitHub account has no verified email address, so Tend cannot link it. Verify one on GitHub, or use the email form below.',
   AccessDenied: 'Sign-in was refused.',
 }
 
