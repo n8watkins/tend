@@ -71,6 +71,13 @@ Sign in with any address; the link is in `.e2e/email/<address>.jsonl`.
 3. Set the Worker secrets with `wrangler secret put`: `AUTH_SECRET`, `DATA_ENCRYPTION_KEY` (a random string of 32 or more characters), `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, and optionally `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`.
 4. `npm run deploy`.
 
+### Sign in with GitHub (optional)
+
+Create a GitHub OAuth app (GitHub, Settings, Developer settings, OAuth Apps) with your site as the homepage URL and `https://<your domain>/api/auth/callback/github` as the callback URL.
+Set its client ID and a new client secret as the Worker secrets `AUTH_GITHUB_ID` and `AUTH_GITHUB_SECRET`.
+The "Continue with GitHub" button appears once both are set, and is hidden otherwise.
+A GitHub sign-in uses the account's verified email address, so it opens the same Tend account as an email link to that address; a GitHub account with no verified email is refused.
+
 ## Licence
 
 [MIT](LICENSE). A project by [n8builds.dev](https://n8builds.dev).

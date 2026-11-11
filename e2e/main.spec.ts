@@ -177,3 +177,21 @@ test('the sign-in page still works on its own, for links and without the dialog'
   await expect(page.getByRole('heading', { name: 'Sign in to Tend' })).toBeVisible()
   await expect(page.getByRole('dialog')).toHaveCount(0)
 })
+
+test('with GitHub configured, the dialog offers it and starts GitHub sign-in with the right callback', async ({ page }) => {
+  let authorize: URL | undefined
+  await page.route('https://github.com/**', (route) => {
+    authorize = new URL(route.request().url())
+    return route.fulfill({ status: 200, contentType: 'text/plain', body: 'GitHub (stubbed)' })
+  })
+  await page.goto('/')
+  await page.getByRole('banner').getByRole('link', { name: 'Sign in' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Welcome to Tend' })
+  await dialog.getByRole('button', { name: 'Continue with GitHub' }).click()
+  await expect(page.getByText('GitHub (stubbed)')).toBeVisible()
+  expect(authorize?.pathname).toBe('/login/oauth/authorize')
+  expect(authorize?.searchParams.get('client_id')).toBe('e2e-github-client-id')
+  expect(authorize?.searchParams.get('scope')).toBe('read:user user:email')
+  expect(authorize?.searchParams.get('redirect_uri')).toMatch(/\/api\/auth\/callback\/github$/)
+})
+
