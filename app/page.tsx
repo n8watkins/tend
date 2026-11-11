@@ -61,7 +61,7 @@ function demoItem(item: ContentItem): DemoItem {
 const PROMISES = [
   { title: 'You send every message', body: 'Tend never logs in to Signal and never sends anything for you. Your words come from you, in your own chat.', icon: 'M4 12h11M11 6l6 6-6 6M20 5v14' },
   { title: 'Consent first', body: 'Only people who said yes get passages. Every message can carry a link to stop them, and Tend honours it at once.', icon: 'M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4' },
-  { title: 'Verified words', body: 'Bible passages in the public-domain WEB and KJV, and quotes checked word for word against their original source.', icon: 'M5 4h9a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4V4Zm4 4h5M9 12h5' },
+  { title: 'Verified words', body: 'Bible passages in eight public-domain translations, from the WEB and KJV to the Berean Standard Bible, and quotes checked word for word against their source.', icon: 'M5 4h9a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4V4Zm4 4h5M9 12h5' },
   { title: 'Very little data', body: 'A name is all Tend needs. Phone numbers and notes are optional and encrypted, and you can export or delete everything.', icon: 'M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6zM12 15v2' },
 ]
 
@@ -74,7 +74,7 @@ const QUESTIONS = [
   { q: 'Is it free?', a: 'Yes. Tend is free and open source under the MIT licence, and the code is on GitHub.' },
   {
     q: 'Where do the verses and quotes come from?',
-    a: 'A small library chosen by hand: Bible passages in the public-domain World English Bible and King James Version, and quotes from public-domain works such as Marcus Aurelius, Emerson and Thoreau, each checked against its source.',
+    a: 'A small library chosen by hand: Bible passages in eight public-domain translations (you choose yours, and can pick one per person), and quotes from public-domain works such as Marcus Aurelius, Emerson and Thoreau, each checked against its source.',
   },
 ]
 
@@ -140,7 +140,7 @@ export default async function Home() {
                     <Avatar key={p.name} person={p} className="size-8 ring-2 ring-bg" eager />
                   ))}
                 </span>
-                <span>No passwords. Nothing sent for you. WEB and KJV, checked word for word.</span>
+                <span>No passwords. Nothing sent for you. Eight Bible translations, checked word for word.</span>
               </div>
             </div>
             <HeroStage passage={clean(hero.text.web)} reference={hero.reference} />

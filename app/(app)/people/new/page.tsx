@@ -18,6 +18,7 @@ export default async function NewContactPage() {
       <ContactForm
         action={createContact}
         isNew
+        defaultTranslation={settings.translation}
         timezones={timeZoneOptions(settings.timezone)}
         initial={{
           name: '',
@@ -31,6 +32,7 @@ export default async function NewContactPage() {
           windowEnd: 20 * 60,
           allowedDays: 127,
           notes: '',
+          translation: '',
         }}
       />
     </>

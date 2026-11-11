@@ -1,0 +1,1 @@
+ALTER TABLE `contact` ADD `translation` text;

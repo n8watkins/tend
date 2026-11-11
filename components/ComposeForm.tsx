@@ -4,6 +4,8 @@ import { useActionState, useMemo, useState } from 'react'
 
 import { scheduleMessage, type FormState } from '@/app/(app)/actions'
 import type { MessageKind, Translation } from '@/lib/enums'
+
+import { TranslationOptions } from './TranslationOptions'
 import { buildBody, MAX_BODY } from '@/lib/format'
 import type { ContentItem } from '@/lib/item'
 
@@ -94,8 +96,7 @@ export function ComposeForm(props: ComposeProps) {
               Translation
             </label>
             <select id="translation" name="translation" value={translation} onChange={(e) => setTranslation(e.target.value as Translation)} className="input">
-              <option value="web">World English Bible (modern English)</option>
-              <option value="kjv">King James Version</option>
+              <TranslationOptions />
             </select>
           </div>
         ) : (

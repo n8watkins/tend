@@ -219,7 +219,7 @@ export default async function ContactPage({
               {suggestions.map((item) => (
                 <li key={item.id} className="card">
                   <p className="text-sm font-semibold">{itemHeading(item)}</p>
-                  <p className="passage mt-2 line-clamp-4">{itemText(item, settings.translation)}</p>
+                  <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                     <span className="flex flex-wrap gap-1">
                       {item.topics.map((t) => (

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { citation, getItem, itemText, itemTitle, LIBRARY } from '@/lib/content'
+import { TRANSLATIONS } from '@/lib/enums'
 import { buildBody, consentRequestBody, normalizePhone, signalChatUrl } from '@/lib/format'
 import { suggest, surprise } from '@/lib/suggest'
 import { DAY } from '@/lib/time'
@@ -18,10 +19,11 @@ describe('the library', () => {
       for (const t of item.topics) expect(TOPIC_SLUGS).toContain(t)
       expect(item.context.length).toBeGreaterThan(10)
       if (item.kind === 'scripture') {
-        expect(item.text.web.length).toBeGreaterThan(10)
-        expect(item.text.kjv.length).toBeGreaterThan(10)
-        expect(item.readingUrl.web).toMatch(/^https:\/\//)
-        expect(item.sourceUrl.kjv).toMatch(/^https:\/\//)
+        for (const t of TRANSLATIONS) {
+          expect(item.text[t]?.length ?? 0, `${item.id} ${t}`).toBeGreaterThan(10)
+          expect(item.sourceUrl[t]).toMatch(new RegExp(`^https://bible-api\\.com/[^?]+\\?translation=${t}$`))
+          expect(item.readingUrl[t]).toMatch(/^https:\/\/(www\.biblegateway\.com\/passage\/\?search=|ebible\.org\/[\w-]+\/[1-3A-Z]{3}\d{2,3}\.htm$)/)
+        }
       } else {
         expect(item.text.length).toBeGreaterThan(10)
         expect(item.sourceUrl).toMatch(/^https:\/\/www\.gutenberg\.org\//)
@@ -38,6 +40,11 @@ describe('the library', () => {
 
   it('formats citations', () => {
     expect(citation(getItem('psalm-23-1-4')!, 'web')).toBe('Psalm 23:1-4 (WEB)')
+    expect(citation(getItem('psalm-23-1-4')!, 'bsb')).toBe('Psalm 23:1-4 (BSB)')
+    expect(citation(getItem('psalm-23-1-4')!, 'darby')).toBe('Psalm 23:1-4 (Darby)')
+    expect(citation(getItem('psalm-23-1-4')!, 'dra')).toBe('Psalm 22:1-4 (DRA)')
+    const psalm = getItem('psalm-23-1-4')
+    expect(psalm?.kind === 'scripture' ? psalm.readingUrl.bsb : '').toBe('https://ebible.org/engbsb/PSA023.htm')
     expect(citation(getItem('aurelius-happy-life')!, 'kjv')).toBe('Marcus Aurelius, Meditations 7.67 (tr. George Long)')
     expect(citation(getItem('emerson-sincere')!, 'web')).toBe('Ralph Waldo Emerson, "Friendship"')
     expect(citation(getItem('thoreau-morning-star')!, 'web')).toBe('Henry David Thoreau, Walden, "Conclusion"')

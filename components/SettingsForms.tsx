@@ -5,6 +5,8 @@ import { useActionState } from 'react'
 import type { FormState } from '@/app/(app)/actions'
 import type { Translation } from '@/lib/enums'
 
+import { TranslationOptions } from './TranslationOptions'
+
 import { SubmitButton } from './SubmitButton'
 
 export function PreferencesForm({
@@ -40,8 +42,7 @@ export function PreferencesForm({
           Bible translation
         </label>
         <select id="translation" name="translation" defaultValue={translation} className="input">
-          <option value="web">World English Bible (modern English)</option>
-          <option value="kjv">King James Version</option>
+          <TranslationOptions />
         </select>
       </div>
       <label className="flex items-start gap-2">

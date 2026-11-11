@@ -62,6 +62,7 @@ const contactSchema = z.object({
   windowStart: z.string(),
   windowEnd: z.string(),
   notes: z.string().max(1000, 'Keep notes under 1,000 characters.').optional().default(''),
+  translation: z.union([z.enum(TRANSLATIONS), z.literal('')]).optional().default(''),
 })
 
 function parseContactForm(form: FormData) {
@@ -79,7 +80,7 @@ function parseContactForm(form: FormData) {
   if (!allowedDays) return { error: 'Pick at least one day.' } as const
   const topics = [...new Set(form.getAll('topics').map(String).filter(isTopic))]
   if (topics.length > MAX_TOPICS_PER_CONTACT) return { error: `Pick up to ${MAX_TOPICS_PER_CONTACT} topics.` } as const
-  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics } } as const
+  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics, translation: v.translation || null } } as const
 }
 
 export async function createContact(_prev: FormState, form: FormData): Promise<FormState> {
@@ -106,6 +107,7 @@ export async function createContact(_prev: FormState, form: FormData): Promise<F
     windowStart: v.windowStart,
     windowEnd: v.windowEnd,
     allowedDays: v.allowedDays,
+    translation: v.translation,
     stopToken: randomToken(),
     createdAt: now,
     updatedAt: now,
@@ -137,6 +139,7 @@ export async function updateContact(contactId: string, _prev: FormState, form: F
       windowStart: v.windowStart,
       windowEnd: v.windowEnd,
       allowedDays: v.allowedDays,
+      translation: v.translation,
       updatedAt: Date.now(),
     })
     .where(and(eq(contacts.id, contactId), eq(contacts.userId, user.id)))
@@ -234,7 +237,7 @@ export async function scheduleMessage(_prev: FormState, form: FormData): Promise
   const item = v.kind === 'content' ? getItem(v.contentId) : undefined
   if (v.kind === 'content' && !item) return { error: 'Choose something from the library.' }
   if (v.kind !== 'content' && !v.note.trim()) return { error: 'Write the message first.' }
-  const translation = v.translation ?? settings.translation
+  const translation = v.translation ?? contact.translation ?? settings.translation
   const stopUrl = v.stopLink === 'on' ? publicUrl(`/stop/${contact.stopToken}`) : undefined
   const body = buildBody({
     note: v.note,
