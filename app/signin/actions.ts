@@ -39,14 +39,20 @@ export async function emailSignIn(_prev: SignInState, form: FormData): Promise<S
   if (!(await spend(rules))) {
     return { error: 'Too many sign-in emails today. Please try again tomorrow, or use the newest link you have.' }
   }
+  let next: string
   try {
-    await signIn('email', { email: email.data, redirectTo: '/today' })
+    // redirect: false returns where Auth.js would go. A server-side signIn
+    // ignores pages.verifyRequest, so the app sends people to its own page.
+    next = await signIn('email', { email: email.data, redirectTo: '/today', redirect: false })
   } catch (error) {
     unstable_rethrow(error)
     console.error(JSON.stringify({ event: 'signin_email_failed', name: error instanceof AuthError ? error.type : 'Error' }))
     return { error: "We couldn't send the email just now. Please try again in a minute." }
   }
-  return undefined
+  if (typeof next === 'string' && next.includes('error=')) {
+    return { error: "We couldn't send the email just now. Please try again in a minute." }
+  }
+  redirect('/signin/check-email')
 }
 
 export async function githubSignIn(): Promise<void> {

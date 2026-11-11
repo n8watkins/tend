@@ -32,6 +32,7 @@ export async function signIn(page: Page, address: string) {
   await page.goto('/signin')
   await page.getByLabel('Email').fill(address)
   await page.getByRole('button', { name: 'Email me a sign-in link' }).click()
+  await expect(page).toHaveURL(/\/signin\/check-email$/)
   await expect(page.getByRole('heading', { name: 'Check your email' })).toBeVisible()
   let link: string | undefined
   await expect
