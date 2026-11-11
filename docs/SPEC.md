@@ -22,7 +22,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ### MVP (milestone 1)
 
-- Sign in with an email link (Cloudflare Email Service) or GitHub (when configured), Turnstile on the email form when configured.
+- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured), Turnstile on the email form when configured.
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
 - A curated content library of about 40 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.
@@ -51,7 +51,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
                     ├─ Next.js 16 App Router via OpenNext (pages, server actions, /api)
                     ├─ scheduled(): Cron Trigger "*/15 * * * *" -> /api/cron/reminders (in-process)
-                    ├─ EMAIL: send_email binding, from tend@n8builds.dev
+                    ├─ MAILROOM: service binding to the shared mailroom
                     └─ Turso (libSQL) over HTTPS via Drizzle
 ```
 
@@ -59,7 +59,7 @@ browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
   `worker/index.ts` wraps the OpenNext handler and adds `scheduled()`.
 - **Database:** Turso database `tend` in group `default`, Drizzle ORM, SQL migrations in `db/migrations` applied by `scripts/migrate.mjs`.
 - **Auth:** Auth.js v5, database sessions, Drizzle adapter.
-- **Email:** Cloudflare Email Service binding `EMAIL`, sender `tend@n8builds.dev`.
+- **Email:** every message goes through the shared mailroom service binding `MAILROOM` (entrypoint `Mailroom`, app `tend`), which counts it against the account-wide Cloudflare Email cap. Its caps for Tend: 30 a day, 150 a month, 8 per recipient a day. A refused send (over a cap, suppressed) is a failure and is not retried; reminders hand the claim back when the refusal is a cap that resets. Tests and local dev have no binding: test mode writes to an outbox directory instead. Tend keeps its own site-wide daily caps low (10 sign-in, 10 reminders); the e2e server raises them through env overrides, never the defaults.
 - **Styling:** Tailwind CSS v4, system font stack, CSS variables for light and dark.
 - **Validation:** zod on every server action and route input.
 
@@ -279,7 +279,7 @@ The run:
 1. Selects messages with `status = 'scheduled'`, `scheduledFor <= now`, `remindedAt IS NULL`, whose user has `emailReminders` on and no `pausedAt`, and whose contact still allows sending.
 2. Groups them by user; for each user (up to 100 users a run):
    - claims the rows with `UPDATE message SET remindedAt = now WHERE id IN (...) AND remindedAt IS NULL` and continues only with the rows it claimed, so overlapping runs cannot email twice;
-   - spends from the per-user daily cap (6) and the site-wide daily cap (`REMINDER_EMAILS_DAILY`, default 80);
+   - spends from the per-user daily cap (6) and the site-wide daily cap (`REMINDER_EMAILS_DAILY`, default 10);
    - sends one email: "Time to send a message to Sam" (or "3 messages are due"), each with a link to its send screen.
 3. A message whose contact has become `no` or `stopped` is set to `canceled` instead.
 
@@ -303,7 +303,7 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 - **Isolation:** every query is scoped by `userId`; a helper `requireUser()` returns the id or redirects; contact and message lookups use `(id, userId)`.
 - **Encryption:** `lib/crypto.ts` encrypts `phone` and `notes` with AES-256-GCM via WebCrypto; key derived with HKDF-SHA-256 from the `DATA_ENCRYPTION_KEY` secret (a random string of 32 or more characters); each value is `v1.<iv>.<ciphertext>`; a key version prefix allows rotation.
 - **Headers:** CSP with per-request nonce (scripts from self and `challenges.cloudflare.com` only), `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, HSTS, `Permissions-Policy` denying camera, microphone and geolocation.
-- **Abuse:** Turnstile on the email sign-in form when both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set as Worker settings (skipped otherwise, so turning it on needs no rebuild); the Auth.js route refuses a direct POST to `/api/auth/signin/email`, so every email link goes through that check; sign-in emails at most 5 per address and 20 per IP a day, and 300 a day site-wide; reminder emails as in section 8.
+- **Abuse:** Turnstile on the email sign-in form when both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set as Worker settings (skipped otherwise, so turning it on needs no rebuild); the Auth.js route refuses a direct POST to `/api/auth/signin/email`, so every email link goes through that check; sign-in emails at most 5 per address and 20 per IP a day, and 10 a day site-wide (until Tend sends through the mailroom with a monthly slice); reminder emails as in section 8.
 - **Stop tokens:** 256-bit random, compared by exact lookup; rate-limited by Cloudflare's default protections.
 - **Logging:** structured JSON logs with ids and outcomes only; never names, numbers, notes, message bodies or emails.
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
@@ -319,8 +319,8 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 | Topics per contact | 6 |
 | Message body | 2,000 characters |
 | Notes | 1,000 characters |
-| Sign-in emails | 5 per address, 20 per IP, 300 site-wide, per UTC day |
-| Reminder emails | 6 per user, 80 site-wide, per UTC day |
+| Sign-in emails | 5 per address, 20 per IP, 10 site-wide, per UTC day |
+| Reminder emails | 6 per user, 10 site-wide, per UTC day |
 
 ## 12. Tests
 

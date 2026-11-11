@@ -19,7 +19,7 @@ import { db } from '@/db'
 import { contacts, messages, userSettings, users } from '@/db/schema'
 import { REMINDERS_PER_USER_DAILY, REMINDERS_SITE_DAILY } from '@/lib/limits'
 import { allowedKinds } from '@/lib/schedule'
-import { layout, sendEmail } from '@/lib/server/email'
+import { emailKey, layout, sendEmail } from '@/lib/server/email'
 import { pruneLimits, readLimit, spend } from '@/lib/server/limits'
 import { publicUrl } from '@/lib/url'
 
@@ -97,7 +97,17 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
       result.capped++
       continue
     }
-    await sendEmail(reminderEmail(user.email, items))
+    const sent = await sendEmail('reminder', {
+      ...reminderEmail(user.email, items),
+      key: `reminder-${await emailKey(...[...claimedIds].sort())}`,
+    })
+    if (!sent.ok) {
+      // Refused by the mailroom (over a cap, suppressed, ...): not retried in
+      // this run. Hand the claim back only when a later run can succeed.
+      if (sent.retryable) await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
+      result.capped++
+      continue
+    }
     result.emailed++
   }
 
