@@ -1,9 +1,31 @@
 import type { Metadata, Viewport } from 'next'
+import localFont from 'next/font/local'
 
 import { TimezoneCookie } from '@/components/TimezoneCookie'
 import { siteUrl } from '@/lib/url'
 
 import './globals.css'
+
+// Fonts are bundled (variable, Latin subset, from @fontsource-variable; OFL,
+// see app/fonts/*-OFL.txt): Inter for the n8builds family look, Fraunces for
+// headings and passages. The CSP allows fonts from 'self' only.
+const sans = localFont({
+  src: './fonts/inter-latin-wght-normal.woff2',
+  weight: '100 900',
+  display: 'swap',
+  variable: '--font-inter',
+  fallback: ['system-ui', 'arial'],
+})
+const display = localFont({
+  src: [
+    { path: './fonts/fraunces-latin-wght-normal.woff2', style: 'normal' },
+    { path: './fonts/fraunces-latin-wght-italic.woff2', style: 'italic' },
+  ],
+  weight: '100 900',
+  display: 'swap',
+  variable: '--font-fraunces',
+  fallback: ['Georgia', 'serif'],
+})
 
 const description =
   'Stay close to the people you care about. Tend suggests a verified Bible verse or quote that fits them, reminds you when it is time, and you send it yourself on Signal.'
@@ -29,17 +51,15 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f5f0' },
-    { media: '(prefers-color-scheme: dark)', color: '#111513' },
-  ],
+  themeColor: '#f7f5f0',
+  colorScheme: 'light',
   width: 'device-width',
   initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only-focusable btn btn-primary fixed top-2 left-2 z-50">
           Skip to content

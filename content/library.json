@@ -781,6 +781,212 @@
     ]
   },
   {
+    "id": "philippians-1-3",
+    "kind": "scripture",
+    "reference": "Philippians 1:3",
+    "text": {
+      "web": "I thank my God whenever I remember you,",
+      "kjv": "I thank my God upon every remembrance of you,"
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/Philippians%201%3A3?translation=web",
+      "kjv": "https://bible-api.com/Philippians%201%3A3?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=Philippians%201&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=Philippians%201&version=KJV"
+    },
+    "context": "Paul, writing from prison, tells his friends in Philippi that every memory of them makes him thankful.",
+    "topics": [
+      "gratitude",
+      "friendship"
+    ]
+  },
+  {
+    "id": "1-thessalonians-5-11",
+    "kind": "scripture",
+    "reference": "1 Thessalonians 5:11",
+    "text": {
+      "web": "Therefore exhort one another, and build each other up, even as you also do.",
+      "kjv": "Wherefore comfort yourselves together, and edify one another, even as also ye do."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=web",
+      "kjv": "https://bible-api.com/1%20Thessalonians%205%3A11?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20Thessalonians%205&version=KJV"
+    },
+    "context": "Paul asks a young church to keep encouraging one another and building each other up.",
+    "topics": [
+      "friendship",
+      "courage"
+    ]
+  },
+  {
+    "id": "galatians-6-2",
+    "kind": "scripture",
+    "reference": "Galatians 6:2",
+    "text": {
+      "web": "Bear one another’s burdens, and so fulfill the law of Christ.",
+      "kjv": "Bear ye one another’s burdens, and so fulfil the law of Christ."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/Galatians%206%3A2?translation=web",
+      "kjv": "https://bible-api.com/Galatians%206%3A2?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=Galatians%206&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=Galatians%206&version=KJV"
+    },
+    "context": "Carry each other's loads; that is how the law of Christ is lived out.",
+    "topics": [
+      "love",
+      "strength"
+    ]
+  },
+  {
+    "id": "romans-12-10",
+    "kind": "scripture",
+    "reference": "Romans 12:10",
+    "text": {
+      "web": "In love of the brothers be tenderly affectionate to one another; in honor preferring one another;",
+      "kjv": "Be kindly affectioned one to another with brotherly love; in honour preferring one another;"
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/Romans%2012%3A10?translation=web",
+      "kjv": "https://bible-api.com/Romans%2012%3A10?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=Romans%2012&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=Romans%2012&version=KJV"
+    },
+    "context": "Part of Paul's picture of real love in a community: warm affection, and honouring one another.",
+    "topics": [
+      "love",
+      "friendship"
+    ]
+  },
+  {
+    "id": "john-13-34-35",
+    "kind": "scripture",
+    "reference": "John 13:34-35",
+    "text": {
+      "web": "A new commandment I give to you, that you love one another. Just as I have loved you, you also love one another. By this everyone will know that you are my disciples, if you have love for one another.”",
+      "kjv": "A new commandment I give unto you, That ye love one another; as I have loved you, that ye also love one another. By this shall all men know that ye are my disciples, if ye have love one to another."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/John%2013%3A34-35?translation=web",
+      "kjv": "https://bible-api.com/John%2013%3A34-35?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=John%2013&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=John%2013&version=KJV"
+    },
+    "context": "At the last supper Jesus gives a new commandment: love one another as I have loved you.",
+    "topics": [
+      "love",
+      "purpose"
+    ]
+  },
+  {
+    "id": "1-john-4-7",
+    "kind": "scripture",
+    "reference": "1 John 4:7",
+    "text": {
+      "web": "Beloved, let us love one another, for love is of God; and everyone who loves has been born of God, and knows God.",
+      "kjv": "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/1%20John%204%3A7?translation=web",
+      "kjv": "https://bible-api.com/1%20John%204%3A7?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=1%20John%204&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=1%20John%204&version=KJV"
+    },
+    "context": "John writes that love comes from God, so everyone who loves has been born of God.",
+    "topics": [
+      "love"
+    ]
+  },
+  {
+    "id": "3-john-1-2",
+    "kind": "scripture",
+    "reference": "3 John 1:2",
+    "text": {
+      "web": "Beloved, I pray that you may prosper in all things and be healthy, even as your soul prospers.",
+      "kjv": "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/3%20John%201%3A2?translation=web",
+      "kjv": "https://bible-api.com/3%20John%201%3A2?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=3%20John%201&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=3%20John%201&version=KJV"
+    },
+    "context": "The elder John opens a letter to his dear friend Gaius with a prayer for his health and wellbeing.",
+    "topics": [
+      "hope",
+      "love"
+    ]
+  },
+  {
+    "id": "proverbs-27-9",
+    "kind": "scripture",
+    "reference": "Proverbs 27:9",
+    "text": {
+      "web": "Perfume and incense bring joy to the heart; so does earnest counsel from a man’s friend.",
+      "kjv": "Ointment and perfume rejoice the heart: so doth the sweetness of a man’s friend by hearty counsel."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/Proverbs%2027%3A9?translation=web",
+      "kjv": "https://bible-api.com/Proverbs%2027%3A9?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=Proverbs%2027&version=KJV"
+    },
+    "context": "A proverb comparing a friend's heartfelt counsel to perfume and oil that delight the heart.",
+    "topics": [
+      "friendship",
+      "joy"
+    ]
+  },
+  {
+    "id": "hebrews-10-24-25",
+    "kind": "scripture",
+    "reference": "Hebrews 10:24-25",
+    "text": {
+      "web": "Let us consider how to provoke one another to love and good works, not forsaking our own assembling together, as the custom of some is, but exhorting one another; and so much the more, as you see the Day approaching.",
+      "kjv": "And let us consider one another to provoke unto love and to good works: Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching."
+    },
+    "license": "public-domain",
+    "sourceUrl": {
+      "web": "https://bible-api.com/Hebrews%2010%3A24-25?translation=web",
+      "kjv": "https://bible-api.com/Hebrews%2010%3A24-25?translation=kjv"
+    },
+    "readingUrl": {
+      "web": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=WEB",
+      "kjv": "https://www.biblegateway.com/passage/?search=Hebrews%2010&version=KJV"
+    },
+    "context": "Keep thinking of ways to stir one another to love and good works, and keep meeting together.",
+    "topics": [
+      "friendship",
+      "courage"
+    ]
+  },
+  {
     "id": "aurelius-happy-life",
     "kind": "quote",
     "reference": "Meditations 7.67",

@@ -24,14 +24,14 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 - Sign in with an email link (sent through the shared mailroom) or GitHub (when configured), Turnstile on the email form when configured.
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
-- A curated content library of about 40 verified items across 16 topics.
+- A curated content library of about 65 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.
 - Compose and review: the exact outgoing text, with an optional personal note, citation, reading link and stop link.
 - Scheduling with reminders: pick a time (or "next good time"), get an in-app "Due now" item and an email at that time.
 - Send screen: copy, open the Signal chat, share (where supported), mark sent, skip, reschedule.
 - History per contact and overall; frequency caps and quiet hours enforced on the server.
 - Recipient stop page, global pause, data export, account deletion.
-- Privacy and terms pages, n8builds share card, light and dark themes, phone-first layout.
+- Privacy and terms pages, n8builds share card, a light theme only, phone-first layout.
 
 ### Later milestones
 
@@ -60,7 +60,7 @@ browser ──HTTPS──> Cloudflare Worker "tend" (tend.n8builds.dev)
 - **Database:** Turso database `tend` in group `default`, Drizzle ORM, SQL migrations in `db/migrations` applied by `scripts/migrate.mjs`.
 - **Auth:** Auth.js v5, database sessions, Drizzle adapter.
 - **Email:** every message goes through the shared mailroom service binding `MAILROOM` (entrypoint `Mailroom`, app `tend`), which counts it against the account-wide Cloudflare Email cap. Its caps for Tend: 30 a day, 150 a month, 8 per recipient a day. A refused send (over a cap, suppressed) is a failure and is not retried; reminders hand the claim back when the refusal is a cap that resets. Tests and local dev have no binding: test mode writes to an outbox directory instead. Tend keeps its own site-wide daily caps low (10 sign-in, 10 reminders); the e2e server raises them through env overrides, never the defaults.
-- **Styling:** Tailwind CSS v4, system font stack, CSS variables for light and dark.
+- **Styling:** Tailwind CSS v4, system font stack, CSS variables for one light theme.
 - **Validation:** zod on every server action and route input.
 
 ## 4. Data model
@@ -140,7 +140,7 @@ Indexes: `(status, scheduledFor)` for the cron, `(contactId, sentAt)` for caps a
 ## 5. Screens and routes
 
 Phone-first: a single column up to 640px, a bottom tab bar on phones (Today, People, Library, History) and a top bar on wider screens.
-Every page works in light and dark (follows the system), meets WCAG 2.2 AA contrast, has visible focus rings, and is usable by keyboard.
+Every page is light only (whatever the system setting), meets WCAG 2.2 AA contrast, has visible focus rings, and is usable by keyboard.
 
 | Route | Access | Purpose |
 | --- | --- | --- |
@@ -247,6 +247,9 @@ Ties break by a stable hash of `(contactId, itemId, ISO week)`, so suggestions v
 The top five are shown; "Browse library" shows the rest.
 A contact with no topics gets the most broadly tagged items.
 
+"Surprise me" (on the contact page) picks one item at random from the whole library, whatever their topics, with the same exclusions: nothing sent to them in the last 180 days and nothing already scheduled for them.
+It opens the pick in compose, where "Surprise me again" picks another (not the same one, when there is a choice).
+
 ## 8. Scheduling and reminders
 
 ### Choosing a time
@@ -325,7 +328,7 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 ## 12. Tests
 
 - **Unit (Vitest):** scheduling rules (`nextGoodTime`, caps, windows across DST and time zones), suggestion ranking, message formatting, consent transitions, encryption round trip, rate limits, library validity, cron claim logic against a local libSQL file.
-- **End to end (Playwright, Chromium, phone and desktop viewports):** sign in with the test-mode email provider (writes the link to a file); create a contact; ask consent and record yes; pick a suggestion, compose, schedule; run the cron route and see the reminder (test email sink); send screen copy and mark sent; caps refuse a too-soon message; recipient stop page stops and cancels; pause all; export; delete account; axe accessibility checks on every main page in light and dark.
+- **End to end (Playwright, Chromium, phone and desktop viewports):** sign in with the test-mode email provider (writes the link to a file); create a contact; ask consent and record yes; pick a suggestion, compose, schedule; run the cron route and see the reminder (test email sink); send screen copy and mark sent; caps refuse a too-soon message; recipient stop page stops and cancels; pause all; export; delete account; axe accessibility checks on every main page.
 - **CI:** lint, typecheck (app and worker), unit, Cloudflare build plus deploy dry run, e2e.
 
 ## 13. Deploy

@@ -49,6 +49,22 @@ test('ask first, record yes, choose a suggestion and schedule it', async ({ page
   await expect(page.getByText('That is too soon after another message to them.')).toBeVisible()
 })
 
+test('Surprise me opens a random passage for that person, and can pick again', async ({ page }, info) => {
+  await signIn(page, testEmail(info, 'surprise'))
+  await addPerson(page, { name: 'Ada', consent: 'yes', topics: ['Joy'] })
+  await expect(page.getByText('Picked for what Ada cares about: joy.')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Surprise me' }).click()
+  await expect(page).toHaveURL(/\/compose\?contact=[^&]+&content=[^&]+&surprise=1$/)
+  await expect(page.getByText('A surprise pick for Ada.')).toBeVisible()
+  const first = new URL(page.url()).searchParams.get('content')
+
+  await page.getByRole('button', { name: 'Surprise me again' }).click()
+  await expect(page).not.toHaveURL(new RegExp(`content=${first}&`))
+  await expect(page).toHaveURL(/surprise=1$/)
+  await expect(page.getByTestId('preview')).not.toBeEmpty()
+})
+
 test('a due message shows on Today and is emailed once by the reminder run', async ({ page }, info) => {
   const address = testEmail(info, 'remind')
   await signIn(page, address)
@@ -125,7 +141,7 @@ test('pause, export and delete the account', async ({ page }, info) => {
 
   await page.getByLabel('Type DELETE to delete your account and everything in it').fill('DELETE')
   await page.getByRole('button', { name: 'Delete my account' }).click()
-  await expect(page.getByRole('heading', { name: 'Stay close to the people you care about.' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Stay close to the people you love/ })).toBeVisible()
   await page.goto('/today')
   await expect(page).toHaveURL(/\/signin$/)
 })
@@ -135,4 +151,29 @@ test('signed-out visitors are sent to sign in, and direct email sign-in posts ar
   await expect(page).toHaveURL(/\/signin$/)
   const response = await page.request.post('/api/auth/signin/email', { form: { email: 'x@example.test' } })
   expect(response.status()).toBe(403)
+})
+
+test('every Sign in on the home page opens the sign-in dialog, and it signs you in', async ({ page }, info) => {
+  const address = testEmail(info, 'dialog')
+  await page.goto('/')
+  await page.getByRole('banner').getByRole('link', { name: 'Sign in' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Welcome to Tend' })
+  await expect(dialog).toBeVisible()
+  await expect(page).toHaveURL(/\/$/)
+  await expect(dialog.getByLabel('Email')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+
+  await page.getByRole('link', { name: 'Get started, free' }).click()
+  await expect(dialog).toBeVisible()
+  await dialog.getByLabel('Email').fill(address)
+  await dialog.getByRole('button', { name: 'Email me a sign-in link' }).click()
+  await expect(page).toHaveURL(/\/signin\/check-email$/)
+  await expect.poll(async () => (await emails(address)).length).toBe(1)
+})
+
+test('the sign-in page still works on its own, for links and without the dialog', async ({ page }) => {
+  await page.goto('/signin')
+  await expect(page.getByRole('heading', { name: 'Sign in to Tend' })).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
 })

@@ -26,13 +26,14 @@ import {
   type ConsentState,
   type MessageKind,
 } from '@/db/schema'
-import { getItem } from '@/lib/content'
+import { getItem, LIBRARY } from '@/lib/content'
 import { encrypt, randomToken } from '@/lib/crypto'
 import { buildBody, MAX_BODY, normalizePhone } from '@/lib/format'
 import { MAX_CONTACTS, MAX_OPEN_MESSAGES } from '@/lib/limits'
 import { checkTime, nextGoodTime, REFUSAL_TEXT, type ContactRules } from '@/lib/schedule'
 import {
   contactHistory,
+  contactMessages,
   countContacts,
   countScheduled,
   getContact,
@@ -41,6 +42,7 @@ import {
 } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
+import { surprise } from '@/lib/suggest'
 import { isTopic, MAX_TOPICS_PER_CONTACT } from '@/lib/topics'
 import { publicUrl } from '@/lib/url'
 
@@ -274,6 +276,28 @@ export async function scheduleMessage(_prev: FormState, form: FormData): Promise
   })
   revalidatePath('/today')
   redirect(v.when === 'now' ? `/send/${id}` : `/people/${contact.id}?done=scheduled`)
+}
+
+/**
+ * "Surprise me": a random passage or quote for this person, from the whole
+ * library, never one sent to them in the last 180 days or already scheduled.
+ * Opens it in compose, where they can send it or ask for another.
+ */
+export async function surpriseMe(contactId: string, form: FormData): Promise<void> {
+  const user = await requireUser()
+  const contact = await getContact(user.id, contactId)
+  if (!contact) redirect('/people')
+  if (contact.consent !== 'yes') redirect(`/people/${contact.id}`)
+  const history = await contactMessages(user.id, contact.id)
+  const avoid = form.get('avoid')
+  const pick = surprise(
+    LIBRARY,
+    history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status })),
+    Date.now(),
+    { avoid: typeof avoid === 'string' ? avoid : undefined },
+  )
+  if (!pick) redirect(`/people/${contact.id}?error=surprise`)
+  redirect(`/compose?contact=${contact.id}&content=${pick.id}&surprise=1`)
 }
 
 export async function markSent(messageId: string): Promise<void> {

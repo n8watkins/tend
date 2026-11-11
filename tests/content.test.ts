@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { citation, getItem, itemText, itemTitle, LIBRARY } from '@/lib/content'
 import { buildBody, consentRequestBody, normalizePhone, signalChatUrl } from '@/lib/format'
-import { suggest } from '@/lib/suggest'
+import { suggest, surprise } from '@/lib/suggest'
 import { DAY } from '@/lib/time'
 import { TOPIC_SLUGS } from '@/lib/topics'
 
@@ -122,5 +122,33 @@ describe('suggest', () => {
     const b = suggest(LIBRARY, 'c1', [{ topic: 'hope', weight: 2 }], [], now + 60_000)
     expect(a.map((i) => i.id)).toEqual(b.map((i) => i.id))
     expect(suggest(LIBRARY, 'c2', [], [], now).length).toBe(5)
+  })
+})
+
+describe('surprise', () => {
+  const now = Date.UTC(2026, 10, 10)
+  it('picks from the whole library, whatever the random number', () => {
+    const ids = new Set(LIBRARY.map((i) => i.id))
+    expect(ids.has(surprise(LIBRARY, [], now, { random: () => 0 })!.id)).toBe(true)
+    expect(ids.has(surprise(LIBRARY, [], now, { random: () => 0.999999 })!.id)).toBe(true)
+  })
+
+  it('still never repeats within 180 days or something already scheduled', () => {
+    const [keep, ...rest] = LIBRARY
+    const past = [
+      ...rest.slice(1).map((i) => ({ contentId: i.id, at: now - 179 * DAY, status: 'sent' as const })),
+      { contentId: rest[0]!.id, at: now + DAY, status: 'scheduled' as const },
+    ]
+    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, past, now, { random: () => r })!.id).toBe(keep!.id)
+    const all = [...past, { contentId: keep!.id, at: now - DAY, status: 'sent' as const }]
+    expect(surprise(LIBRARY, all, now)).toBeUndefined()
+    const later = all.map((m) => (m.status === 'sent' ? { ...m, at: now - 181 * DAY } : m))
+    expect(surprise(LIBRARY, later, now)).toBeDefined()
+  })
+
+  it('can stick to one kind and avoids the last surprise when it can', () => {
+    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, [], now, { kind: 'scripture', random: () => r })!.kind).toBe('scripture')
+    const first = surprise(LIBRARY, [], now, { random: () => 0 })!
+    expect(surprise(LIBRARY, [], now, { avoid: first.id, random: () => 0 })!.id).not.toBe(first.id)
   })
 })

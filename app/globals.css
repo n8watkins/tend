@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
-/* Colour tokens. Light by default, dark from the system setting. Every
-   text/background pair here meets WCAG AA contrast. */
+/* Colour tokens. Tend is light only. Every text/background pair here meets
+   WCAG AA contrast. */
 :root {
   --bg: #f7f5f0;
   --surface: #ffffff;
@@ -20,30 +20,13 @@
   --danger-soft: #f8e1df;
   --danger-ink: #85241f;
   --focus: #2f6b4f;
+  /* Warm accents for illustrations and highlights. */
+  --sun: #e9a23b;
+  --rose: #d8735f;
+  --sky: #5f93c4;
+  --glow: rgba(47, 107, 79, 0.16);
+  --glow-warm: rgba(233, 162, 59, 0.18);
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111513;
-    --surface: #181d1a;
-    --surface-2: #212823;
-    --ink: #e9eee9;
-    --muted: #a3ada6;
-    --line: #313a33;
-    --accent: #7fc29b;
-    --accent-hover: #95d0ad;
-    --accent-ink: #0d1a12;
-    --accent-soft: #1d3427;
-    --accent-soft-ink: #b6e3c7;
-    --warn-soft: #3a2616;
-    --warn-ink: #f3c79e;
-    --danger: #f19a92;
-    --danger-soft: #3a1c1a;
-    --danger-ink: #f6b8b1;
-    --focus: #95d0ad;
-    color-scheme: dark;
-  }
 }
 
 @theme inline {
@@ -62,8 +45,12 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-danger-ink: var(--danger-ink);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, ui-serif, serif;
+  --color-sun: var(--sun);
+  --color-rose: var(--rose);
+  --color-sky: var(--sky);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: var(--font-fraunces), 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, ui-serif, serif;
+  --font-display: var(--font-fraunces), Georgia, ui-serif, serif;
 }
 
 /* Element defaults go in the base layer so component classes (.btn on a
@@ -286,4 +273,65 @@
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* The sign-in dialog (components/SignIn.tsx), on every public page. */
+.signin-dialog {
+  margin: auto;
+  width: min(27rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 40px 90px -30px rgb(0 0 0 / 0.45);
+}
+.signin-dialog::backdrop {
+  background: rgb(12 18 15 / 0.5);
+  backdrop-filter: blur(6px);
+}
+.signin-dialog-body {
+  padding: 1.5rem;
+}
+@media (min-width: 640px) {
+  .signin-dialog-body {
+    padding: 2rem;
+  }
+}
+html:has(.signin-dialog[open]) {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .signin-dialog[open] {
+    animation: dialog-in 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .signin-dialog[open]::backdrop {
+    animation: backdrop-in 0.32s ease;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Round photo avatars (components/landing/People). */
+.avatar {
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--surface-2);
+}
+.avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

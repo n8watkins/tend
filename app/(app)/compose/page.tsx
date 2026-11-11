@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { ComposeForm } from '@/components/ComposeForm'
+import { SubmitButton } from '@/components/SubmitButton'
 import { PageTitle } from '@/components/ui'
 import { MESSAGE_KINDS, type MessageKind } from '@/lib/enums'
 import { getItem } from '@/lib/content'
@@ -13,12 +14,14 @@ import { getSettings, requireUser } from '@/lib/server/session'
 import { formatWhen, toLocalInput } from '@/lib/time'
 import { publicUrl } from '@/lib/url'
 
+import { surpriseMe } from '../actions'
+
 export const metadata: Metadata = { title: 'Compose' }
 
 export default async function ComposePage({
   searchParams,
 }: {
-  searchParams: Promise<{ contact?: string; content?: string; kind?: string }>
+  searchParams: Promise<{ contact?: string; content?: string; kind?: string; surprise?: string }>
 }) {
   const user = await requireUser()
   const params = await searchParams
@@ -73,6 +76,13 @@ export default async function ComposePage({
         title={title}
         subtitle={kind === 'consent_request' ? 'Edit it so it sounds like you.' : item ? item.context : undefined}
       />
+      {item && params.surprise && contact.consent === 'yes' ? (
+        <form action={surpriseMe.bind(null, contact.id)} className="mb-6 flex flex-wrap items-center gap-3">
+          <input type="hidden" name="avoid" value={item.id} />
+          <span className="text-sm text-muted">A surprise pick for {contact.name}.</span>
+          <SubmitButton className="btn btn-secondary btn-sm">Surprise me again</SubmitButton>
+        </form>
+      ) : null}
       {paused ? (
         <p className="notice notice-warn mb-6">Tend is paused. Resume it to schedule messages.</p>
       ) : null}
