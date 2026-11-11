@@ -78,6 +78,12 @@ Set its client ID and a new client secret as the Worker secrets `AUTH_GITHUB_ID`
 The "Continue with GitHub" button appears once both are set, and is hidden otherwise.
 A GitHub sign-in uses the account's verified email address, so it opens the same Tend account as an email link to that address; a GitHub account with no verified email is refused.
 
+### Telegram reminders (optional)
+
+Create a bot with [@BotFather](https://t.me/BotFather) (`/newbot`), then set its token as the Worker secret `TELEGRAM_BOT_TOKEN` and a random string of your own as `TELEGRAM_WEBHOOK_SECRET`.
+"Connect Telegram" then appears in Settings; the webhook and the bot's commands are registered on the first connect or the next cron run, and again whenever the token or secret change.
+Nothing is paid: it uses Telegram's free Bot API.
+
 ## Licence
 
 [MIT](LICENSE). A project by [n8builds.dev](https://n8builds.dev).

@@ -69,3 +69,23 @@ export async function runCron(page: Page) {
   expect(response.ok()).toBe(true)
   return response.json()
 }
+
+const TELEGRAM_LOG = join(process.cwd(), '.e2e', 'telegram.jsonl')
+
+/** Calls the app made to the mocked Telegram Bot API (e2e/telegram-mock.mjs). */
+export async function telegramCalls(): Promise<{ method: string; body: Record<string, unknown> }[]> {
+  try {
+    return (await readFile(TELEGRAM_LOG, 'utf8'))
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line))
+  } catch {
+    return []
+  }
+}
+
+/** Delivers an update to the app's webhook, as Telegram would. */
+export async function telegramUpdate(page: Page, update: unknown, secret = 'e2e-telegram-webhook-secret') {
+  return page.request.post('/api/telegram', { data: update, headers: { 'x-telegram-bot-api-secret-token': secret } })
+}

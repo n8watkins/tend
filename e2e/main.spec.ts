@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { addPerson, emails, runCron, signIn, testEmail } from './helpers'
+import { addPerson, emails, runCron, signIn, telegramCalls, telegramUpdate, testEmail } from './helpers'
 
 test.use({ timezoneId: 'UTC', permissions: ['clipboard-read', 'clipboard-write'] })
 
@@ -105,6 +105,69 @@ test('a due message shows on Today and is emailed once by the reminder run', asy
   expect(reminders).toHaveLength(1)
   expect(reminders[0]!.subject).toBe('Time to send a message to Ana')
   expect(reminders[0]!.text).toContain('/send/')
+})
+
+test('Telegram: connect with a one-time link, get the reminder with buttons, mark it sent, then /stop', async ({ page }, info) => {
+  const chat = { id: Date.now() + (info.project.name === 'phone' ? 1 : 2), type: 'private' }
+  const toChat = async () => (await telegramCalls()).filter((c) => c.method === 'sendMessage' && c.body.chat_id === String(chat.id))
+  await signIn(page, testEmail(info, 'telegram'))
+
+  // Settings opens the bot with a one-time code (t.me is stubbed).
+  let start: URL | undefined
+  await page.route('https://t.me/**', (route) => {
+    start = new URL(route.request().url())
+    return route.fulfill({ status: 200, contentType: 'text/plain', body: 'Telegram (stubbed)' })
+  })
+  await page.goto('/settings')
+  await page.getByRole('button', { name: 'Connect Telegram' }).click()
+  await expect(page.getByText('Telegram (stubbed)')).toBeVisible()
+  expect(start?.pathname).toBe('/tend_test_bot')
+  const code = start!.searchParams.get('start')!
+  expect(code).toMatch(/^[A-Za-z0-9_-]{20,64}$/)
+
+  // A wrong secret is refused; the right one links the chat, once.
+  expect((await telegramUpdate(page, { message: { chat, text: `/start ${code}` } }, 'wrong-secret')).status()).toBe(401)
+  expect((await telegramUpdate(page, { message: { chat, text: `/start ${code}` } })).ok()).toBe(true)
+  await expect.poll(async () => (await toChat()).at(-1)?.body.text).toContain('Connected to Tend')
+  await telegramUpdate(page, { message: { chat: { ...chat, id: chat.id + 10 }, text: `/start ${code}` } })
+  await page.goto('/settings')
+  await expect(page.getByText('Connected. Due reminders come to Telegram')).toBeVisible()
+
+  // A due message: the reminder carries the message and its buttons.
+  await addPerson(page, { name: 'Bea', consent: 'yes', topics: ['Hope'] })
+  await page.getByRole('link', { name: 'Write your own message' }).click()
+  await page.getByLabel('Your message').fill('Thinking of you today, Bea.')
+  await page.getByLabel(/Now, I.ll send it straight away/).check()
+  await page.getByRole('button', { name: 'Continue to send' }).click()
+  await expect(page).toHaveURL(/\/send\/[\w-]+$/)
+  const messageId = page.url().split('/').pop()!
+  // The send screen offers WhatsApp, a text message and Telegram too.
+  await page.getByText('Not on Signal? Send it another way').click()
+  await expect(page.getByRole('link', { name: 'WhatsApp' })).toHaveAttribute('href', /^https:\/\/wa\.me\/\?text=Thinking/)
+  await expect(page.getByRole('link', { name: 'Text message' })).toHaveAttribute('href', /^sms:\?&body=Thinking/)
+  await expect(page.getByRole('link', { name: 'Telegram' })).toHaveAttribute('href', /^https:\/\/t\.me\/share\/url\?url=Thinking/)
+
+  await runCron(page)
+  const reminder = (await toChat()).find((c) => String(c.body.text).startsWith('Time to message Bea.'))!
+  expect(reminder.body.text).toContain('Thinking of you today, Bea.')
+  const keyboard = (reminder.body.reply_markup as { inline_keyboard: { text: string; url?: string; callback_data?: string }[][] }).inline_keyboard
+  expect(keyboard.flat().map((b) => b.text)).toEqual(['Share', 'Open in Tend', 'I sent it', 'Snooze a day'])
+  expect(keyboard[0]![0]!.url).toMatch(/^https:\/\/t\.me\/share\/url\?url=Thinking/)
+  expect(keyboard[1]![0]!.callback_data).toBe(`sent:${messageId}`)
+
+  // "I sent it" in Telegram records the send in Tend.
+  const press = { callback_query: { id: 'cb1', data: `sent:${messageId}`, message: { message_id: 101, chat, text: reminder.body.text } } }
+  expect((await telegramUpdate(page, press)).ok()).toBe(true)
+  const calls = await telegramCalls()
+  expect(calls.find((c) => c.method === 'answerCallbackQuery' && c.body.callback_query_id === 'cb1')?.body.text).toBe('Marked as sent to Bea.')
+  await page.goto(`/send/${messageId}`)
+  await expect(page.getByRole('button', { name: 'I sent it' })).toHaveCount(0)
+
+  // /stop disconnects.
+  await telegramUpdate(page, { message: { chat, text: '/stop' } })
+  await expect.poll(async () => (await toChat()).at(-1)?.body.text).toContain('Disconnected')
+  await page.goto('/settings')
+  await expect(page.getByRole('button', { name: 'Connect Telegram' })).toBeVisible()
 })
 
 test('the recipient stop link stops and cancels everything', async ({ page, browser }, info) => {

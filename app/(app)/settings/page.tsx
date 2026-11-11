@@ -4,15 +4,16 @@ import { DeleteAccountForm, PreferencesForm } from '@/components/SettingsForms'
 import { SubmitButton } from '@/components/SubmitButton'
 import { Done, PageTitle, Section } from '@/components/ui'
 import { getSettings, requireUser } from '@/lib/server/session'
+import { telegramConfigured } from '@/lib/server/telegram'
 import { timeZoneOptions } from '@/lib/timezones'
 
-import { deleteAccount, setPaused, signOutAction, updateSettings } from '../actions'
+import { connectTelegram, deleteAccount, disconnectTelegram, setPaused, setTelegramReminders, signOutAction, updateSettings } from '../actions'
 
 export const metadata: Metadata = { title: 'Settings' }
 
-export default async function SettingsPage({ searchParams }: { searchParams: Promise<{ done?: string }> }) {
+export default async function SettingsPage({ searchParams }: { searchParams: Promise<{ done?: string; error?: string }> }) {
   const user = await requireUser()
-  const { done } = await searchParams
+  const { done, error } = await searchParams
   const settings = await getSettings(user.id)
   return (
     <>
@@ -26,6 +27,43 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
         emailReminders={settings.emailReminders}
         timezones={timeZoneOptions(settings.timezone)}
       />
+
+      {telegramConfigured() ? (
+        <Section title="Telegram" id="telegram">
+          <div className="card space-y-3">
+            {error === 'telegram' ? (
+              <p role="alert" className="notice notice-warn">
+                Telegram is not reachable just now. Please try again in a minute.
+              </p>
+            ) : null}
+            {settings.telegramChatId ? (
+              <>
+                <p>Connected. Due reminders come to Telegram with the message ready to share, and buttons to mark it sent or snooze it.</p>
+                <form action={setTelegramReminders} className="space-y-3">
+                  <label className="flex items-start gap-2">
+                    <input type="checkbox" name="telegramReminders" defaultChecked={settings.telegramReminders} className="mt-1 size-4" />
+                    <span>Send my reminders to Telegram</span>
+                  </label>
+                  <SubmitButton className="btn btn-secondary">Save</SubmitButton>
+                </form>
+                <form action={disconnectTelegram} className="border-t border-line pt-3">
+                  <SubmitButton className="btn btn-ghost">Disconnect Telegram</SubmitButton>
+                </form>
+              </>
+            ) : (
+              <>
+                <p>Get your reminders in Telegram too, with the message ready to share and an &ldquo;I sent it&rdquo; button. Tend opens its bot; press Start there to connect. The link works once, for 15 minutes.</p>
+                <form action={connectTelegram}>
+                  <SubmitButton className="btn btn-secondary" pending="Opening Telegram...">
+                    Connect Telegram
+                  </SubmitButton>
+                </form>
+              </>
+            )}
+            <p className="hint">Email reminders are set above; keep both, or turn email off to get Telegram only. Send /stop to the bot to disconnect from Telegram itself.</p>
+          </div>
+        </Section>
+      ) : null}
 
       <Section title="Pause everything" id="pause">
         <form action={setPaused} className="card space-y-3">

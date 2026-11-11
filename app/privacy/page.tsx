@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <PublicHeader />
       <main id="main" className="prose-page mx-auto w-full max-w-2xl px-4 py-8">
         <h1 className="text-3xl font-bold">Privacy</h1>
-        <p className="text-muted">Last updated 10 November 2026</p>
+        <p className="text-muted">Last updated 11 November 2026</p>
         <p>Tend is a small, free, open-source app run by Nathan Watkins (n8builds.dev). This page says plainly what it keeps and why.</p>
 
         <h2>What Tend stores</h2>
@@ -20,6 +20,7 @@ export default function PrivacyPage() {
           <li>The people you add: a name, and only if you choose to add them, a phone number and private notes. Phone numbers and notes are encrypted before they are saved.</li>
           <li>Their consent state, the topics you picked, their timing rules, the messages you scheduled, sent or skipped, and changes to their consent.</li>
           <li>Your settings: time zone, preferred Bible translation and whether you want email reminders.</li>
+          <li>If you connect Telegram: the id of your private chat with Tend&rsquo;s bot, so reminders can reach you there. Disconnect in Settings or send /stop to remove it.</li>
           <li>Short-lived counters (hashed, not readable) that limit how many sign-in emails can be sent, to stop abuse.</li>
         </ul>
 
@@ -37,7 +38,7 @@ export default function PrivacyPage() {
 
         <h2>Where it lives</h2>
         <p>
-          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through a shared mail relay on Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots.
+          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through a shared mail relay on Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots. If you connect Telegram, each reminder, including the message you prepared, is sent to you through Telegram&rsquo;s Bot API, so Telegram handles it under its own privacy policy.
         </p>
 
         <h2>Your control</h2>
