@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-export function SiteFooter() {
+export function SiteFooter({ wide = false }: { wide?: boolean }) {
   return (
-    <footer className="mx-auto w-full max-w-3xl px-4 pt-10 pb-28 text-sm text-muted md:pb-10">
+    <footer className={`mx-auto w-full px-4 ${wide ? 'max-w-6xl' : 'max-w-3xl'} pt-10 pb-28 text-sm text-muted md:pb-10`}>
       <div className="flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p>
           A project by{' '}

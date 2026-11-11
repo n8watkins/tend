@@ -125,7 +125,7 @@ test('pause, export and delete the account', async ({ page }, info) => {
 
   await page.getByLabel('Type DELETE to delete your account and everything in it').fill('DELETE')
   await page.getByRole('button', { name: 'Delete my account' }).click()
-  await expect(page.getByRole('heading', { name: 'Stay close to the people you care about.' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Stay close to the people you love/ })).toBeVisible()
   await page.goto('/today')
   await expect(page).toHaveURL(/\/signin$/)
 })
@@ -135,4 +135,29 @@ test('signed-out visitors are sent to sign in, and direct email sign-in posts ar
   await expect(page).toHaveURL(/\/signin$/)
   const response = await page.request.post('/api/auth/signin/email', { form: { email: 'x@example.test' } })
   expect(response.status()).toBe(403)
+})
+
+test('every Sign in on the home page opens the sign-in dialog, and it signs you in', async ({ page }, info) => {
+  const address = testEmail(info, 'dialog')
+  await page.goto('/')
+  await page.getByRole('banner').getByRole('link', { name: 'Sign in' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Welcome to Tend' })
+  await expect(dialog).toBeVisible()
+  await expect(page).toHaveURL(/\/$/)
+  await expect(dialog.getByLabel('Email')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+
+  await page.getByRole('link', { name: 'Get started, free' }).click()
+  await expect(dialog).toBeVisible()
+  await dialog.getByLabel('Email').fill(address)
+  await dialog.getByRole('button', { name: 'Email me a sign-in link' }).click()
+  await expect(page).toHaveURL(/\/signin\/check-email$/)
+  await expect.poll(async () => (await emails(address)).length).toBe(1)
+})
+
+test('the sign-in page still works on its own, for links and without the dialog', async ({ page }) => {
+  await page.goto('/signin')
+  await expect(page.getByRole('heading', { name: 'Sign in to Tend' })).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
 })

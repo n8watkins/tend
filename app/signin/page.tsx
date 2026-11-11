@@ -26,7 +26,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   const message = error ? (ERRORS[error] ?? 'Something went wrong signing in. Please try again.') : null
   return (
     <>
-      <PublicHeader />
+      <PublicHeader hideSignIn />
       <main id="main" className="mx-auto w-full max-w-sm px-4 py-10">
         <h1 className="text-3xl font-bold">Sign in to Tend</h1>
         <p className="mt-2 text-muted">New here? The same link creates your account. No password needed.</p>

@@ -5,7 +5,8 @@ import { addPerson, signIn, testEmail } from './helpers'
 
 for (const colorScheme of ['light', 'dark'] as const) {
   test.describe(`accessibility (${colorScheme})`, () => {
-    test.use({ colorScheme, timezoneId: 'UTC' })
+    // Reduced motion, so axe measures colours at rest rather than mid fade-in.
+    test.use({ colorScheme, timezoneId: 'UTC', reducedMotion: 'reduce' })
 
     test('public and signed-in pages have no WCAG A or AA violations', async ({ page }, info) => {
       const check = async (path: string) => {

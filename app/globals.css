@@ -20,6 +20,12 @@
   --danger-soft: #f8e1df;
   --danger-ink: #85241f;
   --focus: #2f6b4f;
+  /* Warm accents for illustrations and highlights. */
+  --sun: #e9a23b;
+  --rose: #d8735f;
+  --sky: #5f93c4;
+  --glow: rgba(47, 107, 79, 0.16);
+  --glow-warm: rgba(233, 162, 59, 0.18);
   color-scheme: light;
 }
 
@@ -42,6 +48,11 @@
     --danger-soft: #3a1c1a;
     --danger-ink: #f6b8b1;
     --focus: #95d0ad;
+    --sun: #f2b45a;
+    --rose: #e98b78;
+    --sky: #7fb0dc;
+    --glow: rgba(127, 194, 155, 0.14);
+    --glow-warm: rgba(242, 180, 90, 0.1);
     color-scheme: dark;
   }
 }
@@ -62,8 +73,12 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-danger-ink: var(--danger-ink);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, ui-serif, serif;
+  --color-sun: var(--sun);
+  --color-rose: var(--rose);
+  --color-sky: var(--sky);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: var(--font-fraunces), 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, ui-serif, serif;
+  --font-display: var(--font-fraunces), Georgia, ui-serif, serif;
 }
 
 /* Element defaults go in the base layer so component classes (.btn on a
@@ -286,4 +301,51 @@
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* The sign-in dialog (components/SignIn.tsx), on every public page. */
+.signin-dialog {
+  margin: auto;
+  width: min(27rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 40px 90px -30px rgb(0 0 0 / 0.45);
+}
+.signin-dialog::backdrop {
+  background: rgb(12 18 15 / 0.5);
+  backdrop-filter: blur(6px);
+}
+.signin-dialog-body {
+  padding: 1.5rem;
+}
+@media (min-width: 640px) {
+  .signin-dialog-body {
+    padding: 2rem;
+  }
+}
+html:has(.signin-dialog[open]) {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .signin-dialog[open] {
+    animation: dialog-in 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .signin-dialog[open]::backdrop {
+    animation: backdrop-in 0.32s ease;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
 }
