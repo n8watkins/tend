@@ -52,17 +52,17 @@ export default async function LibraryPage({
           { value: 'scripture', label: 'Bible passages' },
           { value: 'quote', label: 'Quotes' },
         ].map((k) => (
-          <Link key={k.label} href={href({ kind: k.value })} className="chip" aria-current={kind === k.value ? 'true' : undefined}>
+          <Link key={k.label} prefetch={false} href={href({ kind: k.value })} className="chip" aria-current={kind === k.value ? 'true' : undefined}>
             {k.label}
           </Link>
         ))}
       </nav>
       <nav aria-label="Filter by topic" className="mb-6 flex flex-wrap gap-2">
-        <Link href={href({ topic: undefined })} className="chip" aria-current={!topic ? 'true' : undefined}>
+        <Link href={href({ topic: undefined })} prefetch={false} className="chip" aria-current={!topic ? 'true' : undefined}>
           All topics
         </Link>
         {TOPICS.map((t) => (
-          <Link key={t.slug} href={href({ topic: t.slug })} className="chip" aria-current={topic === t.slug ? 'true' : undefined}>
+          <Link key={t.slug} prefetch={false} href={href({ topic: t.slug })} className="chip" aria-current={topic === t.slug ? 'true' : undefined}>
             {t.label}
           </Link>
         ))}
