@@ -6,6 +6,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import openNext from '../.open-next/worker.js'
+import { healthCheck } from './health'
 
 type Env = CloudflareEnv & { CRON_SECRET?: string }
 type FetchHandler = { fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> }
@@ -18,7 +19,7 @@ const INTERNAL_HOST = 'worker.internal'
 
 export default {
   fetch(request, env, ctx) {
-    return app.fetch(request, env, ctx)
+    return healthCheck(request) ?? app.fetch(request, env, ctx)
   },
 
   async scheduled(_controller, env, ctx) {
