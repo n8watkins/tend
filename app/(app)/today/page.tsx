@@ -77,7 +77,7 @@ export default async function TodayPage() {
           <span className="panel-icon" aria-hidden="true">
             <CheckIcon className="size-5" />
           </span>
-          <span className="min-w-0 flex-1">
+          <span className="row-text min-w-0 flex-1">
             <span className="row-title">{approvals === 1 ? '1 message needs your approval' : `${approvals} messages need your approval`}</span>
             <span className="row-meta">For your Signal helper. Tap to send or skip.</span>
           </span>
@@ -97,7 +97,13 @@ export default async function TodayPage() {
                       lead={<Monogram name={m.contactName} />}
                       title={`${kindLabel(m.kind)} ${m.contactName}`}
                       meta={`Due ${formatWhen(m.scheduledFor, tz)}`}
-                      badge={<span className="badge badge-solid">Send now</span>}
+                      badge={
+                        m.approvalState === 'pending' ? (
+                          <span className="badge">Waiting for approval</span>
+                        ) : (
+                          <span className="badge badge-solid">Send now</span>
+                        )
+                      }
                     />
                   </li>
                 ))}

@@ -260,7 +260,7 @@ export default async function ContactPage({
                 <>
                   Suggesting {modeLabel}
                   {contact.suggest ? '' : ' (your default)'}
-                  {topics ? `, for what ${contact.name} cares about: ${topics}` : ''}.{' '}
+                  {topics ? `, picked for what ${contact.name} cares about: ${topics}` : ''}.{' '}
                   <Link href={`/people/${contact.id}/edit`} className="font-semibold underline underline-offset-2">
                     Change
                   </Link>
@@ -343,6 +343,27 @@ export default async function ContactPage({
               </ul>
             </Section>
           ) : null}
+
+          <Section title="History" id="history" icon={ClockIcon} tone="quiet" hint="What you sent, skipped, and their answers.">
+            {timeline.length ? (
+              <ol className="timeline">
+                {timeline.map((t, i) => (
+                  <li key={i}>
+                    <time>{formatDate(t.at, tz)}</time>
+                    {t.href ? (
+                      <Link href={t.href} className="underline-offset-2 hover:underline">
+                        {t.text}
+                      </Link>
+                    ) : (
+                      <span>{t.text}</span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <Empty icon={ClockIcon}>No history yet. Messages you send show up here.</Empty>
+            )}
+          </Section>
         </div>
 
         <div className="app-col">
@@ -414,27 +435,6 @@ export default async function ContactPage({
               </ul>
             ) : (
               <Empty icon={CalendarIcon}>Nothing scheduled. Pick a suggestion to plan the next one.</Empty>
-            )}
-          </Section>
-
-          <Section title="History" id="history" icon={ClockIcon} tone="quiet" hint="What you sent, skipped, and their answers.">
-            {timeline.length ? (
-              <ol className="timeline">
-                {timeline.map((t, i) => (
-                  <li key={i}>
-                    <time>{formatDate(t.at, tz)}</time>
-                    {t.href ? (
-                      <Link href={t.href} className="underline-offset-2 hover:underline">
-                        {t.text}
-                      </Link>
-                    ) : (
-                      <span>{t.text}</span>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <Empty icon={ClockIcon}>No history yet. Messages you send show up here.</Empty>
             )}
           </Section>
 

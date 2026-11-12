@@ -21,12 +21,12 @@ export function RescheduleForm({
     <form action={formAction} className="space-y-3">
       <fieldset className="space-y-2">
         <legend className="mb-1 font-semibold">Reschedule</legend>
-        <label className="flex items-start gap-2">
-          <input type="radio" name="when" value="next" checked={when === 'next'} onChange={() => setWhen('next')} className="mt-1 size-4" />
+        <label className="option">
+          <input type="radio" name="when" value="next" checked={when === 'next'} onChange={() => setWhen('next')} />
           <span>Next good time</span>
         </label>
-        <label className="flex items-start gap-2">
-          <input type="radio" name="when" value="custom" checked={when === 'custom'} onChange={() => setWhen('custom')} className="mt-1 size-4" />
+        <label className="option">
+          <input type="radio" name="when" value="custom" checked={when === 'custom'} onChange={() => setWhen('custom')} />
           <span>Choose a time ({timezoneLabel})</span>
         </label>
       </fieldset>

@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { CheckIcon } from '@/components/icons'
+import { AlertIcon, ChatIcon, CheckIcon, SendIcon } from '@/components/icons'
 import { SubmitButton } from '@/components/SubmitButton'
-import { PageTitle } from '@/components/ui'
+import { Monogram, PageTitle, Section } from '@/components/ui'
 import { FAILURE_TEXT, failureReason, sendByFor } from '@/lib/helper'
 import { getContact, getMessage } from '@/lib/server/data'
 import { activeHelper, APPROVAL_REFUSAL_TEXT, helperAllowedFor, type ApprovalRefusal } from '@/lib/server/helper'
@@ -76,7 +76,22 @@ export default async function ApprovePage({ params, searchParams }: { params: Pr
 
   return (
     <>
-      <PageTitle title={`Send to ${contact.name}?`} subtitle={subtitle} />
+      <PageTitle
+        eyebrow="Approval"
+        lead={<Monogram name={contact.name} size="lg" />}
+        title={`Send to ${contact.name}?`}
+        subtitle={subtitle}
+        action={
+          <>
+            <Link href="/approvals" className="btn btn-secondary">
+              All approvals
+            </Link>
+            <Link href={`/people/${contact.id}`} className="btn btn-ghost">
+              {contact.name}
+            </Link>
+          </>
+        }
+      />
       {done && DONE[done] ? (
         <p role="status" className="notice notice-good mb-6">
           {DONE[done]}
@@ -88,102 +103,101 @@ export default async function ApprovePage({ params, searchParams }: { params: Pr
         </p>
       ) : null}
 
-      <div className="rounded-2xl rounded-bl-md bg-accent-soft p-4 whitespace-pre-wrap break-words text-accent-soft-ink" data-testid="message-body">
-        {message.body}
-      </div>
-
-      {message.status === 'sent' && message.sentVia === 'helper' ? (
-        <p className="mt-4">
-          <span className="badge badge-good">
-            <CheckIcon className="size-3.5" />
-            Sent by your helper
-          </span>
-        </p>
-      ) : null}
-
-      {scheduled && message.sendState === 'sending' ? (
-        <p className="notice mt-6 bg-surface-2">Your helper is sending this now. Check back in a minute.</p>
-      ) : null}
-
-      {scheduled && message.sendState === 'unknown' ? (
-        <div className="card mt-6 space-y-3">
-          <p className="font-semibold">We are not sure this was sent.</p>
-          <p>Your helper stopped before it could say. Check your Signal chat with {first}, then tell Tend.</p>
-          <div className="flex flex-wrap gap-2">
-            <form action={confirmSentAction.bind(null, message.id)}>
-              <SubmitButton className="btn btn-primary">It was sent</SubmitButton>
-            </form>
-            {!blocked ? (
-              <form action={sendAgainAction.bind(null, message.id)}>
-                <SubmitButton className="btn btn-secondary">Send it again</SubmitButton>
-              </form>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
-
-      {scheduled && message.sendState === 'failed' ? (
-        <div className="card mt-6 space-y-3">
-          <p className="font-semibold">Your helper could not send it.</p>
-          <p>{FAILURE_TEXT[failureReason(message.sendFailure)]}</p>
-          <div className="flex flex-wrap gap-2">
-            {!blocked ? (
-              <form action={sendAgainAction.bind(null, message.id)}>
-                <SubmitButton className="btn btn-primary">Send it again</SubmitButton>
-              </form>
-            ) : null}
-            <Link href={`/send/${message.id}`} className="btn btn-secondary">
-              Send it yourself
-            </Link>
-          </div>
-        </div>
-      ) : null}
-
-      {approved ? (
-        <div className="card mt-6 space-y-3">
-          <p>
-            Approved. Your helper sends this exact text within a minute or so. If your PC is off, it comes back to you at {formatWhen(message.sendBy!, tz)} to send
-            yourself.
-          </p>
-          <form action={skipApprovalAction.bind(null, message.id)}>
-            <SubmitButton className="btn btn-ghost">Don&rsquo;t send it, skip</SubmitButton>
-          </form>
-        </div>
-      ) : null}
-
-      {scheduled && idle && !approved ? (
-        <div className="mt-6 space-y-4">
-          {blocked ? (
-            <p className="notice notice-warn">{APPROVAL_REFUSAL_TEXT[blocked]}</p>
-          ) : (
-            <div className="card space-y-3">
-              <form action={approveAction.bind(null, message.id)}>
-                <SubmitButton pending="Approving...">Send with my helper</SubmitButton>
-              </form>
-              <p className="hint">
-                Your helper sends this exact text from your Signal, as a normal message to {first}, inside their window ({formatMinutes(contact.windowStart)} to{' '}
-                {formatMinutes(contact.windowEnd)} their time).
-              </p>
+      <div className="app-columns">
+        <div className="app-col">
+          <Section title="The message" id="message-title" icon={ChatIcon} hint={`Your helper sends exactly this to ${first}.`}>
+            <div className="chat-stage">
+              <div className="chat-bubble" data-testid="message-body">
+                {message.body}
+              </div>
             </div>
-          )}
-          <div className="flex flex-wrap gap-2">
-            <Link href={`/send/${message.id}`} className="btn btn-secondary">
-              Send it yourself
-            </Link>
-            <form action={skipApprovalAction.bind(null, message.id)}>
-              <SubmitButton className="btn btn-ghost">Skip</SubmitButton>
-            </form>
-          </div>
+            {message.status === 'sent' && message.sentVia === 'helper' ? (
+              <p>
+                <span className="badge badge-good">
+                  <CheckIcon className="size-3.5" />
+                  Sent by your helper
+                </span>
+              </p>
+            ) : null}
+          </Section>
         </div>
-      ) : null}
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Link href="/approvals" className="btn btn-ghost">
-          All approvals
-        </Link>
-        <Link href={`/people/${contact.id}`} className="btn btn-ghost">
-          {contact.name}
-        </Link>
+        <div className="app-col app-col-sticky">
+          {scheduled && message.sendState === 'sending' ? (
+            <Section title="Sending now" id="state-title" icon={SendIcon} hint="Check back in a minute.">
+              <p>Your helper is sending this now.</p>
+            </Section>
+          ) : null}
+
+          {scheduled && message.sendState === 'unknown' ? (
+            <Section title="Not sure it was sent" id="state-title" icon={AlertIcon} tone="warn" hint="Your helper stopped before it could say.">
+              <p>Check your Signal chat with {first}, then tell Tend.</p>
+              <div className="flex flex-wrap gap-2">
+                <form action={confirmSentAction.bind(null, message.id)}>
+                  <SubmitButton className="btn btn-primary">It was sent</SubmitButton>
+                </form>
+                {!blocked ? (
+                  <form action={sendAgainAction.bind(null, message.id)}>
+                    <SubmitButton className="btn btn-secondary">Send it again</SubmitButton>
+                  </form>
+                ) : null}
+              </div>
+            </Section>
+          ) : null}
+
+          {scheduled && message.sendState === 'failed' ? (
+            <Section title="Your helper could not send it" id="state-title" icon={AlertIcon} tone="warn" hint={FAILURE_TEXT[failureReason(message.sendFailure)]}>
+              <div className="flex flex-wrap gap-2">
+                {!blocked ? (
+                  <form action={sendAgainAction.bind(null, message.id)}>
+                    <SubmitButton className="btn btn-primary">Send it again</SubmitButton>
+                  </form>
+                ) : null}
+                <Link href={`/send/${message.id}`} className="btn btn-secondary">
+                  Send it yourself
+                </Link>
+              </div>
+            </Section>
+          ) : null}
+
+          {approved ? (
+            <Section title="Approved" id="state-title" icon={CheckIcon} hint="Your helper sends this exact text within a minute or so.">
+              <p>If your PC is off, it comes back to you at {formatWhen(message.sendBy!, tz)} to send yourself.</p>
+              <form action={skipApprovalAction.bind(null, message.id)}>
+                <SubmitButton className="btn btn-ghost btn-flush">Don&rsquo;t send it, skip</SubmitButton>
+              </form>
+            </Section>
+          ) : null}
+
+          {scheduled && idle && !approved ? (
+            <Section title="Your decision" id="state-title" icon={SendIcon} tone="primary" hint="Send it with your helper, send it yourself, or skip it.">
+              {blocked ? (
+                <p className="notice notice-warn">{APPROVAL_REFUSAL_TEXT[blocked]}</p>
+              ) : (
+                <>
+                  <form action={approveAction.bind(null, message.id)}>
+                    <SubmitButton pending="Approving..." className="btn btn-primary btn-lg w-full">
+                      <SendIcon />
+                      Send with my helper
+                    </SubmitButton>
+                  </form>
+                  <p className="hint">
+                    Your helper sends this exact text from your Signal, as a normal message to {first}, inside their window ({formatMinutes(contact.windowStart)} to{' '}
+                    {formatMinutes(contact.windowEnd)} their time).
+                  </p>
+                </>
+              )}
+              <div className="flex flex-wrap gap-2 border-t border-line pt-4">
+                <Link href={`/send/${message.id}`} className="btn btn-secondary">
+                  Send it yourself
+                </Link>
+                <form action={skipApprovalAction.bind(null, message.id)}>
+                  <SubmitButton className="btn btn-ghost">Skip</SubmitButton>
+                </form>
+              </div>
+            </Section>
+          ) : null}
+        </div>
       </div>
     </>
   )

@@ -171,8 +171,8 @@ function Review({ state, action }: { state: Extract<ImportState, { step: 'review
             const details = [row.phone, birthday && `Birthday ${birthday}`, anniversary && `Anniversary ${anniversary}`].filter(Boolean)
             return (
               <li key={i}>
-                <label className={`card flex cursor-pointer items-start gap-3 ${chosen.has(i) ? 'border-accent' : ''}`}>
-                  <input type="checkbox" name="row" value={i} checked={chosen.has(i)} onChange={() => toggle(i)} className="mt-1 size-4 shrink-0" />
+                <label className="option">
+                  <input type="checkbox" name="row" value={i} checked={chosen.has(i)} onChange={() => toggle(i)} />
                   <span className="min-w-0 flex-1">
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="font-semibold break-words">{row.name}</span>

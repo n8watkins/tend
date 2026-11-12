@@ -272,7 +272,8 @@
     margin-top: 0.85rem;
   }
   /* Older markup puts a card inside the section; the panel is the card now. */
-  .panel-body > .card {
+  .panel-body > .card,
+  .panel-body > form > .card {
     border: 0;
     border-radius: 0;
     padding: 0;
@@ -384,6 +385,84 @@
     .panel-body .row:hover {
       background: color-mix(in oklab, var(--accent-soft) 45%, transparent);
     }
+  }
+  /* Phones: the badge moves under the text so names get the full width. */
+  @media (max-width: 639px) {
+    .row:has(> .badge) {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        'lead text chev'
+        'lead badge chev';
+      column-gap: 0.85rem;
+      row-gap: 0.35rem;
+    }
+    .row:has(> .badge):not(:has(> .mono, > .panel-icon)) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'text chev'
+        'badge chev';
+    }
+    .row:has(> .badge) > .mono,
+    .row:has(> .badge) > .panel-icon {
+      grid-area: lead;
+      align-self: center;
+    }
+    .row:has(> .badge) > .row-text {
+      grid-area: text;
+    }
+    .row:has(> .badge) > .badge {
+      grid-area: badge;
+      justify-self: start;
+    }
+    .row:has(> .badge) > .row-chevron {
+      grid-area: chev;
+      align-self: center;
+    }
+  }
+
+  /* Numbered steps (the send page) */
+  .steps {
+    counter-reset: step;
+  }
+  .steps > li {
+    position: relative;
+    padding: 0 0 1.1rem 2.6rem;
+    counter-increment: step;
+  }
+  .steps > li > * + * {
+    margin-top: 0.6rem;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-soft-ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .steps > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    top: 1.9rem;
+    bottom: 0.2rem;
+    width: 1px;
+    background: var(--line);
+  }
+  .steps > li:last-child {
+    padding-bottom: 0;
+  }
+  .step-title {
+    font-weight: 650;
+    color: var(--ink-strong);
   }
 
   /* People's initials */

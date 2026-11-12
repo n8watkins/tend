@@ -68,7 +68,7 @@ export function ComposeForm(props: ComposeProps) {
 
       <div className="app-col">
       <Section
-        title={props.kind === 'content' ? 'Your words' : 'Your message'}
+        title="Your words"
         id="words-title"
         icon={PenIcon}
         hint={props.kind === 'content' ? 'Add a line of your own around the passage. All optional.' : `Write it the way you would say it to ${firstName}.`}

@@ -155,7 +155,7 @@ export function RowLink({
   return (
     <Link href={href} className="row">
       {lead}
-      <span className="min-w-0 flex-1">
+      <span className="row-text min-w-0 flex-1">
         <span className="row-title">{title}</span>
         {meta ? <span className="row-meta">{meta}</span> : null}
       </span>
