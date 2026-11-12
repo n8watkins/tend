@@ -6,7 +6,7 @@ import { ConfirmButton } from '@/components/ConfirmButton'
 import { CalendarIcon, ClockIcon, GiftIcon, HeartIcon, PenIcon, ShieldIcon, SparkleIcon, UserIcon } from '@/components/icons'
 import { SubmitButton } from '@/components/SubmitButton'
 import { ConsentBadge, CONSENT_LABEL, Done, Empty, Monogram, PageTitle, RowLink, Section, SIGNAL_LABEL } from '@/components/ui'
-import type { ConsentState } from '@/lib/enums'
+import type { ConsentState, SuggestMode } from '@/lib/enums'
 import { getItem, itemHeading, itemText, itemTitle, LIBRARY } from '@/lib/content'
 import {
   describeCadence,
@@ -18,12 +18,12 @@ import {
   UPCOMING_DAYS,
 } from '@/lib/occasions'
 import { describeDays } from '@/lib/schedule'
-import { contactConsentEvents, contactMessages, getContact } from '@/lib/server/data'
+import { contactConsentEvents, contactMessages, getContact, usedElsewhere } from '@/lib/server/data'
 import { contactOccasions, keepInTouchState } from '@/lib/server/nudges'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { PROMPTS, SITUATION_LABEL, SUGGEST_LABEL } from '@/lib/prompts'
-import { promptLimit, situationsFor, suggest, suggestPrompts } from '@/lib/suggest'
-import { formatDate, formatMinutes, formatWhen } from '@/lib/time'
+import { ELSEWHERE_DAYS, promptLimit, situationsFor, suggest, suggestPrompts } from '@/lib/suggest'
+import { DAY, formatDate, formatMinutes, formatWhen } from '@/lib/time'
 import { topicLabel } from '@/lib/topics'
 
 import { deleteContact, markInTouch, setConsent, surpriseMe } from '../../actions'
@@ -33,7 +33,23 @@ export const metadata: Metadata = { title: 'Person' }
 const ERRORS: Record<string, string> = {
   consent: 'That change is not possible from their current consent state.',
   confirm: 'Tick the box to confirm they told you they want messages again.',
-  surprise: 'Everything in the library has gone to them in the last 180 days or is already scheduled. Write your own message instead.',
+  surprise: 'Nothing is left that they have not had. Write your own message instead.',
+}
+
+/** What the occasion panel offers, by "What to suggest". */
+const OCCASION_HINT: Record<'birthday' | 'anniversary', Record<SuggestMode, string>> = {
+  birthday: {
+    mix: 'A blessing or a hopeful word to send with your wishes.',
+    scripture: 'A blessing to send with your wishes.',
+    quotes: 'A hopeful line from a good book to send with your wishes.',
+    words: 'A first line for your wishes, to make your own.',
+  },
+  anniversary: {
+    mix: 'Passages and quotes about love and faithfulness to send with your wishes.',
+    scripture: 'Passages about love and faithfulness to send with your wishes.',
+    quotes: 'Quotes about love and friendship to send with your wishes.',
+    words: 'Write your wishes in your own words.',
+  },
 }
 
 function maskPhone(phone: string) {
@@ -62,33 +78,47 @@ export default async function ContactPage({
   const contact = await getContact(user.id, id)
   if (!contact) notFound()
   const now = Date.now()
-  const [settings, history, events, touch] = await Promise.all([
+  const [settings, history, events, touch, elsewhere] = await Promise.all([
     getSettings(user.id),
     contactMessages(user.id, id),
     contactConsentEvents(user.id, id),
     keepInTouchState(contact, now),
+    usedElsewhere(user.id, id, now - ELSEWHERE_DAYS * DAY),
   ])
+  const mode = contact.suggest ?? settings.suggest
   const tz = settings.timezone
   const occasions = contactOccasions(contact, now)
   // The occasion the nudge pointed at, or the next one within two weeks.
   const soon = occasions.find((o) => o.kind === occasion) ?? occasions.find((o) => o.daysAway <= UPCOMING_DAYS)
   const pastForPicks = history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status }))
-  const picks = soon ? occasionPicks(LIBRARY, soon.kind, pastForPicks, now) : []
+  const picks = soon ? occasionPicks(LIBRARY, soon.kind, pastForPicks, now, { mode, contactId: contact.id, elsewhere }) : []
+  // "Just my words": birthday starters stand in for the occasion's passages and quotes.
+  const occasionStarters =
+    soon?.kind === 'birthday' && mode === 'words' ? suggestPrompts(PROMPTS, contact.id, ['birthday'], pastForPicks, now, 3) : []
   const scheduled = history.filter((m) => m.status === 'scheduled').sort((a, b) => a.scheduledFor - b.scheduledFor)
   const past = history.filter((m) => m.status !== 'scheduled')
   // Not the occasion's picks again, when those are shown above.
   const shownPicks = new Set(contact.consent === 'yes' ? picks.map((p) => p.id) : [])
-  const mode = contact.suggest ?? settings.suggest
   const pastMessages = pastForPicks
   const suggestions =
     contact.consent === 'yes'
-      ? suggest(LIBRARY, contact.id, contact.topics, pastMessages, now, 5 + shownPicks.size, mode)
+      ? suggest(LIBRARY, contact.id, contact.topics, pastMessages, now, { limit: 5 + shownPicks.size, mode, elsewhere })
           .filter((item) => !shownPicks.has(item.id))
           .slice(0, 5)
       : []
+  const shownStarters = new Set(occasionStarters.map((p) => p.id))
   const starters =
     contact.consent === 'yes'
-      ? suggestPrompts(PROMPTS, contact.id, situationsFor(contact.topics, pastMessages, now), pastMessages, now, promptLimit(mode))
+      ? suggestPrompts(
+          PROMPTS,
+          contact.id,
+          situationsFor(contact.topics, pastMessages, now, soon?.kind),
+          pastMessages,
+          now,
+          promptLimit(mode) + shownStarters.size,
+        )
+          .filter((p) => !shownStarters.has(p.id))
+          .slice(0, promptLimit(mode))
       : []
   const timeline = [
     ...past.map((m) => ({
@@ -223,12 +253,12 @@ export default async function ContactPage({
               id="occasion"
               icon={GiftIcon}
               tone={main === 'occasion' ? 'primary' : 'warm'}
-              hint={soon.kind === 'birthday' ? 'A blessing or a hopeful word to send with your wishes.' : 'Passages about love and faithfulness to send with your wishes.'}
+              hint={OCCASION_HINT[soon.kind][mode]}
             >
               {picks.length ? (
                 <ul className="space-y-3">
                   {picks.map((item, i) => (
-                    <li key={item.id} className="pick">
+                    <li key={item.id} className="pick" data-kind={item.kind}>
                       <p className="pick-source">{itemHeading(item)}</p>
                       <p className="passage mt-1.5 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
                       <div className="mt-3 flex justify-end">
@@ -239,6 +269,21 @@ export default async function ContactPage({
                           Use this
                         </Link>
                       </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {occasionStarters.length ? (
+                <ul className="-my-2 divide-y divide-line">
+                  {occasionStarters.map((p, i) => (
+                    <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                      <p className="min-w-0 flex-1 basis-56">{p.text}</p>
+                      <Link
+                        href={`/compose?contact=${contact.id}&kind=personal&prompt=${p.id}&occasion=${soon.kind}`}
+                        className={`btn btn-sm ${i === 0 && main === 'occasion' ? 'btn-primary' : 'btn-secondary'}`}
+                      >
+                        Start with this
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -278,7 +323,7 @@ export default async function ContactPage({
               {suggestions.length ? (
                 <ul className="space-y-3">
                   {suggestions.map((item, i) => (
-                    <li key={item.id} className="pick">
+                    <li key={item.id} className="pick" data-kind={item.kind}>
                       <p className="pick-source">{itemHeading(item)}</p>
                       <p className="passage mt-1.5 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
                       <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
@@ -311,8 +356,7 @@ export default async function ContactPage({
                     for picks that fit {contact.name} better.{' '}
                   </>
                 ) : null}
-                Surprise me picks any {mode === 'scripture' ? 'passage' : mode === 'quotes' ? 'quote' : 'passage or quote'}, never one {contact.name} has had in the
-                last 180 days.{' '}
+                Surprise me picks any {mode === 'scripture' ? 'passage' : mode === 'quotes' ? 'quote' : 'passage or quote'} {contact.name} hasn&rsquo;t had.{' '}
                 <Link href={`/library?contact=${contact.id}`} className="font-semibold text-accent underline underline-offset-2">
                   Browse the whole library
                 </Link>

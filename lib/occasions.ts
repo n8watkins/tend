@@ -9,10 +9,10 @@
  * when it is that day where they live.
  */
 
-import type { MessageKind } from './enums'
+import type { MessageKind, SuggestMode } from './enums'
 import type { ContentItem } from './item'
 import { inWindow, nextGoodTime, type ContactRules, type History } from './schedule'
-import { excludedIds, type PastMessage } from './suggest'
+import { excludedIds, isoWeek, kindsFor, stableHash, type PastMessage } from './suggest'
 import { DAY, localParts, MINUTE, zonedToUtc } from './time'
 
 export const OCCASION_KINDS = ['birthday', 'anniversary'] as const
@@ -287,7 +287,7 @@ export function cadenceNudge(rules: ContactRules, dueAt: number, now: number): C
 /* Suggestions ----------------------------------------------------------------- */
 
 /**
- * Library items that suit the occasion, best first: blessings for a
+ * Hand-picked library items for each occasion, best first: blessings for a
  * birthday, passages about love and companionship for an anniversary. Every
  * id here is in content/library.json (a unit test checks).
  */
@@ -305,15 +305,68 @@ export const OCCASION_PICKS: Record<OccasionKind, string[]> = {
   anniversary: ['1-corinthians-13-4-7', 'ecclesiastes-4-9-10', '1-john-4-7', 'romans-12-10', 'numbers-6-24-26', 'philippians-1-3'],
 }
 
-/** The occasion's picks for this person, without anything sent in the last 180 days or already scheduled. */
-export function occasionPicks(library: ContentItem[], kind: OccasionKind, past: PastMessage[], now: number, limit = 3): ContentItem[] {
-  const excluded = excludedIds(past, now)
+/**
+ * Quotes that suit an occasion beyond the hand-picked ones: anything tagged
+ * for birthdays, or about love and friendship for an anniversary, never a
+ * line about loss, in the tone that fits (light first for a birthday,
+ * tender first for an anniversary).
+ */
+function occasionQuote(kind: OccasionKind, item: ContentItem): boolean {
+  if (item.kind !== 'quote' || item.occasions?.includes('grief')) return false
+  return kind === 'birthday'
+    ? Boolean(item.occasions?.includes('birthday'))
+    : item.topics.some((t) => t === 'love' || t === 'friendship')
+}
+const TONE_ORDER: Record<OccasionKind, string[]> = { birthday: ['light', 'steady', 'tender'], anniversary: ['tender', 'steady', 'light'] }
+
+export interface OccasionPickOptions {
+  limit?: number
+  /** What the sender chose to suggest for this person; "Just my words" gives none. */
+  mode?: SuggestMode
+  /** Varies the quotes week to week for this person. */
+  contactId?: string
+  /** Quote ids sent or scheduled to the user's other contacts in the last 90 days: offered last. */
+  elsewhere?: ReadonlySet<string>
+}
+
+/**
+ * The occasion's picks for this person, following "What to suggest": the
+ * hand-picked passages, then quotes for the occasion; a mix alternates them.
+ * Never one the no-repeat rules exclude (lib/suggest.ts).
+ */
+export function occasionPicks(
+  library: ContentItem[],
+  kind: OccasionKind,
+  past: PastMessage[],
+  now: number,
+  { limit = 3, mode = 'mix', contactId = '', elsewhere }: OccasionPickOptions = {},
+): ContentItem[] {
+  const kinds = kindsFor(mode)
+  const excluded = excludedIds(past, now, library)
   const byId = new Map(library.map((item) => [item.id, item]))
-  return OCCASION_PICKS[kind]
-    .filter((id) => !excluded.has(id))
-    .map((id) => byId.get(id))
-    .filter((item): item is ContentItem => Boolean(item))
-    .slice(0, limit)
+  const handPicked = OCCASION_PICKS[kind].map((id) => byId.get(id)).filter((item): item is ContentItem => Boolean(item))
+  const week = isoWeek(now)
+  const tone = (item: ContentItem) => {
+    const at = TONE_ORDER[kind].indexOf(item.kind === 'quote' ? (item.tone ?? '') : '')
+    return at < 0 ? TONE_ORDER[kind].length : at
+  }
+  const tagged = library
+    .filter((item) => occasionQuote(kind, item) && !handPicked.includes(item))
+    .map((item) => ({ item, tone: tone(item), tie: stableHash(`${contactId}:${item.id}:${week}`) }))
+    .sort((a, b) => a.tone - b.tone || a.tie - b.tie)
+    .map((s) => s.item)
+  const usable = (item: ContentItem) => kinds.includes(item.kind) && !excluded.has(item.id)
+  const fresh = (items: ContentItem[]) =>
+    elsewhere?.size ? [...items.filter((i) => !elsewhere.has(i.id)), ...items.filter((i) => elsewhere.has(i.id))] : items
+  const passages = handPicked.filter((item) => item.kind === 'scripture' && usable(item))
+  const quotes = fresh([...handPicked.filter((item) => item.kind === 'quote'), ...tagged].filter(usable))
+  // A mix alternates, a passage first: blessing, quote, blessing...
+  const picks: ContentItem[] = []
+  for (let i = 0; picks.length < limit && (i < passages.length || i < quotes.length); i++) {
+    if (passages[i]) picks.push(passages[i]!)
+    if (quotes[i] && picks.length < limit) picks.push(quotes[i]!)
+  }
+  return picks
 }
 
 /**
@@ -353,4 +406,14 @@ export function nudgeTitle(n: Pick<NudgeLine, 'kind' | 'contactName' | 'daysAway
 export function occasionGreeting(kind: OccasionKind, name: string): string {
   const first = name.trim().split(/\s+/)[0] || name
   return kind === 'birthday' ? `Happy birthday, ${first}!` : `Happy anniversary, ${first}!`
+}
+
+/**
+ * The opening of an occasion message: the greeting, then the starter when one
+ * was chosen, unless the starter already says "Happy birthday" itself.
+ */
+export function occasionNote(kind: OccasionKind, name: string, starter?: string): string {
+  const greeting = occasionGreeting(kind, name)
+  if (!starter) return greeting
+  return new RegExp(kind, 'i').test(starter) ? starter : `${greeting} ${starter}`
 }

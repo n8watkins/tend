@@ -92,7 +92,7 @@ export default async function Home() {
   const demoPeople: DemoPerson[] = DEMO_PEOPLE.map((d) => ({
     person: PEOPLE.find((p) => p.name === d.name)!,
     topics: d.topics.map((t) => topicLabel(t).toLowerCase()),
-    picks: suggest(LIBRARY, `landing-${d.name}`, d.topics.map((topic, i) => ({ topic, weight: 2 - i })), [], now, 2).map(demoItem),
+    picks: suggest(LIBRARY, `landing-${d.name}`, d.topics.map((topic, i) => ({ topic, weight: 2 - i })), [], now, { limit: 2 }).map(demoItem),
   }))
   // "Surprise me" draws from the shorter passages, so the card stays a calm size.
   const surprisePool = LIBRARY.filter((i): i is Scripture => i.kind === 'scripture' && i.text.web.length <= 180).map(demoItem)

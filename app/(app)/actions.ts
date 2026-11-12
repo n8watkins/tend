@@ -50,15 +50,16 @@ import {
   getContact,
   getMessage,
   openConsentRequests,
+  usedElsewhere,
 } from '@/lib/server/data'
 import { moveScheduled, recordSent, skipScheduled } from '@/lib/server/messages'
 import { pushConfigured, pushTest, removeOtherSubscriptions, removeSubscription, saveSubscription, userSubscriptions } from '@/lib/server/push'
 import { createLinkUrl, ensureTelegramWebhook, telegramConfigured, unlinkTelegram } from '@/lib/server/telegram'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { allowedEndpoint, deviceLabel } from '@/lib/push'
-import { fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
+import { DAY, fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
 import { getPrompt } from '@/lib/prompts'
-import { surprise } from '@/lib/suggest'
+import { ELSEWHERE_DAYS, surprise } from '@/lib/suggest'
 import { isTopic, MAX_TOPICS_PER_CONTACT } from '@/lib/topics'
 import { publicUrl } from '@/lib/url'
 
@@ -351,8 +352,8 @@ export async function scheduleMessage(_prev: FormState, form: FormData): Promise
 }
 
 /**
- * "Surprise me": a random passage or quote for this person, from the whole
- * library, never one sent to them in the last 180 days or already scheduled.
+ * "Surprise me": a random passage or quote for this person, from what the
+ * sender chose to suggest for them, with the no-repeat rules in lib/suggest.ts.
  * Opens it in compose, where they can send it or ask for another.
  */
 export async function surpriseMe(contactId: string, form: FormData): Promise<void> {
@@ -360,13 +361,23 @@ export async function surpriseMe(contactId: string, form: FormData): Promise<voi
   const contact = await getContact(user.id, contactId)
   if (!contact) redirect('/people')
   if (contact.consent !== 'yes') redirect(`/people/${contact.id}`)
-  const [history, settings] = await Promise.all([contactMessages(user.id, contact.id), getSettings(user.id)])
+  const now = Date.now()
+  const [history, settings, elsewhere] = await Promise.all([
+    contactMessages(user.id, contact.id),
+    getSettings(user.id),
+    usedElsewhere(user.id, contact.id, now - ELSEWHERE_DAYS * DAY),
+  ])
   const avoid = form.get('avoid')
   const pick = surprise(
     LIBRARY,
     history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status })),
-    Date.now(),
-    { avoid: typeof avoid === 'string' ? avoid : undefined, mode: contact.suggest ?? settings.suggest },
+    now,
+    {
+      avoid: typeof avoid === 'string' ? avoid : undefined,
+      mode: contact.suggest ?? settings.suggest,
+      topics: contact.topics,
+      elsewhere,
+    },
   )
   if (!pick) redirect(`/people/${contact.id}?error=surprise`)
   redirect(`/compose?contact=${contact.id}&content=${pick.id}&surprise=1`)
