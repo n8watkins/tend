@@ -38,6 +38,65 @@ export interface PushPayload {
   /** The page a tap opens: the send screen for one message, Today for several. */
   url: string
   tag: string
+  /** Buttons on the notification (Chrome and Edge show them; Safari and Firefox do not). */
+  actions?: { action: 'send' | 'skip'; title: string }[]
+  /** For the buttons: the message and a token that lets them act on it without a signed-in tab. */
+  approval?: { id: string; token: string }
+}
+
+/** Notification bodies are short on phones; the approve page shows the whole message. */
+export const APPROVAL_PREVIEW_CHARS = 120
+
+function preview(text: string, max = APPROVAL_PREVIEW_CHARS): string {
+  const flat = text.replace(/\s+/g, ' ').trim()
+  return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}…` : flat
+}
+
+/** "Send to Sam?" with Send and Skip (docs/SIGNAL-HELPER.md 3.1). */
+export function approvalPush(item: { id: string; contactName: string; body: string; token: string; helperOffline: boolean }): PushPayload {
+  return {
+    title: `Send to ${item.contactName}?`,
+    body: item.helperOffline ? `${preview(item.body)}\nYour helper is offline; you can still send it yourself.` : preview(item.body),
+    url: `/approve/${item.id}`,
+    tag: `tend-approval-${item.id}`,
+    actions: [
+      { action: 'send', title: 'Send' },
+      { action: 'skip', title: 'Skip' },
+    ],
+    approval: { id: item.id, token: item.token },
+  }
+}
+
+/** What the helper did, or why it could not (no buttons). */
+export function helperNoticePush(
+  kind: 'sent' | 'unknown' | 'failed' | 'expired' | 'challenge',
+  item: { id: string; contactName: string } | null,
+): PushPayload {
+  const name = item?.contactName ?? 'them'
+  const url = item ? `/approve/${item.id}` : '/settings#helper'
+  const tag = item ? `tend-approval-${item.id}` : 'tend-helper'
+  switch (kind) {
+    case 'sent':
+      return { title: `Sent to ${name}`, body: 'Your helper sent it on Signal.', url, tag }
+    case 'unknown':
+      return { title: `Not sure it reached ${name}`, body: `Check your Signal chat with ${name}, then tell Tend whether it was sent.`, url, tag }
+    case 'failed':
+      return { title: `Not sent to ${name}`, body: 'Your helper could not send it. Send it yourself, or try again.', url, tag }
+    case 'expired':
+      return { title: `Not sent to ${name}`, body: 'Your PC was off. Send it yourself or reschedule.', url: item ? `/send/${item.id}` : '/today', tag }
+    case 'challenge':
+      return { title: 'Your helper stopped sending', body: 'Signal asked for a captcha. Nothing will be sent until you solve it and resume.', url, tag }
+  }
+}
+
+/**
+ * The Web Push Topic header (at most 32 URL-safe characters): a newer push
+ * with the same topic replaces one not yet delivered. Each approval has its
+ * own, so one message's request never replaces another's.
+ */
+export function pushTopic(payload: PushPayload): string {
+  if (payload.approval) return `ap${payload.approval.id.replace(/[^A-Za-z0-9]/g, '').slice(0, 30)}`
+  return payload.tag.replace(/[^A-Za-z0-9_-]/g, '').slice(0, 32) || 'tend'
 }
 
 const NUDGE_BODY: Record<NudgeLine['kind'], string> = {

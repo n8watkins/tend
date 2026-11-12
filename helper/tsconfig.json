@@ -1,0 +1,18 @@
+{
+  // tend-helper is plain JavaScript (it runs on Node 22 with no build step);
+  // this checks it with TypeScript through its JSDoc (npm run typecheck).
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["bin/**/*.mjs", "lib/**/*.mjs", "test/**/*.mjs"]
+}

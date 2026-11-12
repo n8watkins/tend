@@ -7,7 +7,18 @@
 import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core'
 import type { AdapterAccountType } from 'next-auth/adapters'
 
-import type { ConsentState, MessageKind, MessageStatus, SignalStatus, Translation } from '@/lib/enums'
+import type {
+  ApprovalState,
+  ApprovedVia,
+  ConsentState,
+  HelperEventKind,
+  MessageKind,
+  MessageStatus,
+  SendState,
+  SentVia,
+  SignalStatus,
+  Translation,
+} from '@/lib/enums'
 
 const uuid = () => crypto.randomUUID()
 
@@ -89,6 +100,10 @@ export const userSettings = sqliteTable(
     telegramChatId: text('telegramChatId'),
     telegramLinkedAt: integer('telegramLinkedAt'),
     telegramReminders: integer('telegramReminders', { mode: 'boolean' }).notNull().default(true),
+    // Signal helper (docs/SIGNAL-HELPER.md): turned on in Settings, and when
+    // the risk text was accepted. Off for everyone unless they turn it on.
+    helperEnabled: integer('helperEnabled', { mode: 'boolean' }).notNull().default(false),
+    helperAckAt: integer('helperAckAt'),
     createdAt: integer('createdAt').notNull(),
   },
   (t) => [uniqueIndex('user_settings_telegram_chat_idx').on(t.telegramChatId)],
@@ -207,6 +222,23 @@ export const messages = sqliteTable(
     scheduledFor: integer('scheduledFor').notNull(),
     remindedAt: integer('remindedAt'),
     sentAt: integer('sentAt'),
+    // Signal helper (docs/SIGNAL-HELPER.md 2.4 and 3): the approval bound to
+    // the exact text by its hash, and the helper's one send of it.
+    approvalState: text('approvalState').$type<ApprovalState>().notNull().default('none'),
+    approvedBodyHash: text('approvedBodyHash'),
+    approvedAt: integer('approvedAt'),
+    approvedVia: text('approvedVia').$type<ApprovedVia>(),
+    // The latest the helper may claim it; after that it goes back to the user.
+    sendBy: integer('sendBy'),
+    sendState: text('sendState').$type<SendState>().notNull().default('idle'),
+    claimId: text('claimId'),
+    claimedAt: integer('claimedAt'),
+    leaseUntil: integer('leaseUntil'),
+    // When the helper reported a result for claimId (null until it does).
+    resultAt: integer('resultAt'),
+    sendFailure: text('sendFailure'),
+    sentVia: text('sentVia').$type<SentVia>(),
+    signalTimestamp: integer('signalTimestamp'),
     createdAt: integer('createdAt').notNull(),
     updatedAt: integer('updatedAt').notNull(),
   },
@@ -214,7 +246,62 @@ export const messages = sqliteTable(
     index('message_due_idx').on(t.status, t.scheduledFor),
     index('message_contact_idx').on(t.contactId, t.sentAt),
     index('message_user_idx').on(t.userId, t.status),
+    index('message_helper_idx').on(t.userId, t.approvalState, t.sendState),
+    index('message_claimed_idx').on(t.claimedAt),
   ],
+)
+
+/**
+ * The user's Signal helper (docs/SIGNAL-HELPER.md 2.2): one per account, known
+ * to Tend only by the SHA-256 of its device token. Revoking sets revokedAt;
+ * the row stays so history keeps its events.
+ */
+export const helperDevices = sqliteTable(
+  'helper_device',
+  {
+    id: text('id').primaryKey().$defaultFn(uuid),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    tokenHash: text('tokenHash').notNull().unique(),
+    name: text('name').notNull(),
+    createdAt: integer('createdAt').notNull(),
+    lastSeenAt: integer('lastSeenAt'),
+    helperVersion: text('helperVersion'),
+    signalCliVersion: text('signalCliVersion'),
+    // The flood-control lock: the last claim, so two sends are never closer than the gap.
+    lastClaimAt: integer('lastClaimAt'),
+    // Signal asked for a captcha (or similar): nothing is sent until the user resumes.
+    haltedAt: integer('haltedAt'),
+    haltReason: text('haltReason'),
+    revokedAt: integer('revokedAt'),
+  },
+  (t) => [index('helper_device_user_idx').on(t.userId)],
+)
+
+/** One-time pairing codes for `tend-helper pair <code>`; only a hash is kept, like telegram_link_code. */
+export const helperPairCodes = sqliteTable('helper_pair_code', {
+  codeHash: text('codeHash').primaryKey(),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  expiresAt: integer('expiresAt').notNull(),
+})
+
+/** What the helper did, step by step: ids, times and reason codes only, never names, numbers or text. */
+export const helperEvents = sqliteTable(
+  'helper_event',
+  {
+    id: text('id').primaryKey().$defaultFn(uuid),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    messageId: text('messageId'),
+    kind: text('kind').$type<HelperEventKind>().notNull(),
+    reason: text('reason'),
+    at: integer('at').notNull(),
+  },
+  (t) => [index('helper_event_user_idx').on(t.userId, t.at)],
 )
 
 export const consentEvents = sqliteTable(
@@ -264,3 +351,4 @@ export const rateLimits = sqliteTable('rate_limit', {
 export type Contact = typeof contacts.$inferSelect
 export type Message = typeof messages.$inferSelect
 export type UserSettings = typeof userSettings.$inferSelect
+export type HelperDevice = typeof helperDevices.$inferSelect

@@ -26,6 +26,7 @@ import { contacts, messages, userSettings, users } from '@/db/schema'
 import { REMINDERS_PER_USER_DAILY, REMINDERS_SITE_DAILY } from '@/lib/limits'
 import { allowedKinds } from '@/lib/schedule'
 import { emailKey, layout, sendEmail } from '@/lib/server/email'
+import { helperAllowedFor, requestApprovals } from '@/lib/server/helper'
 import { pruneLimits, readLimit, spend } from '@/lib/server/limits'
 import { claimNudges, dueNudges, pruneNudges, releaseNudges, type Nudge } from '@/lib/server/nudges'
 import { nudgeTitle, type NudgeLine } from '@/lib/occasions'
@@ -44,10 +45,12 @@ export interface ReminderRun {
   /** Birthday, anniversary and keep-in-touch reminders delivered. */
   nudged: number
   capped: number
+  /** Approval requests pushed for the Signal helper (lib/server/helper.ts). */
+  approvals: number
 }
 
 export async function runReminders(now = Date.now()): Promise<ReminderRun> {
-  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, pushed: 0, nudged: 0, capped: 0 }
+  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, pushed: 0, nudged: 0, capped: 0, approvals: 0 }
 
   const due = await db
     .select({
@@ -90,6 +93,7 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
       pausedAt: userSettings.pausedAt,
       telegramChatId: userSettings.telegramChatId,
       telegramReminders: userSettings.telegramReminders,
+      helperEnabled: userSettings.helperEnabled,
     })
     .from(users)
     .leftJoin(userSettings, eq(userSettings.userId, users.id))
@@ -102,8 +106,15 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
     const byEmail = Boolean(user.email) && user.emailReminders !== false
     const telegramChat = telegramOn && user.telegramReminders !== false ? user.telegramChatId : null
     const pushDevices = devices.get(user.id) ?? []
+    let mine = ready.filter((m) => m.userId === user.id)
+    // With a Signal helper, due messages it may send are asked about with
+    // Send and Skip instead; those that were pushed skip the usual reminder.
+    if (user.helperEnabled && helperAllowedFor(user.email)) {
+      const asked = await requestApprovals(user.id, mine.map((m) => m.id), pushDevices, now)
+      result.approvals += asked.length
+      mine = mine.filter((m) => !asked.includes(m.id))
+    }
     if (!byEmail && !telegramChat && !pushDevices.length) continue
-    const mine = ready.filter((m) => m.userId === user.id)
     const claimed = mine.length
       ? await db
           .update(messages)

@@ -18,3 +18,11 @@ export const PUSH_SITE_DAILY = REMINDERS_SITE_DAILY
 export const PUSH_SUBSCRIPTIONS_PER_USER = 10
 // Contact import: files read (or Google imports started) per user a day.
 export const IMPORT_READS_PER_USER_DAILY = 30
+// Signal helper pushes (approval requests and outcomes). Helper sends
+// themselves are capped in lib/helper.ts (HELPER_LIMITS).
+export const HELPER_PUSH_PER_USER_DAILY = 40
+export const HELPER_PUSH_SITE_DAILY = 400
+// Approve and Skip from notification buttons, per address an hour.
+export const APPROVAL_ACTIONS_PER_IP_HOURLY = 60
+// Pairing attempts per address an hour (an 8-character code; see lib/helper.ts).
+export const HELPER_PAIR_PER_IP_HOURLY = 10

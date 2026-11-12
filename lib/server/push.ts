@@ -18,7 +18,7 @@ import { db } from '@/db'
 import { pushSubscriptions } from '@/db/schema'
 import { PUSH_PER_USER_DAILY, PUSH_SITE_DAILY, PUSH_SUBSCRIPTIONS_PER_USER } from '@/lib/limits'
 import type { NudgeLine } from '@/lib/occasions'
-import { reminderPush, type PushItem, type PushPayload } from '@/lib/push'
+import { pushTopic, reminderPush, type PushItem, type PushPayload } from '@/lib/push'
 import { readLimit, spend } from '@/lib/server/limits'
 import { siteUrl } from '@/lib/url'
 import { base64UrlDecode, base64UrlEncode, derivePublicKey, encryptPush, parsePrivateKey, vapidAuthorization, type VapidKeys } from '@/lib/webpush'
@@ -70,8 +70,9 @@ export async function sendPush(subscription: Subscription, payload: PushPayload)
         'content-type': 'application/octet-stream',
         ttl: String(TTL_SECONDS),
         urgency: 'normal',
-        // A newer reminder replaces one the phone has not received yet.
-        topic: 'tend-reminder',
+        // A newer reminder replaces one the phone has not received yet; each
+        // approval has its own topic, so none replaces another.
+        topic: pushTopic(payload),
       },
       body,
     })

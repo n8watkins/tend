@@ -43,6 +43,13 @@
       "when": 1794453783616,
       "tag": "0005_contact_import",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1794453783617,
+      "tag": "0006_signal_helper",
+      "breakpoints": true
     }
   ]
 }

@@ -80,6 +80,10 @@ export const DONE_TEXT: Record<string, string> = {
   'in-touch': 'Noted. Tend counts from today for keeping in touch.',
   saved: 'Saved.',
   'telegram-off': 'Telegram disconnected. Tend will not message you there.',
+  'helper-on': 'The Signal helper is on. Pair your helper below.',
+  'helper-off': 'The Signal helper is off. Nothing will be sent for you.',
+  'helper-removed': 'Helper removed. It can no longer fetch or send anything.',
+  'helper-resumed': 'Sending is back on.',
 }
 
 export function Done({ code }: { code?: string }) {

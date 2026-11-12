@@ -2,7 +2,7 @@ import { and, eq } from 'drizzle-orm'
 
 import { auth } from '@/auth'
 import { db } from '@/db'
-import { consentEvents, contacts, contactTopics, messages, pushSubscriptions, userSettings } from '@/db/schema'
+import { consentEvents, contacts, contactTopics, helperDevices, helperEvents, messages, pushSubscriptions, userSettings } from '@/db/schema'
 import { decrypt } from '@/lib/crypto'
 
 export const dynamic = 'force-dynamic'
@@ -13,7 +13,7 @@ export async function GET(): Promise<Response> {
   const userId = session?.user?.id
   if (!userId) return new Response('Sign in first.', { status: 401 })
 
-  const [settings, people, sent, consent, devices] = await Promise.all([
+  const [settings, people, sent, consent, devices, helpers, helperLog] = await Promise.all([
     db.query.userSettings.findFirst({ where: eq(userSettings.userId, userId) }),
     db.select().from(contacts).where(eq(contacts.userId, userId)),
     db.select().from(messages).where(eq(messages.userId, userId)),
@@ -22,6 +22,24 @@ export async function GET(): Promise<Response> {
       .select({ device: pushSubscriptions.device, createdAt: pushSubscriptions.createdAt, lastPushedAt: pushSubscriptions.lastPushedAt })
       .from(pushSubscriptions)
       .where(eq(pushSubscriptions.userId, userId)),
+    // The Signal helper: devices (never their token hashes) and its step log.
+    db
+      .select({
+        name: helperDevices.name,
+        createdAt: helperDevices.createdAt,
+        lastSeenAt: helperDevices.lastSeenAt,
+        helperVersion: helperDevices.helperVersion,
+        signalCliVersion: helperDevices.signalCliVersion,
+        haltedAt: helperDevices.haltedAt,
+        haltReason: helperDevices.haltReason,
+        revokedAt: helperDevices.revokedAt,
+      })
+      .from(helperDevices)
+      .where(eq(helperDevices.userId, userId)),
+    db
+      .select({ messageId: helperEvents.messageId, kind: helperEvents.kind, reason: helperEvents.reason, at: helperEvents.at })
+      .from(helperEvents)
+      .where(eq(helperEvents.userId, userId)),
   ])
   const exported = await Promise.all(
     // emailHash is a keyed hash for spotting duplicates on import: meaningless outside Tend.
@@ -44,6 +62,8 @@ export async function GET(): Promise<Response> {
     consentEvents: consent.map(({ userId: _u, ...e }) => e),
     // Devices with phone notifications on (their push addresses stay out).
     notificationDevices: devices,
+    signalHelpers: helpers,
+    signalHelperEvents: helperLog,
   }
   return new Response(JSON.stringify(body, null, 2), {
     headers: {
