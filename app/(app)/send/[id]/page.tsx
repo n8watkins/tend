@@ -11,6 +11,7 @@ import { PageTitle } from '@/components/ui'
 import { signalChatUrl } from '@/lib/format'
 import { smsShareUrl, telegramShareUrl, whatsappShareUrl } from '@/lib/share'
 import { getContact, getMessage } from '@/lib/server/data'
+import { activeHelper, helperAllowedFor } from '@/lib/server/helper'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { formatWhen, toLocalInput } from '@/lib/time'
 
@@ -26,6 +27,7 @@ export default async function SendPage({ params, searchParams }: { params: Promi
   if (!message) notFound()
   const [contact, settings] = await Promise.all([getContact(user.id, message.contactId), getSettings(user.id)])
   if (!contact) notFound()
+  const helper = helperAllowedFor(user.email) && settings.helperEnabled ? await activeHelper(user.id) : null
   const now = Date.now()
   const first = contact.name.split(' ')[0]
   const waiting = message.status === 'scheduled'
@@ -50,6 +52,33 @@ export default async function SendPage({ params, searchParams }: { params: Promi
       {error === 'consent' ? (
         <p role="alert" className="notice notice-danger mb-6">
           {contact.name} asked not to get these messages, so this one can&rsquo;t be marked as sent.
+        </p>
+      ) : null}
+      {error === 'helper_sending' || (waiting && message.sendState === 'sending') ? (
+        <p role="alert" className="notice notice-warn mb-6">
+          Your Signal helper is sending this message right now, so it can&rsquo;t be changed. Check back in a minute.
+        </p>
+      ) : null}
+      {helper && waiting && !early && message.kind !== 'consent_request' && message.sendState !== 'sending' ? (
+        <div className="card mb-6 flex flex-wrap items-center justify-between gap-3">
+          <p className="min-w-0">
+            {message.sendState === 'unknown' || message.sendState === 'failed'
+              ? 'Your helper could not confirm this one.'
+              : message.approvalState === 'approved'
+                ? 'Approved for your Signal helper.'
+                : 'Or let your Signal helper send it.'}
+          </p>
+          <Link href={`/approve/${message.id}`} className="btn btn-secondary btn-sm">
+            {message.approvalState === 'approved' || message.sendState !== 'idle' ? 'See status' : 'Send with my helper'}
+          </Link>
+        </div>
+      ) : null}
+      {message.status === 'sent' && message.sentVia === 'helper' ? (
+        <p className="mb-6">
+          <span className="badge badge-good">
+            <CheckIcon className="size-3.5" />
+            Sent by your helper
+          </span>
         </p>
       ) : null}
 

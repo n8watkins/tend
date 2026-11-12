@@ -87,7 +87,7 @@ export default async function ContactPage({
       at: m.sentAt ?? m.updatedAt,
       text:
         m.status === 'sent'
-          ? `${m.kind === 'consent_request' ? 'Asked about messages' : `Sent ${getItem(m.contentId) ? itemTitle(getItem(m.contentId)!) : 'a personal message'}`}`
+          ? `${m.kind === 'consent_request' ? 'Asked about messages' : `Sent ${getItem(m.contentId) ? itemTitle(getItem(m.contentId)!) : 'a personal message'}`}${m.sentVia === 'helper' ? ' (sent by your helper)' : ''}`
           : `${m.status === 'skipped' ? 'Skipped' : 'Canceled'} ${m.kind === 'consent_request' ? 'a consent request' : getItem(m.contentId) ? itemTitle(getItem(m.contentId)!) : 'a personal message'}`,
       href: `/send/${m.id}`,
     })),

@@ -216,11 +216,24 @@ Each point challenges a Pass 1 conclusion; the outcome is recorded.
 | Area | Decision |
 | --- | --- |
 | Name | Tend, "thoughtful messages for the people you care about, for Signal"; `tend.n8builds.dev`; repo `n8watkins/tend`, MIT |
-| Delivery | The person sends: copy plus `signal.me` chat link, or Share on Android; the app never sends to Signal |
-| Automation | No signal-cli anywhere; no self-hosted bridge; revisit only with an official API or Signal's written permission |
+| Delivery | The person sends: copy plus `signal.me` chat link, or Share on Android. Tend's server never sends to Signal. Since 2026-11-11 (below), an optional helper on the person's own PC may send what they approve |
+| Automation | No signal-cli on Tend's infrastructure, ever. Reversed in part on 2026-11-11: an opt-in, self-run helper with approve-first (phase 1, built, private to the owner); auto-send (phase 3) not before Signal's permission is revisited. See [SIGNAL-HELPER.md](SIGNAL-HELPER.md) |
 | Scheduling | Reminders, not sends: a Cron Trigger every 15 minutes, email digest plus in-app "Due now" |
 | Consent | Per-contact states; content only to "yes"; recipient stop link (POST); frequency and quiet-hour rules enforced server-side; global pause |
 | Content | Curated, PR-reviewed library: WEB (default) and KJV scripture from bible-api.com, public-domain quotes checked against Gutenberg texts |
 | AI | None in the MVP |
 | Privacy | Name only required; phone and notes encrypted with AES-GCM; delete and export; no analytics |
 | Stack | Next.js on Workers via OpenNext, Auth.js magic link via Email Service, optional GitHub, Turso with Drizzle, Turnstile optional until configured |
+
+### 2026-11-11: an optional Signal helper
+
+The owner reconsidered the "no automation" decision above for a narrow case, designed in [SIGNAL-HELPER.md](SIGNAL-HELPER.md).
+It answers the three original reasons rather than setting them aside: approve-first keeps a person deciding each send, the keys stay on the user's own PC (Tend never hosts signal-cli), and nothing new runs on paid infrastructure.
+The owner's decisions:
+
+- Each user links the helper to their own number; the owner uses theirs.
+- Signal is not asked for permission yet; that is revisited before phase 3 (auto-send).
+- The helper is private to the owner for now: the code is in the repo, but the Settings section shows only for accounts in `SIGNAL_HELPER_USERS`, and the README does not mention it yet.
+- The caps are as written in SIGNAL-HELPER.md 4.2.
+
+Phase 1 (approve first, by phone notification) is built; SPEC.md section 16 describes it.

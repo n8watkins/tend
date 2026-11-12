@@ -1,0 +1,18 @@
+{
+  "name": "tend-helper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sends the Signal messages you approve in Tend, from your own Signal, on your own computer.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "tend-helper": "bin/tend-helper.mjs"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "engines": {
+    "node": ">=22"
+  }
+}

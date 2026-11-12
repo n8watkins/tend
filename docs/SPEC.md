@@ -3,6 +3,7 @@
 Tend helps you keep in touch with the people you care about by sending them something worth reading, now and then, on Signal.
 It suggests a verified Bible passage or a public-domain quote that fits what the person cares about, lets you write it in your own words, reminds you when it is time, and remembers what you sent so you never repeat yourself or overdo it.
 You send every message yourself, from your own Signal.
+An optional helper on your own computer can send the ones you approve (section 16; a private preview for now).
 
 - Live: https://tend.n8builds.dev
 - Repo: https://github.com/n8watkins/tend (MIT)
@@ -12,7 +13,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ## 1. Principles
 
-1. **You send.** Tend never sends anything on Signal and never holds Signal keys or sessions.
+1. **You decide.** Tend's server never sends on Signal and never holds Signal keys; an optional helper on your own computer sends what you approve (section 16, [SIGNAL-HELPER.md](SIGNAL-HELPER.md)).
 2. **Consent first.** Content goes only to people who said yes; anyone can stop with one tap.
 3. **Verified words only.** Every passage and quote in the library is checked word for word against a public-domain source.
 4. **Little data.** A contact needs only a name; phone numbers and notes are optional and encrypted.
@@ -77,9 +78,15 @@ Owner setup:
 8. In a terminal: `! pass-env set tend/GOOGLE_CLIENT_ID` and `! pass-env set tend/GOOGLE_CLIENT_SECRET`, pasting each when asked; then add both names to `.env.pass` and set them as Worker secrets (an agent can do this with `pass-env pipe tend/GOOGLE_CLIENT_ID -- npx wrangler secret put GOOGLE_CLIENT_ID`, and the same for the secret). No rebuild is needed.
 9. Optional, later: Verification Center, submit for verification to remove the warning and the 100-user cap (Google asks for a demo video and a privacy policy that covers contacts data).
 
+### Signal helper (phase 1 built, private preview)
+
+- Approve first: a small program the user runs on their own PC (`helper/`), linked to their own Signal as a secondary device, sends a due message only after they tap Send (section 16).
+- Private to the accounts in `SIGNAL_HELPER_USERS` (the owner) until it has run for a while; not in the README yet.
+- Phase 2 (approvals through Note to Self) and phase 3 (auto-send) are designed in [SIGNAL-HELPER.md](SIGNAL-HELPER.md) and not built; Signal's permission is to be revisited before phase 3.
+
 ### Not planned
 
-- Any automated sending to Signal, including a self-hosted bridge (PRD-REVIEW.md, Pass 2, point 2).
+- Sending to Signal from Tend's own servers, or hosting signal-cli for anyone (PRD-REVIEW.md, Pass 2, point 2, and the 2026-11-11 decision).
 - Bulk or group messaging, contact scraping, read receipts, autonomous replies.
 
 ## 3. Architecture
@@ -118,6 +125,9 @@ Every application row carries `userId`, and every query filters by the signed-in
 | emailReminders | integer bool | default true |
 | pausedAt | integer null | global pause: no reminders, no scheduling while set |
 | translation | text | `web` (default) or another code from `TRANSLATIONS` (docs/TRANSLATIONS.md): preferred scripture translation |
+| telegramChatId, telegramLinkedAt, telegramReminders | | Telegram (section 2) |
+| helperEnabled | integer bool | Signal helper turned on in Settings; default false |
+| helperAckAt | integer null | when the risk text was accepted |
 | createdAt | integer | |
 
 ### `contact`
@@ -167,10 +177,18 @@ Every application row carries `userId`, and every query filters by the signed-in
 | status | text | `scheduled`, `sent`, `skipped`, `canceled` |
 | scheduledFor | integer | when the reminder is due |
 | remindedAt | integer null | when the reminder email went out |
-| sentAt | integer null | when the user marked it sent |
+| sentAt | integer null | when the user marked it sent, or the helper sent it |
+| approvalState | text | Signal helper: `none`, `pending`, `approved`, `skipped`, `expired` |
+| approvedBodyHash, approvedAt, approvedVia | | the approval, bound to the exact text by its SHA-256; via `app` or `push` |
+| sendBy | integer null | the latest the helper may claim it (section 16) |
+| sendState | text | `idle`, `sending`, `sent`, `failed`, `unknown` |
+| claimId, claimedAt, leaseUntil, resultAt | | the helper's one claim, its 10-minute lease, and when its result came |
+| sendFailure | text null | a reason code (`challenge`, `unregistered`, ...), never free text |
+| sentVia | text null | `you` or `helper` (null for messages sent before the helper existed) |
+| signalTimestamp | integer null | Signal's timestamp for a helper send |
 | createdAt, updatedAt | integer | |
 
-Indexes: `(status, scheduledFor)` for the cron, `(contactId, sentAt)` for caps and history, `(userId, status)` for the dashboard.
+Indexes: `(status, scheduledFor)` for the cron, `(contactId, sentAt)` for caps and history, `(userId, status)` for the dashboard, `(userId, approvalState, sendState)` for the helper's jobs, `(claimedAt)` for its daily caps.
 
 ### `consent_event`
 
@@ -188,6 +206,12 @@ Rows older than 400 days are pruned by the cron.
 ### `push_subscription`
 
 `id, userId (cascade), endpoint (unique), p256dh, auth, device, createdAt, lastPushedAt`: one row per browser or installed app with phone notifications on (section 15).
+
+### `helper_device`, `helper_pair_code`, `helper_event`
+
+- `helper_device`: `id, userId (cascade), tokenHash (unique, SHA-256 of the device token), name, createdAt, lastSeenAt, helperVersion, signalCliVersion, lastClaimAt (the flood-control lock), haltedAt, haltReason, revokedAt`. One unrevoked row per user.
+- `helper_pair_code`: `codeHash` PK, `userId`, `expiresAt`, like `telegram_link_code`.
+- `helper_event`: `id, userId, messageId (null), kind, reason, at`: each helper step with ids and reason codes only; pruned after 180 days.
 
 ## 5. Screens and routes
 
@@ -216,7 +240,12 @@ Every page is light only (whatever the system setting), meets WCAG 2.2 AA contra
 | `/privacy`, `/terms` | public | Short, plain policies |
 | `/api/auth/[...nextauth]` | public | Auth.js |
 | `/api/export` | user | JSON download of everything the user owns, decrypted |
-| `/api/cron/reminders` | cron secret | The reminder run |
+| `/api/cron/reminders` | cron secret | The reminder run (in test mode only, `?now=` runs it as if at that time) |
+| `/approvals` | helper users | The approval queue: waiting for you, needs a look (not sure, not sent), with your helper |
+| `/approve/[messageId]` | helper users | One approval: the whole text with Send, Skip and Send it yourself; It was sent and Send it again after an unknown send |
+| `/api/helper/pair` | pairing code | A one-time code for a device token |
+| `/api/helper/jobs`, `/api/helper/jobs/[id]/claim`, `/api/helper/jobs/[id]/result`, `/api/helper/events` | device token | The helper's poll, claim, result and events (section 16) |
+| `/api/approvals/[id]` | approval token | Send and Skip from a notification's buttons |
 | `/opengraph-image` | public | Share card |
 
 Mutations are server actions; each one re-reads the session, validates with zod and checks ownership.
@@ -341,6 +370,8 @@ The run:
    - sends one email: "Time to send a message to Sam" (or "3 messages are due"), each with a link to its send screen;
    - sends one phone notification to each device with notifications on, within its own caps (section 15).
 3. A message whose contact has become `no` or `stopped` is set to `canceled` instead.
+4. Signal helper (section 16): before the reminders, a lease that ran out becomes `unknown` and an approval past its `sendBy` goes back to the manual path with one notice.
+   For a user with a helper, due content and personal messages to people who said yes (with a number) are asked about with an approval push (Send, Skip) instead of the usual reminder; one whose push did not go out gets the usual reminder.
 
 Due messages show in "Due now" whether or not an email was sent; messages more than 7 days overdue move to "Missed" with Reschedule and Skip.
 
@@ -379,6 +410,8 @@ The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
 - **Export:** `/api/export` returns contacts (decrypted), topics, messages and consent events as JSON.
 - **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `VAPID_PRIVATE_KEY`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
+  `SIGNAL_HELPER_USERS` (who may use the Signal helper) is set the same way so the owner's address stays out of the public repo; empty, every helper route answers 404.
+- **Signal helper:** device tokens (`tdh_` plus 32 random bytes) are stored as SHA-256 only and accepted only on `/api/helper/*`, never a session there and never a token anywhere else; approval tokens in pushes are an HMAC (from `AUTH_SECRET`) of the message id, the text's hash and an expiry within 12 hours. See section 16.
 
 ## 11. Limits
 
@@ -394,12 +427,16 @@ The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads
 | Reminder emails | 6 per user, 10 site-wide, per UTC day |
 | Telegram bot messages | 20 per user, 300 site-wide; replies to unlinked chats 3 per chat and 50 overall; per UTC day |
 | Phone notifications | 6 per user, 10 site-wide, per UTC day (tests: 5 per user); 10 devices per user |
+| Signal helper sends | 10 per user in any 24 hours (`HELPER_DAILY_CAP`, never above 20), 10 minutes apart (`HELPER_GAP_MINUTES`, never under 2), 200 site-wide; the helper also holds 20 a day and 2 minutes apart by itself |
+| Signal helper pushes | 40 per user, 400 site-wide, per UTC day |
+| Signal helper calls | 300 per device token an hour; 30 bad tokens per IP an hour; 10 pairing tries per IP an hour; 60 notification actions per IP an hour |
 
 ## 12. Tests
 
 - **Unit (Vitest):** scheduling rules (`nextGoodTime`, caps, windows across DST and time zones), occasion dates and reminders across time zones, cadence math, suggestion ranking, message formatting, consent transitions, encryption round trip, rate limits, library validity, cron claim logic against a local libSQL file.
 - **End to end (Playwright, Chromium, phone and desktop viewports):** sign in with the test-mode email provider (writes the link to a file); create a contact; ask consent and record yes; pick a suggestion, compose, schedule; run the cron route and see the reminder (test email sink); send screen copy and mark sent; caps refuse a too-soon message; a birthday today and a due keep-in-touch cadence each reminded once; recipient stop page stops and cancels; pause all; export; delete account; axe accessibility checks on every main page.
-- **CI:** lint, typecheck (app and worker), unit, Cloudflare build plus deploy dry run, e2e.
+- **Signal helper:** unit tests of the state machine, tokens, approval tokens, `sendBy` across DST and the checks at claim; the server against a local libSQL file (pairing, token scope, double claims, lease expiry to `unknown`, results once per claim, rules re-checked at claim, caps and gap, a captcha halting sends, the offline fallback, no names, numbers or text in logs); the helper with a fake signal-cli (crash between send and report leads to `unknown` and no resend, captcha stops sending, received messages never reach logs or Tend, the hard cap holds when Tend misbehaves); and end to end with the real app, the real CLI and the fake signal-cli. CI never talks to Signal.
+- **CI:** lint, typecheck (app, worker and the helper's JavaScript), unit, Cloudflare build plus deploy dry run, e2e.
 
 ## 13. Deploy
 
@@ -454,3 +491,46 @@ The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads
 
 - Unit: the RFC 8291 example byte for byte, a round trip with fresh keys, the VAPID JWT and its signature, endpoint allowlist, notification text, device labels.
 - End to end: the manifest and every icon's size, Chrome's installability check (`Page.getInstallabilityErrors`, empty), the service worker registering with the build version, the offline page with nothing personal cached, turning notifications on in Settings and receiving the encrypted, signed reminder at a local push service (`e2e/telegram-mock.mjs`, `PUSH_TEST_BASE`), a 410 deleting the subscription, and the install hint and steps on iPhone.
+
+## 16. Signal helper (phase 1: approve first)
+
+The design, its safety reasoning and the later phases are in [SIGNAL-HELPER.md](SIGNAL-HELPER.md); this is what is built.
+
+### Who and how
+
+- Private: only accounts whose email is in `SIGNAL_HELPER_USERS` (addresses, or `@domain`) see Settings, "Signal helper", `/approvals` and `/approve/<id>`; everyone else gets a 404 and never sees it.
+- Each user links the helper to their own Signal number. Tend's server never talks to Signal and never holds Signal keys.
+- Turning it on shows the risk text and needs a tick. Then "Get a pairing code" shows an 8-character code (10 minutes, once, stored hashed) and the command `tend-helper pair <code>`, which exchanges it for a device token.
+- One helper per account. Remove helper (or turning the helper off) revokes the token at once: the next call gets 401 and the helper stops (exit code 3, which its service does not restart). Approvals not yet claimed go back to the manual path.
+
+### The flow
+
+1. The reminder run finds a due content or personal message for a contact at `yes` with a number, marks it `pending`, and pushes "Send to Sam?" with the first 120 characters and **Send** and **Skip** buttons (each approval has its own Web Push topic). When the helper has not been seen for 10 minutes, the push says it is offline.
+2. Send (from the notification, through `POST /api/approvals/<id>` with the push's approval token, or from `/approve/<id>`) approves that exact text: `approvedBodyHash`, `approvedAt`, and `sendBy` = the end of the contact's window that day, and never more than two hours after the approval. Approval is refused when the message is not due, is a consent request, the contact is not at `yes` or has no number, Tend is paused, or it is outside their window.
+3. The helper polls `GET /api/helper/jobs` every 30 seconds (also its heartbeat) and gets ids and times only.
+4. `POST /api/helper/jobs/<id>/claim` re-checks everything (still scheduled and approved, the same text, before `sendBy`, consent `yes`, not paused, not halted, a number, the contact's window, spacing and 30-day cap at this moment, the daily caps and the gap), takes the gap lock on `helper_device.lastClaimAt`, then leases the message with one conditional `UPDATE` (10 minutes). Only the claim response carries the number (decrypted for that job) and the text.
+5. The helper writes `started` to its journal, sends one plain 1:1 message through signal-cli, writes `done`, and posts the result (`sent` with Signal's timestamp, `failed` with a reason code, or `unknown`). Tend accepts one result per claim; a repeat returns the first answer. A late result after the lease ran out still records what happened.
+6. Sent: `status = 'sent'`, `sentVia = 'helper'`, a quiet push "Sent to Sam", and "Sent by your helper" in History, on the approve page and in the contact's history.
+
+### At most once
+
+- "I sent it", Skip and Reschedule are refused while the helper is sending, and they withdraw any approval.
+- A lease with no result becomes `unknown` (a push says so). Nothing retries it: the user checks Signal and taps "It was sent" or "Send it again" (a new approval and a new claim).
+- The helper refuses by itself: a message whose earlier attempt is unsettled, one it already attempted unless it was approved again since, anything past `sendBy` or approved more than two hours ago, more than 20 sends in 24 hours or two within 2 minutes, a claim whose text does not match its hash or whose recipient is not a phone number.
+- With the PC off, an approval past `sendBy` becomes `expired`: the message stays in Due now for the manual path, and one push says "Not sent: your PC was off. Send it yourself or reschedule." The helper coming back later sends nothing.
+
+### Captcha and unlinking
+
+- When signal-cli reports a rate-limit challenge ("proof required"), the helper stops all sending, keeps the challenge token locally, and tells Tend, which halts the device (claims refused) and pushes "Your helper stopped sending".
+- The user solves the captcha by hand (signalcaptchas.org, then `tend-helper captcha <token>`, which calls signal-cli's `submitRateLimitChallenge`), then taps Resume sending in Settings. Nothing solves captchas automatically.
+- An unlinked account halts the same way, with its own text.
+
+### The helper (`helper/`)
+
+- Plain JavaScript for Node 22, no dependencies, type-checked with `helper/tsconfig.json`.
+- `tend-helper pair <code>`, `doctor [--send-test]` (Node, signal-cli and its age, the linked account, where the keys live, the token, the clock, the service; `--send-test` sends "Tend helper is connected." to Note to Self), `run [--once]`, `install-service [--dry-run]`, `uninstall-service`, `captcha <token>`, `resume`, `status`.
+- signal-cli runs as a child in `jsonRpc` mode over stdin and stdout; nothing listens on a port. Every received message is dropped unread.
+- Files: `~/.config/tend-helper/{config.json,token}` and `~/.local/state/tend-helper/{journal.jsonl,state.json}`, mode 600 in folders of mode 700; on native Windows the token is also DPAPI-protected.
+- The journal is append-only JSON lines, each flushed to disk before the helper moves on.
+- Logs (journald, or a rotated file on native Windows) carry ids, outcomes and reason codes only: the logger drops any field or value that is not one.
+- `install-service`: a systemd user unit (`Restart=on-failure`, `RestartPreventExitStatus=3`) and `loginctl enable-linger`; on WSL, a hidden `wsl.exe -d <distro> --exec sleep infinity` at Windows logon so Windows does not stop the distro, started from the user's own Run key (a Task Scheduler logon task needs administrator rights).

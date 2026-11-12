@@ -3,6 +3,8 @@ import { join } from 'node:path'
 
 import { expect, type Page, type TestInfo } from '@playwright/test'
 
+import { subscriptionJson, type ReceiverKeys } from '../tests/webpush-receiver'
+
 const EMAIL_DIR = join(process.cwd(), '.e2e', 'email')
 
 export function mailFile(address: string) {
@@ -64,10 +66,67 @@ export async function addPerson(
   return page.url().split('/').pop()!
 }
 
-export async function runCron(page: Page) {
-  const response = await page.request.post('/api/cron/reminders', { headers: { authorization: 'Bearer e2e-cron-secret' } })
+/** Runs the reminder run; `now` (test mode only) runs it as if at that time. */
+export async function runCron(page: Page, now?: number) {
+  const response = await page.request.post(`/api/cron/reminders${now ? `?now=${now}` : ''}`, { headers: { authorization: 'Bearer e2e-cron-secret' } })
   expect(response.ok()).toBe(true)
   return response.json()
+}
+
+/* Phone notifications (Web Push) -------------------------------------------- */
+
+const PUSH_LOG = join(process.cwd(), '.e2e', 'push.jsonl')
+// PUSH_TEST_BASE in playwright.config.ts: the push service part of e2e/telegram-mock.mjs.
+export const PUSH_BASE = `http://localhost:${Number(process.env.E2E_TELEGRAM_PORT || 7843)}/push`
+
+/** What the push mock received for one device. */
+export async function pushes(id: string): Promise<{ id: string; headers: Record<string, string>; body: string }[]> {
+  try {
+    return (await readFile(PUSH_LOG, 'utf8'))
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line))
+      .filter((p) => p.id === id)
+  } catch {
+    return []
+  }
+}
+
+/** Waits until the service worker is active and controls the page. */
+export async function controlled(page: Page) {
+  await page.goto('/')
+  const scriptURL = await page.evaluate(async () => (await navigator.serviceWorker.ready).active?.scriptURL)
+  if (!(await page.evaluate(() => Boolean(navigator.serviceWorker.controller)))) await page.reload()
+  await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true)
+  return scriptURL!
+}
+
+/**
+ * Headless Chromium has no push service, so the browser's subscribe() is
+ * replaced by one that returns a subscription at the local push mock with
+ * keys the test holds. Everything else (permission, Settings, the server
+ * action, the reminder run, encryption) is the real thing.
+ */
+export async function fakePushService(page: Page, endpoint: string, keys: ReceiverKeys) {
+  await page.context().grantPermissions(['notifications'])
+  await page.addInitScript((json) => {
+    // Kept across page loads, as the browser keeps a real subscription.
+    const KEY = 'e2e:push-subscribed'
+    const subscription = {
+      endpoint: json.endpoint,
+      expirationTime: null,
+      toJSON: () => json,
+      unsubscribe: async () => (localStorage.removeItem(KEY), true),
+    } as unknown as PushSubscription
+    PushManager.prototype.subscribe = async function () {
+      localStorage.setItem(KEY, '1')
+      return subscription
+    }
+    PushManager.prototype.getSubscription = async function () {
+      return localStorage.getItem(KEY) ? subscription : null
+    }
+  }, subscriptionJson(endpoint, keys))
 }
 
 const TELEGRAM_LOG = join(process.cwd(), '.e2e', 'telegram.jsonl')

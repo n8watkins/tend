@@ -45,6 +45,8 @@ export const E2E_ENV = {
   GOOGLE_CLIENT_ID: 'e2e-google-client-id',
   GOOGLE_CLIENT_SECRET: 'e2e-google-client-secret',
   GOOGLE_API_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}`,
+  // The Signal helper is private: only these accounts see it (e2e/helper.spec.ts).
+  SIGNAL_HELPER_USERS: '@helper.example.test',
   // Dummy GitHub OAuth app, so the GitHub button shows; the test stops at github.com.
   AUTH_GITHUB_ID: 'e2e-github-client-id',
   AUTH_GITHUB_SECRET: 'e2e-github-client-secret',

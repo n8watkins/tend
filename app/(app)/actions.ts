@@ -50,7 +50,7 @@ import {
   getMessage,
   openConsentRequests,
 } from '@/lib/server/data'
-import { recordSent } from '@/lib/server/messages'
+import { moveScheduled, recordSent, skipScheduled } from '@/lib/server/messages'
 import { pushConfigured, pushTest, removeOtherSubscriptions, removeSubscription, saveSubscription, userSubscriptions } from '@/lib/server/push'
 import { createLinkUrl, ensureTelegramWebhook, telegramConfigured, unlinkTelegram } from '@/lib/server/telegram'
 import { getSettings, requireUser } from '@/lib/server/session'
@@ -368,7 +368,7 @@ export async function markSent(messageId: string): Promise<void> {
   const user = await requireUser()
   const result = await recordSent(user.id, messageId)
   if (!result.ok) {
-    if (result.reason === 'consent') redirect(`/send/${messageId}?error=consent`)
+    if (result.reason === 'consent' || result.reason === 'helper_sending') redirect(`/send/${messageId}?error=${result.reason}`)
     redirect(result.reason === 'not_found' ? '/today' : `/send/${messageId}`)
   }
   revalidatePath('/today')
@@ -379,10 +379,7 @@ export async function skipMessage(messageId: string): Promise<void> {
   const user = await requireUser()
   const message = await getMessage(user.id, messageId)
   if (!message) redirect('/today')
-  await db
-    .update(messages)
-    .set({ status: 'skipped', updatedAt: Date.now() })
-    .where(and(eq(messages.id, messageId), eq(messages.userId, user.id), eq(messages.status, 'scheduled')))
+  if (!(await skipScheduled(user.id, messageId)) && message.sendState === 'sending') redirect(`/send/${messageId}?error=helper_sending`)
   revalidatePath('/today')
   redirect(`/people/${message.contactId}?done=skipped`)
 }
@@ -405,10 +402,7 @@ export async function rescheduleMessage(messageId: string, _prev: FormState, for
   if (at === null) return { error: when === 'custom' ? 'Choose a date and time.' : REFUSAL_TEXT.no_time }
   const refusal = checkTime(rules, message.kind, history, at, now, { paused: Boolean(settings.pausedAt), openRequests })
   if (refusal) return { error: REFUSAL_TEXT[refusal] }
-  await db
-    .update(messages)
-    .set({ scheduledFor: at, remindedAt: null, updatedAt: now })
-    .where(and(eq(messages.id, messageId), eq(messages.userId, user.id)))
+  if (!(await moveScheduled(user.id, messageId, at, now))) return { error: 'Your Signal helper is sending this message right now.' }
   revalidatePath('/today')
   redirect(`/people/${contact.id}?done=rescheduled`)
 }

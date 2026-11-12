@@ -15,6 +15,7 @@ const ITEMS = [
 
 function isActive(pathname: string, href: string) {
   if (href === '/people') return pathname.startsWith('/people') || pathname.startsWith('/compose') || pathname.startsWith('/send')
+  if (href === '/today') return pathname.startsWith('/today') || pathname.startsWith('/approve')
   return pathname.startsWith(href)
 }
 

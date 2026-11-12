@@ -9,7 +9,9 @@
  * - Pages and the API always go to the network and are never cached: they
  *   carry the user's people and messages. A page that cannot load offline
  *   gets the offline page instead.
- * - Push: shows a reminder notification; tapping it opens the message.
+ * - Push: shows a reminder notification; tapping it opens the message. A
+ *   Signal helper approval has Send and Skip buttons that act without
+ *   opening Tend (POST /api/approvals/<id> with the push's approval token).
  */
 
 const VERSION = new URL(self.location.href).searchParams.get('v') || 'dev'
@@ -109,6 +111,14 @@ self.addEventListener('push', (event) => {
     data = {}
   }
   const title = typeof data.title === 'string' && data.title ? data.title : 'Tend'
+  // Signal helper approvals (docs/SIGNAL-HELPER.md 3.1): Send and Skip
+  // buttons where the browser shows them (Chrome, Edge); elsewhere a tap
+  // opens the approve page.
+  const approval =
+    data.approval && typeof data.approval.id === 'string' && typeof data.approval.token === 'string'
+      ? { id: data.approval.id, token: data.approval.token }
+      : null
+  const actions = approval && Array.isArray(data.actions) ? data.actions.filter((a) => a && (a.action === 'send' || a.action === 'skip')).slice(0, 2) : []
   event.waitUntil(
     self.registration.showNotification(title, {
       body: typeof data.body === 'string' ? data.body : 'A message is ready to send.',
@@ -116,28 +126,67 @@ self.addEventListener('push', (event) => {
       badge: '/icons/badge-96.png',
       tag: typeof data.tag === 'string' ? data.tag : 'tend-reminder',
       renotify: true,
-      data: { url: typeof data.url === 'string' ? data.url : '/today' },
+      ...(actions.length ? { actions: actions.map((a) => ({ action: a.action, title: String(a.title).slice(0, 20) })), requireInteraction: true } : {}),
+      data: { url: typeof data.url === 'string' ? data.url : '/today', approval },
     }),
   )
 })
 
+/** Only ever a page of Tend itself. */
+function tendUrl(path) {
+  const target = new URL(path || '/today', self.location.origin)
+  return target.origin === self.location.origin ? target.href : new URL('/today', self.location.origin).href
+}
+
+/** Reuses an open Tend window (the installed app's, usually); else opens one. */
+async function openPage(url) {
+  const [client] = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+  if (client) {
+    const navigated = await client.navigate(url).catch(() => null)
+    if (navigated) {
+      await navigated.focus()
+      return
+    }
+  }
+  await self.clients.openWindow(url)
+}
+
+/** Send or Skip from the notification: posts the action with its approval token, then says what happened. */
+async function act(notification, action) {
+  const { approval, url } = notification.data
+  let result = { ok: false, text: '' }
+  try {
+    const response = await fetch(`/api/approvals/${encodeURIComponent(approval.id)}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action, token: approval.token }),
+      credentials: 'omit',
+    })
+    result = await response.json()
+  } catch {
+    result = { ok: false, text: '' }
+  }
+  if (!result.ok && !result.text) {
+    // Offline or Tend unreachable: open the approve page instead.
+    await openPage(tendUrl(url))
+    return
+  }
+  await self.registration.showNotification(result.ok ? (action === 'send' ? 'Approved' : 'Skipped') : 'Not approved', {
+    body: result.text,
+    icon: '/icons/icon-192.png',
+    badge: '/icons/badge-96.png',
+    tag: notification.tag,
+    data: { url: tendUrl(url), approval: null },
+  })
+}
+
 self.addEventListener('notificationclick', (event) => {
-  event.notification.close()
-  // Only ever opens a page of Tend itself.
-  const target = new URL(event.notification.data?.url || '/today', self.location.origin)
-  const url = target.origin === self.location.origin ? target.href : new URL('/today', self.location.origin).href
-  event.waitUntil(
-    (async () => {
-      // Reuse an open Tend window (the installed app's, usually); else open one.
-      const [client] = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-      if (client) {
-        const navigated = await client.navigate(url).catch(() => null)
-        if (navigated) {
-          await navigated.focus()
-          return
-        }
-      }
-      await self.clients.openWindow(url)
-    })(),
-  )
+  const notification = event.notification
+  notification.close()
+  const action = event.action
+  if ((action === 'send' || action === 'skip') && notification.data?.approval) {
+    event.waitUntil(act(notification, action))
+    return
+  }
+  event.waitUntil(openPage(tendUrl(notification.data?.url)))
 })

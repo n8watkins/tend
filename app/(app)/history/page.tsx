@@ -14,6 +14,8 @@ const STATUS: Record<string, { label: string; className: string }> = {
   canceled: { label: 'Canceled', className: 'badge badge-warn' },
 }
 
+const HELPER_SENT = { label: 'Sent by your helper', className: 'badge badge-good' }
+
 export default async function HistoryPage() {
   const user = await requireUser()
   const [rows, settings] = await Promise.all([historyList(user.id), getSettings(user.id)])
@@ -25,7 +27,8 @@ export default async function HistoryPage() {
           {rows.map((m) => {
             const item = getItem(m.contentId)
             const what = m.kind === 'consent_request' ? 'Asked about messages' : item ? itemTitle(item) : 'Personal message'
-            const status = STATUS[m.status] ?? STATUS.canceled!
+            // Everything the Signal helper sent in your name is marked as such.
+            const status = m.status === 'sent' && m.sentVia === 'helper' ? HELPER_SENT : (STATUS[m.status] ?? STATUS.canceled!)
             return (
               <li key={m.id}>
                 <RowLink

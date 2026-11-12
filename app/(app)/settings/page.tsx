@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 
+import { HelperSettings } from '@/components/HelperSettings'
 import { InstallApp } from '@/components/InstallApp'
 import { PushSettings } from '@/components/PushSettings'
 import { DeleteAccountForm, PreferencesForm } from '@/components/SettingsForms'
 import { SubmitButton } from '@/components/SubmitButton'
 import { Done, PageTitle, Section } from '@/components/ui'
+import { helperAllowedFor, helperStatus } from '@/lib/server/helper'
 import { userSubscriptions, vapidPublicKey } from '@/lib/server/push'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { telegramConfigured } from '@/lib/server/telegram'
@@ -20,6 +22,8 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
   const settings = await getSettings(user.id)
   const pushKey = await vapidPublicKey()
   const devices = pushKey ? (await userSubscriptions(user.id)).map(({ endpoint, device }) => ({ endpoint, device })) : []
+  // The Signal helper is private for now: only accounts in SIGNAL_HELPER_USERS see it.
+  const helper = helperAllowedFor(user.email) ? await helperStatus(user.id) : null
   return (
     <>
       <PageTitle title="Settings" subtitle={user.email ? `Signed in as ${user.email}` : undefined} />
@@ -82,6 +86,12 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             )}
             <p className="hint">Email reminders are set above; keep both, or turn email off to get Telegram only. Send /stop to the bot to disconnect from Telegram itself.</p>
           </div>
+        </Section>
+      ) : null}
+
+      {helper ? (
+        <Section title="Signal helper" id="helper">
+          <HelperSettings status={helper} timezone={settings.timezone} notificationsOn={devices.length > 0} error={error} />
         </Section>
       ) : null}
 

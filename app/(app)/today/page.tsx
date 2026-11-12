@@ -6,6 +6,7 @@ import { Empty, PageTitle, RowLink, Section } from '@/components/ui'
 import { describeCadence, describeUpcoming } from '@/lib/occasions'
 import { couldUseAMessage, countContacts, todayLists } from '@/lib/server/data'
 import { dueToReachOut, upcomingOccasions } from '@/lib/server/nudges'
+import { approvalCount, helperAllowedFor } from '@/lib/server/helper'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { formatDate, formatWhen } from '@/lib/time'
 
@@ -29,6 +30,7 @@ export default async function TodayPage() {
   const tz = settings.timezone
   // People due to reach out are listed there, not twice.
   const idle = couldUse.filter((c) => !reachOut.some((r) => r.id === c.id))
+  const approvals = settings.helperEnabled && helperAllowedFor(user.email) ? await approvalCount(user.id) : 0
 
   if (people === 0) {
     return (
@@ -52,6 +54,18 @@ export default async function TodayPage() {
   return (
     <>
       <PageTitle title="Today" subtitle={today} />
+
+      {approvals > 0 ? (
+        <Link href="/approvals" className="card mb-2 flex items-center gap-3 no-underline hover:border-accent">
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold">
+              {approvals === 1 ? '1 message needs your approval' : `${approvals} messages need your approval`}
+            </span>
+            <span className="mt-0.5 block text-sm text-muted">For your Signal helper. Tap to send or skip.</span>
+          </span>
+          <span className="badge badge-good">Approve</span>
+        </Link>
+      ) : null}
 
       <Section title="Ready to send" id="due">
         {lists.due.length ? (
