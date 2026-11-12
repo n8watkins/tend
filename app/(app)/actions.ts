@@ -31,6 +31,15 @@ import { getItem, LIBRARY } from '@/lib/content'
 import { encrypt, randomToken } from '@/lib/crypto'
 import { buildBody, MAX_BODY, normalizePhone } from '@/lib/format'
 import { MAX_CONTACTS, MAX_OPEN_MESSAGES } from '@/lib/limits'
+import {
+  dateFromFields,
+  DEFAULT_LEAD_DAYS,
+  LEAD_DAY_CHOICES,
+  lastInTouchFromInput,
+  lastInTouchInput,
+  localToday,
+  MAX_CADENCE_DAYS,
+} from '@/lib/occasions'
 import { checkTime, nextGoodTime, REFUSAL_TEXT, type ContactRules } from '@/lib/schedule'
 import {
   contactHistory,
@@ -85,7 +94,31 @@ function parseContactForm(form: FormData) {
   if (!allowedDays) return { error: 'Pick at least one day.' } as const
   const topics = [...new Set(form.getAll('topics').map(String).filter(isTopic))]
   if (topics.length > MAX_TOPICS_PER_CONTACT) return { error: `Pick up to ${MAX_TOPICS_PER_CONTACT} topics.` } as const
-  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics, translation: v.translation || null } } as const
+  const occasions = parseOccasionFields(form, v.timezone)
+  if ('error' in occasions) return { error: occasions.error } as const
+  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics, translation: v.translation || null, ...occasions.value } } as const
+}
+
+/** Birthday, anniversary, how far ahead to remind, and the keep-in-touch cadence. */
+function parseOccasionFields(form: FormData, timezone: string) {
+  const now = Date.now()
+  // The date in the zone that reaches it first, so a baby born today anywhere is allowed.
+  const today = localToday(now, 'Pacific/Kiritimati')
+  const field = (name: string) => form.get(name) ?? undefined
+  const birthday = dateFromFields('birthday', { month: field('birthdayMonth'), day: field('birthdayDay'), year: field('birthdayYear') }, today)
+  if ('error' in birthday) return birthday
+  const anniversary = dateFromFields('anniversary', { month: field('anniversaryMonth'), day: field('anniversaryDay'), year: field('anniversaryYear') }, today)
+  if ('error' in anniversary) return anniversary
+  const lead = Number(form.get('occasionLeadDays') ?? DEFAULT_LEAD_DAYS)
+  if (!(LEAD_DAY_CHOICES as readonly number[]).includes(lead)) return { error: 'Choose when to be reminded.' }
+  const choice = String(form.get('cadence') ?? '')
+  const cadenceDays = choice === '' ? null : Number(choice === 'custom' ? form.get('cadenceCustom') : choice)
+  if (cadenceDays !== null && !(Number.isInteger(cadenceDays) && cadenceDays >= 1 && cadenceDays <= MAX_CADENCE_DAYS)) {
+    return { error: `Keep in touch every 1 to ${MAX_CADENCE_DAYS} days.` }
+  }
+  const lastInTouch = lastInTouchFromInput(form.get('lastInTouch'), timezone, localToday(now, timezone), now)
+  if ('error' in lastInTouch) return lastInTouch
+  return { value: { birthday: birthday.value, anniversary: anniversary.value, occasionLeadDays: lead, cadenceDays, lastInTouch } }
 }
 
 export async function createContact(_prev: FormState, form: FormData): Promise<FormState> {
@@ -113,6 +146,11 @@ export async function createContact(_prev: FormState, form: FormData): Promise<F
     windowEnd: v.windowEnd,
     allowedDays: v.allowedDays,
     translation: v.translation,
+    birthday: v.birthday,
+    anniversary: v.anniversary,
+    occasionLeadDays: v.occasionLeadDays,
+    cadenceDays: v.cadenceDays,
+    lastInTouchAt: v.lastInTouch.value,
     stopToken: randomToken(),
     createdAt: now,
     updatedAt: now,
@@ -145,6 +183,12 @@ export async function updateContact(contactId: string, _prev: FormState, form: F
       windowEnd: v.windowEnd,
       allowedDays: v.allowedDays,
       translation: v.translation,
+      birthday: v.birthday,
+      anniversary: v.anniversary,
+      occasionLeadDays: v.occasionLeadDays,
+      cadenceDays: v.cadenceDays,
+      // The same day as before keeps the exact moment ("We were in touch today" at 15:00).
+      lastInTouchAt: v.lastInTouch.date === lastInTouchInput(existing) ? existing.lastInTouchAt : v.lastInTouch.value,
       updatedAt: Date.now(),
     })
     .where(and(eq(contacts.id, contactId), eq(contacts.userId, user.id)))
@@ -153,6 +197,18 @@ export async function updateContact(contactId: string, _prev: FormState, form: F
     await db.insert(contactTopics).values(v.topics.map((topic) => ({ contactId, topic, weight: 2 })))
   }
   redirect(`/people/${contactId}`)
+}
+
+/** "We were in touch today": a call, a visit or a message outside Tend counts too, and moves the next keep-in-touch date. */
+export async function markInTouch(contactId: string): Promise<void> {
+  const user = await requireUser()
+  const now = Date.now()
+  await db
+    .update(contacts)
+    .set({ lastInTouchAt: now, updatedAt: now })
+    .where(and(eq(contacts.id, contactId), eq(contacts.userId, user.id)))
+  revalidatePath('/today')
+  redirect(`/people/${contactId}?done=in-touch`)
 }
 
 export async function deleteContact(contactId: string): Promise<void> {

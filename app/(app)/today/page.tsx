@@ -3,9 +3,11 @@ import Link from 'next/link'
 
 import { PlusIcon } from '@/components/icons'
 import { Empty, PageTitle, RowLink, Section } from '@/components/ui'
+import { describeCadence, describeUpcoming } from '@/lib/occasions'
 import { couldUseAMessage, countContacts, todayLists } from '@/lib/server/data'
+import { dueToReachOut, upcomingOccasions } from '@/lib/server/nudges'
 import { getSettings, requireUser } from '@/lib/server/session'
-import { formatWhen } from '@/lib/time'
+import { formatDate, formatWhen } from '@/lib/time'
 
 export const metadata: Metadata = { title: 'Today' }
 
@@ -16,13 +18,17 @@ function kindLabel(kind: string) {
 export default async function TodayPage() {
   const user = await requireUser()
   const now = Date.now()
-  const [settings, lists, idle, people] = await Promise.all([
+  const [settings, lists, couldUse, people, reachOut, occasions] = await Promise.all([
     getSettings(user.id),
     todayLists(user.id, now),
     couldUseAMessage(user.id, now),
     countContacts(user.id),
+    dueToReachOut(user.id, now),
+    upcomingOccasions(user.id, now),
   ])
   const tz = settings.timezone
+  // People due to reach out are listed there, not twice.
+  const idle = couldUse.filter((c) => !reachOut.some((r) => r.id === c.id))
 
   if (people === 0) {
     return (
@@ -76,6 +82,40 @@ export default async function TodayPage() {
                   title={`${kindLabel(m.kind)} ${m.contactName}`}
                   meta={`Was due ${formatWhen(m.scheduledFor, tz)}. Send, skip or reschedule.`}
                   badge={<span className="badge badge-warn">Missed</span>}
+                />
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {reachOut.length ? (
+        <Section title="Due to reach out" id="reach-out">
+          <ul className="space-y-3">
+            {reachOut.map((c) => (
+              <li key={c.id}>
+                <RowLink
+                  href={`/people/${c.id}#suggestions`}
+                  title={c.name}
+                  meta={`${describeCadence(c.cadenceDays)}. ${c.last ? `Last in touch ${formatDate(c.last, tz)}.` : 'Not in touch through Tend yet.'}`}
+                  badge={<span className="badge badge-warn">Due</span>}
+                />
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {occasions.length ? (
+        <Section title="Birthdays and anniversaries" id="occasions">
+          <ul className="space-y-3">
+            {occasions.map((o) => (
+              <li key={`${o.id}-${o.occasion.kind}`}>
+                <RowLink
+                  href={o.consent === 'yes' ? `/people/${o.id}?occasion=${o.occasion.kind}#occasion` : `/people/${o.id}`}
+                  title={o.name}
+                  meta={`${describeUpcoming(o.occasion)}${o.consent === 'yes' ? '' : '. Not said yes to messages yet.'}`}
+                  badge={o.occasion.daysAway === 0 ? <span className="badge badge-good">Today</span> : undefined}
                 />
               </li>
             ))}

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { ContactForm } from '@/components/ContactForm'
 import { PageTitle } from '@/components/ui'
+import { lastInTouchInput } from '@/lib/occasions'
 import { getContact } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { timeZoneOptions } from '@/lib/timezones'
@@ -37,6 +38,11 @@ export default async function EditContactPage({ params }: { params: Promise<{ id
           allowedDays: contact.allowedDays,
           notes: contact.notes ?? '',
           translation: contact.translation ?? '',
+          birthday: contact.birthday ?? '',
+          anniversary: contact.anniversary ?? '',
+          occasionLeadDays: contact.occasionLeadDays,
+          cadenceDays: contact.cadenceDays,
+          lastInTouch: lastInTouchInput(contact),
         }}
       />
     </>

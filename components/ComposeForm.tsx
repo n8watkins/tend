@@ -22,6 +22,8 @@ export interface ComposeProps {
   stopLinkDefault: boolean
   nextAt: number | null
   nextLabel: string | null
+  /** "Next good time", or "On their birthday" from an occasion. */
+  nextHeading?: string
   nowAllowed: boolean
   nowRefusal: string | null
   customDefault: string
@@ -138,7 +140,7 @@ export function ComposeForm(props: ComposeProps) {
           <label className="flex items-start gap-2">
             <input type="radio" name="when" value="next" checked={when === 'next'} onChange={() => setWhen('next')} className="mt-1 size-4" />
             <span>
-              Next good time: <strong>{props.nextLabel}</strong>
+              {props.nextHeading ?? 'Next good time'}: <strong>{props.nextLabel}</strong>
             </span>
           </label>
         ) : (

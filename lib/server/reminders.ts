@@ -14,6 +14,9 @@ import 'server-only'
  *    buttons, each within its own per-user and site-wide daily caps. When no
  *    channel delivers, the claim is handed back so a later run (after the
  *    daily reset) tries again; "Due now" in the app shows them either way.
+ * 4. Birthday, anniversary and keep-in-touch reminders (lib/server/nudges.ts)
+ *    ride along in the same email, notification and caps; each is claimed
+ *    in the nudge table first and handed back the same way.
  */
 
 import { and, eq, inArray, isNull, lte } from 'drizzle-orm'
@@ -24,6 +27,8 @@ import { REMINDERS_PER_USER_DAILY, REMINDERS_SITE_DAILY } from '@/lib/limits'
 import { allowedKinds } from '@/lib/schedule'
 import { emailKey, layout, sendEmail } from '@/lib/server/email'
 import { pruneLimits, readLimit, spend } from '@/lib/server/limits'
+import { claimNudges, dueNudges, pruneNudges, releaseNudges, type Nudge } from '@/lib/server/nudges'
+import { nudgeTitle, type NudgeLine } from '@/lib/occasions'
 import { pushReminder, subscriptionsFor } from '@/lib/server/push'
 import { sendTelegramReminders, telegramConfigured } from '@/lib/server/telegram'
 import { publicUrl } from '@/lib/url'
@@ -36,11 +41,13 @@ export interface ReminderRun {
   emailed: number
   telegram: number
   pushed: number
+  /** Birthday, anniversary and keep-in-touch reminders delivered. */
+  nudged: number
   capped: number
 }
 
 export async function runReminders(now = Date.now()): Promise<ReminderRun> {
-  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, pushed: 0, capped: 0 }
+  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, pushed: 0, nudged: 0, capped: 0 }
 
   const due = await db
     .select({
@@ -68,9 +75,10 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
   }
 
   const ready = due.filter((m) => !blocked.includes(m))
-  const userIds = [...new Set(ready.map((m) => m.userId))].slice(0, MAX_USERS_PER_RUN)
+  const pending = await dueNudges(now)
+  const userIds = [...new Set([...ready.map((m) => m.userId), ...pending.map((n) => n.userId)])].slice(0, MAX_USERS_PER_RUN)
   if (!userIds.length) {
-    await pruneLimits(now)
+    await Promise.all([pruneLimits(now), pruneNudges(now)])
     return result
   }
 
@@ -95,57 +103,67 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
     const telegramChat = telegramOn && user.telegramReminders !== false ? user.telegramChatId : null
     const pushDevices = devices.get(user.id) ?? []
     if (!byEmail && !telegramChat && !pushDevices.length) continue
-    result.users++
     const mine = ready.filter((m) => m.userId === user.id)
-    const claimed = await db
-      .update(messages)
-      .set({ remindedAt: now })
-      .where(and(inArray(messages.id, mine.map((m) => m.id)), isNull(messages.remindedAt), eq(messages.status, 'scheduled')))
-      .returning({ id: messages.id })
+    const claimed = mine.length
+      ? await db
+          .update(messages)
+          .set({ remindedAt: now })
+          .where(and(inArray(messages.id, mine.map((m) => m.id)), isNull(messages.remindedAt), eq(messages.status, 'scheduled')))
+          .returning({ id: messages.id })
+      : []
     const claimedIds = claimed.map((c) => c.id)
     const items = mine.filter((m) => claimedIds.includes(m.id))
-    if (!items.length) continue
+    const nudges = await claimNudges(
+      pending.filter((n) => n.userId === user.id),
+      now,
+    )
+    if (!items.length && !nudges.length) continue
+    result.users++
 
     let delivered = false
     let retry = false
     if (byEmail) {
-      const outcome = await emailReminder(user.id, user.email!, items, claimedIds, now)
+      const outcome = await emailReminder(user.id, user.email!, items, nudges, now)
       if (outcome === 'sent') {
         delivered = true
         result.emailed++
       } else if (outcome === 'retry') retry = true
     }
     if (pushDevices.length) {
-      const outcome = await pushReminder(user.id, pushDevices, items, now)
+      const outcome = await pushReminder(user.id, pushDevices, items, now, nudges)
       if (outcome === 'sent') {
         delivered = true
         result.pushed++
       } else if (outcome === 'retry') retry = true
     }
     if (telegramChat) {
-      const sent = await sendTelegramReminders(telegramChat, user.id, items)
+      const sent = await sendTelegramReminders(telegramChat, user.id, items, nudges)
       if (sent > 0) {
         delivered = true
         result.telegram += sent
       } else retry = true
     }
-    if (!delivered) {
-      // Hand the claim back only when a later run can succeed.
-      if (retry) await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
+    if (delivered) result.nudged += nudges.length
+    else {
+      // Hand the claims back only when a later run can succeed.
+      if (retry) {
+        if (claimedIds.length) await db.update(messages).set({ remindedAt: null }).where(inArray(messages.id, claimedIds))
+        await releaseNudges(nudges)
+      }
       result.capped++
     }
   }
 
-  await pruneLimits(now)
+  await Promise.all([pruneLimits(now), pruneNudges(now)])
   return result
 }
 
-/** One email for the user's due items, within the email caps. */
+/** One email for the user's due items and reminders, within the email caps. */
 async function emailReminder(
   userId: string,
   to: string,
   items: { id: string; contactName: string; kind: string }[],
-  claimedIds: string[],
+  nudges: Nudge[],
   now: number,
 ): Promise<'sent' | 'retry' | 'refused'> {
   const allowed = await spend(
@@ -156,9 +174,10 @@ async function emailReminder(
     now,
   )
   if (!allowed) return 'retry'
+  const keys = [...items.map((m) => m.id), ...nudges.map((n) => `${n.contactId}:${n.key}`)].sort()
   const sent = await sendEmail('reminder', {
-    ...reminderEmail(to, items),
-    key: `reminder-${await emailKey(...[...claimedIds].sort())}`,
+    ...reminderEmail(to, items, nudges),
+    key: `reminder-${await emailKey(...keys)}`,
   })
   // Refused by the mailroom (over a cap, suppressed, ...): not retried in
   // this run, and only handed back when a later run can succeed.
@@ -166,24 +185,35 @@ async function emailReminder(
   return 'sent'
 }
 
-export function reminderEmail(to: string, items: { id: string; contactName: string; kind: string }[]) {
-  const first = items[0]!
-  const subject =
-    items.length === 1
-      ? `Time to send a message to ${first.contactName}`
-      : `${items.length} messages are ready to send`
-  const lines = items.map((m) => `${m.kind === 'consent_request' ? 'Ask' : 'Message'} ${m.contactName}: ${publicUrl(`/send/${m.id}`)}`)
+export function reminderEmail(to: string, items: { id: string; contactName: string; kind: string }[], nudges: NudgeLine[] = []) {
+  const total = items.length + nudges.length
+  const first = items[0]
+  const onlyNudge = !first && nudges.length === 1 ? nudges[0]! : null
+  const subject = onlyNudge
+    ? nudgeTitle(onlyNudge)
+    : nudges.length
+      ? `${total} reminders from Tend`
+      : items.length === 1
+        ? `Time to send a message to ${first!.contactName}`
+        : `${items.length} messages are ready to send`
+  const messageLine = (m: { contactName: string; kind: string }) => `${m.kind === 'consent_request' ? 'Ask' : 'Message'} ${m.contactName}`
+  const lines = [
+    ...items.map((m) => `${messageLine(m)}: ${publicUrl(`/send/${m.id}`)}`),
+    ...nudges.map((n) => `${nudgeTitle(n)}: ${publicUrl(n.path)}`),
+  ]
+  const how = [
+    ...(items.length ? ['For a message: open it, copy it, send it on Signal, then tap "I sent it".'] : []),
+    ...(nudges.length ? ['For a birthday, anniversary or catch-up: open it to pick something to send, or write your own.'] : []),
+  ]
+  const url = total > 1 ? publicUrl('/today') : first ? publicUrl(`/send/${first.id}`) : publicUrl(onlyNudge!.path)
   return {
     to,
     subject,
-    text: `${subject}.\n\n${lines.join('\n')}\n\nOpen the link, copy the message, send it on Signal, then tap "I sent it".\n\nTurn these emails off in Settings: ${publicUrl('/settings')}`,
+    text: `${subject}.\n\n${lines.join('\n')}\n\n${how.join('\n')}\n\nTurn these emails off in Settings: ${publicUrl('/settings')}`,
     html: layout({
       heading: subject,
-      paragraphs: [
-        ...items.map((m) => `${m.kind === 'consent_request' ? 'Ask' : 'Message'} ${m.contactName}`),
-        'Open Tend, copy the message, send it on Signal, then tap "I sent it".',
-      ],
-      button: { label: items.length === 1 ? 'Open the message' : 'Open Tend', url: items.length === 1 ? publicUrl(`/send/${first.id}`) : publicUrl('/today') },
+      paragraphs: [...items.map(messageLine), ...nudges.map(nudgeTitle), ...how],
+      button: { label: total > 1 ? 'Open Tend' : first ? 'Open the message' : 'Open in Tend', url },
       footer: `You get these because email reminders are on in Tend. Turn them off in Settings: ${publicUrl('/settings')}`,
     }),
   }

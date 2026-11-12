@@ -77,6 +77,7 @@ export const DONE_TEXT: Record<string, string> = {
   skipped: 'Skipped.',
   rescheduled: 'Rescheduled.',
   deleted: 'Deleted.',
+  'in-touch': 'Noted. Tend counts from today for keeping in touch.',
   saved: 'Saved.',
   'telegram-off': 'Telegram disconnected. Tend will not message you there.',
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { ContactForm } from '@/components/ContactForm'
 import { PageTitle } from '@/components/ui'
+import { DEFAULT_LEAD_DAYS } from '@/lib/occasions'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { timeZoneOptions } from '@/lib/timezones'
 
@@ -33,6 +34,11 @@ export default async function NewContactPage() {
           allowedDays: 127,
           notes: '',
           translation: '',
+          birthday: '',
+          anniversary: '',
+          occasionLeadDays: DEFAULT_LEAD_DAYS,
+          cadenceDays: null,
+          lastInTouch: '',
         }}
       />
     </>

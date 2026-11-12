@@ -4,6 +4,7 @@
  * nothing in a message ever needs escaping.
  */
 
+import { nudgeTitle, type NudgeLine } from './occasions'
 import { telegramShareUrl } from './share'
 
 export type InlineButton = { text: string; url: string } | { text: string; callback_data: string }
@@ -33,6 +34,16 @@ export function reminderKeyboard(item: ReminderItem, sendPageUrl: string): Inlin
   const share = telegramShareUrl(item.body)
   const links: InlineButton[] = [...(share.length <= BUTTON_URL_MAX ? [{ text: 'Share', url: share }] : []), { text: 'Open in Tend', url: sendPageUrl }]
   return [links, [{ text: 'I sent it', callback_data: `sent:${item.id}` }, { text: 'Snooze a day', callback_data: `snooze:${item.id}` }]]
+}
+
+/** A birthday, anniversary or keep-in-touch reminder: there is no message yet, so only a link to Tend. */
+export function nudgeText(n: NudgeLine): string {
+  const tail = n.kind === 'cadence' ? 'Open Tend for something to send, or write your own.' : 'Open Tend for a blessing or passage to send, or write your own.'
+  return `${nudgeTitle(n)}.\n\n${tail}`
+}
+
+export function nudgeKeyboard(pageUrl: string): InlineKeyboard {
+  return [[{ text: 'Open in Tend', url: pageUrl }]]
 }
 
 /** "/start <code>" (also "/start@bot <code>"): the code, or '' for a bare /start, or null for other text. */
