@@ -12,6 +12,8 @@ const TELEGRAM_MOCK_PORT = Number(process.env.E2E_TELEGRAM_PORT || 7843)
 
 export const E2E_ENV = {
   APP_ENV: 'test',
+  // The explicit dev opt-out for the bot check (lib/server/turnstile.ts); ignored in production.
+  TURNSTILE: 'off',
   TURSO_DATABASE_URL: 'file:.e2e/test.db',
   AUTH_SECRET: 'e2e-only-auth-secret-not-used-anywhere-else',
   AUTH_URL: baseURL,

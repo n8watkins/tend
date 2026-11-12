@@ -34,8 +34,9 @@
   },
   // Secrets (wrangler secret put <NAME>, values in pass under tend/):
   // AUTH_SECRET, DATA_ENCRYPTION_KEY, CRON_SECRET, TURSO_DATABASE_URL,
-  // TURSO_AUTH_TOKEN; optional AUTH_GITHUB_ID, AUTH_GITHUB_SECRET,
-  // TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY.
+  // TURSO_AUTH_TOKEN, TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY (email sign-in
+  // is refused without the two Turnstile keys); optional AUTH_GITHUB_ID,
+  // AUTH_GITHUB_SECRET.
   // Run next to the Turso database: every page makes several queries.
   "placement": { "mode": "targeted", "region": "aws:us-east-2" },
   "observability": { "enabled": true, "head_sampling_rate": 1 }
