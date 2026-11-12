@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import type { ConsentState, SignalStatus } from '@/lib/enums'
 
-import { ChevronIcon } from './icons'
+import { ChevronIcon, SproutIcon } from './icons'
 
 export const CONSENT_LABEL: Record<ConsentState, string> = {
   not_asked: 'Not asked yet',
@@ -31,42 +31,136 @@ export const SIGNAL_LABEL: Record<SignalStatus, string> = {
   not_on_signal: 'Not on Signal',
 }
 
-export function PageTitle({ title, subtitle, action }: { title: string; subtitle?: React.ReactNode; action?: React.ReactNode }) {
+type IconType = (props: { className?: string }) => React.ReactNode
+
+/**
+ * The page head: a small eyebrow (where you are), the title in the display
+ * face, one line on what the page is for, and the page's main action.
+ */
+export function PageTitle({
+  title,
+  subtitle,
+  action,
+  eyebrow,
+  lead,
+}: {
+  title: string
+  subtitle?: React.ReactNode
+  action?: React.ReactNode
+  eyebrow?: React.ReactNode
+  lead?: React.ReactNode
+}) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div className="min-w-0">
-        <h1 className="text-2xl font-bold break-words md:text-3xl">{title}</h1>
-        {subtitle ? <p className="mt-1 text-muted">{subtitle}</p> : null}
+    <div className="page-head">
+      <div className="flex min-w-0 items-center gap-4">
+        {lead}
+        <div className="min-w-0">
+          {eyebrow ? <p className="page-eyebrow">{eyebrow}</p> : null}
+          <h1 className="page-title">{title}</h1>
+          {subtitle ? <div className="page-subtitle">{subtitle}</div> : null}
+        </div>
       </div>
+      {action ? <div className="page-action">{action}</div> : null}
+    </div>
+  )
+}
+
+export type SectionTone = 'default' | 'primary' | 'warm' | 'warn' | 'quiet'
+
+/**
+ * One clearly separated part of a page: a panel with a header (icon, title,
+ * a one-line hint and an optional action) and its content below.
+ */
+export function Section({
+  title,
+  children,
+  id,
+  icon: Icon,
+  hint,
+  action,
+  tone = 'default',
+  className = '',
+}: {
+  title: string
+  children: React.ReactNode
+  id?: string
+  icon?: IconType
+  hint?: React.ReactNode
+  action?: React.ReactNode
+  tone?: SectionTone
+  className?: string
+}) {
+  return (
+    <section className={`panel panel-${tone} ${className}`} aria-labelledby={id}>
+      <header className="panel-head">
+        {Icon ? (
+          <span className="panel-icon" aria-hidden="true">
+            <Icon className="size-5" />
+          </span>
+        ) : null}
+        <div className="min-w-0 flex-1">
+          <h2 id={id} className="panel-title">
+            {title}
+          </h2>
+          {hint ? <p className="panel-hint">{hint}</p> : null}
+        </div>
+        {action ? <div className="panel-action">{action}</div> : null}
+      </header>
+      <div className="panel-body">{children}</div>
+    </section>
+  )
+}
+
+export function Empty({ children, icon: Icon = SproutIcon, action }: { children: React.ReactNode; icon?: IconType; action?: React.ReactNode }) {
+  return (
+    <div className="empty">
+      <span className="empty-icon" aria-hidden="true">
+        <Icon className="size-5" />
+      </span>
+      <p>{children}</p>
       {action}
     </div>
   )
 }
 
-export function Section({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
+const MONO_TONES = ['mono-green', 'mono-sun', 'mono-rose', 'mono-sky'] as const
+
+/** A round initial for a person, in one of four calm tones picked from the name. */
+export function Monogram({ name, size = 'md' }: { name: string; size?: 'md' | 'lg' }) {
+  const words = name.trim().split(/\s+/)
+  const initials = ((words[0]?.[0] ?? '') + (words.length > 1 ? (words.at(-1)?.[0] ?? '') : '')).toUpperCase()
+  // FNV-1a, so similar names still spread across the tones.
+  let hash = 2166136261
+  for (const ch of name) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0
   return (
-    <section className="mt-8" aria-labelledby={id}>
-      <h2 id={id} className="mb-3 text-lg font-bold">
-        {title}
-      </h2>
-      {children}
-    </section>
+    <span className={`mono mono-${size} ${MONO_TONES[hash % MONO_TONES.length]}`} aria-hidden="true">
+      {initials}
+    </span>
   )
 }
 
-export function Empty({ children }: { children: React.ReactNode }) {
-  return <p className="rounded-2xl border border-dashed border-line p-5 text-center text-muted">{children}</p>
-}
-
-export function RowLink({ href, title, meta, badge }: { href: string; title: React.ReactNode; meta?: React.ReactNode; badge?: React.ReactNode }) {
+export function RowLink({
+  href,
+  title,
+  meta,
+  badge,
+  lead,
+}: {
+  href: string
+  title: React.ReactNode
+  meta?: React.ReactNode
+  badge?: React.ReactNode
+  lead?: React.ReactNode
+}) {
   return (
-    <Link href={href} className="card flex items-center gap-3 no-underline hover:border-accent">
+    <Link href={href} className="row">
+      {lead}
       <span className="min-w-0 flex-1">
-        <span className="block truncate font-semibold">{title}</span>
-        {meta ? <span className="mt-0.5 block text-sm text-muted">{meta}</span> : null}
+        <span className="row-title">{title}</span>
+        {meta ? <span className="row-meta">{meta}</span> : null}
       </span>
       {badge}
-      <ChevronIcon className="size-5 shrink-0 text-muted" />
+      <ChevronIcon className="row-chevron" />
     </Link>
   )
 }

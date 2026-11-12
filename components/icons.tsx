@@ -109,6 +109,117 @@ export const CloseIcon = (p: IconProps) => (
   </Svg>
 )
 
+export const SendIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M21.5 2.5 10.5 13.5" />
+    <path d="m21.5 2.5-7 19-4-8-8-4z" />
+  </Svg>
+)
+
+export const CalendarIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
+    <path d="M8 2.5v4M16 2.5v4M3 10h18" />
+  </Svg>
+)
+
+export const ClockIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </Svg>
+)
+
+export const AlertIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7.5v5M12 16.2v.3" />
+  </Svg>
+)
+
+export const HeartIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 20.5s-8-4.6-8-10.6A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 8 2.5c0 6-8 10.6-8 10.6Z" />
+  </Svg>
+)
+
+export const GiftIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3" y="8" width="18" height="4.5" rx="1" />
+    <path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5M12 8v13" />
+    <path d="M12 8C10.5 4 6 4 6.5 6.5 7 8 12 8 12 8Zm0 0c1.5-4 6-4 5.5-1.5C17 8 12 8 12 8Z" />
+  </Svg>
+)
+
+export const SparkleIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3.5c.6 4.2 2.3 5.9 6.5 6.5-4.2.6-5.9 2.3-6.5 6.5-.6-4.2-2.3-5.9-6.5-6.5 4.2-.6 5.9-2.3 6.5-6.5Z" />
+    <path d="M19 15.5c.3 1.8 1 2.5 2.5 2.7-1.5.3-2.2 1-2.5 2.8-.3-1.8-1-2.5-2.5-2.8 1.5-.2 2.2-.9 2.5-2.7Z" />
+  </Svg>
+)
+
+export const PenIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" />
+    <path d="M14.5 5.5l3 3" />
+  </Svg>
+)
+
+export const ShieldIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3Z" />
+    <path d="m9 12 2 2 4-4" />
+  </Svg>
+)
+
+export const UserIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4.5 21c.7-4 3.7-6 7.5-6s6.8 2 7.5 6" />
+  </Svg>
+)
+
+export const ListIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" />
+  </Svg>
+)
+
+export const TrashIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 7h16M9.5 7V4.5h5V7M6 7l1 13h10l1-13" />
+  </Svg>
+)
+
+export const UploadIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 15V3.5M7 8.5l5-5 5 5" />
+    <path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" />
+  </Svg>
+)
+
+export const DownloadIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3.5V15M7 10l5 5 5-5" />
+    <path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" />
+  </Svg>
+)
+
+export const PauseIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M10 9v6M14 9v6" />
+  </Svg>
+)
+
+export const SproutIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 21v-9" />
+    <path d="M12 13c0-4.5-3-7.5-8-7.5 0 4.5 3 7.5 8 7.5Z" />
+    <path d="M12 11.5c0-4 2.6-6.8 7-6.8 0 4-2.6 6.8-7 6.8Z" />
+  </Svg>
+)
+
 /** Add to home screen: a phone with a plus. */
 export const InstallIcon = (p: IconProps) => (
   <Svg {...p}>

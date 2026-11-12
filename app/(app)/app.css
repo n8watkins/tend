@@ -1,0 +1,650 @@
+/* The signed-in app's frame and building blocks: the green header, page heads,
+   panels with an icon and a one-line hint, rows, empty states and the
+   message preview. Shared by every page under app/(app) so new pages get the
+   same look by using components/ui.tsx. Light only. */
+
+@layer components {
+  /* Frame ------------------------------------------------------------------ */
+
+  .app {
+    --app-head-h: 3.75rem;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: clip;
+  }
+  html:has(.app) {
+    scroll-padding-top: calc(var(--app-head-h) + 1rem);
+  }
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--accent-deep);
+    color: #fff;
+    box-shadow: 0 10px 30px -24px rgb(0 0 0 / 0.6);
+  }
+  .app-header :focus-visible {
+    outline-color: #fff;
+  }
+  .app-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 72rem;
+    min-height: var(--app-head-h);
+    margin-inline: auto;
+    padding: 0 1rem;
+  }
+  .app-wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: #fff;
+  }
+  .app-wordmark svg rect {
+    fill: #fff;
+  }
+  .app-wordmark svg path {
+    fill: var(--accent-deep);
+  }
+  .app-wordmark svg path[stroke] {
+    stroke: var(--accent-deep);
+  }
+  .app-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 0.7rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: rgb(255 255 255 / 0.8);
+    text-decoration: none;
+    transition:
+      background-color 150ms,
+      color 150ms;
+  }
+  @media (hover: hover) {
+    .app-nav-link:hover {
+      color: #fff;
+      background: rgb(255 255 255 / 0.08);
+    }
+  }
+  .app-nav-link[aria-current='page'] {
+    color: var(--accent-deep);
+    background: #fff;
+  }
+  .app-tabbar {
+    background: color-mix(in oklab, var(--surface) 94%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-top: 1px solid var(--line);
+  }
+  .app-tab {
+    display: flex;
+    min-height: 3.6rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .app-tab-icon {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    transition: background-color 150ms;
+  }
+  .app-tab[aria-current='page'] {
+    color: var(--accent-strong);
+  }
+  .app-tab[aria-current='page'] .app-tab-icon {
+    background: var(--accent-soft);
+  }
+
+  .app-main {
+    position: relative;
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: 1.75rem 1rem 1rem;
+    flex: 1;
+  }
+  /* Pages without a two-column layout keep a readable single column. */
+  .app-main:not(:has(.app-columns)) {
+    max-width: 50rem;
+  }
+  /* A soft glow behind the page head, as on the landing hero. */
+  .app-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 18rem;
+    translate: -50% 0;
+    pointer-events: none;
+    background:
+      radial-gradient(34rem 14rem at 78% 0%, var(--glow), transparent 70%),
+      radial-gradient(28rem 12rem at 15% 0%, var(--glow-warm), transparent 70%);
+    z-index: -1;
+  }
+
+  /* Two columns on wide screens: the work on the left, context on the right. */
+  .app-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .app-col {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    min-width: 0;
+  }
+  @media (min-width: 1024px) {
+    .app-columns {
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .app-col {
+      gap: 1.5rem;
+    }
+    .app-col-sticky {
+      position: sticky;
+      top: calc(var(--app-head-h) + 1.25rem);
+    }
+  }
+  /* Panels stacked without a column wrapper still get space between them. */
+  .app-main > .panel + .panel,
+  .app-main > .panel + .card,
+  .app-main > .card + .panel {
+    margin-top: 1.25rem;
+  }
+
+  /* Page head ---------------------------------------------------------------- */
+
+  .page-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .page-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .page-title {
+    margin-top: 0.15rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink-strong);
+    overflow-wrap: anywhere;
+  }
+  .page-subtitle {
+    margin-top: 0.4rem;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .page-action {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Panels --------------------------------------------------------------- */
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-panel);
+    overflow: clip;
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.95rem 1.15rem;
+    background: var(--panel-head);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
+  }
+  .panel-icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.75rem;
+    background: var(--accent-soft);
+    color: var(--accent-soft-ink);
+  }
+  .panel-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink-strong);
+  }
+  .panel-hint {
+    margin-top: 0.1rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .panel-action {
+    flex-shrink: 0;
+  }
+  /* On phones a header action drops under the title instead of squeezing it. */
+  @media (max-width: 639px) {
+    .panel-head:has(.panel-action) {
+      flex-wrap: wrap;
+    }
+    .panel-action {
+      flex-basis: 100%;
+      padding-left: 3.25rem;
+    }
+  }
+  .panel-body {
+    padding: 1.1rem 1.15rem;
+  }
+  .panel-body > * + * {
+    margin-top: 0.85rem;
+  }
+  /* Older markup puts a card inside the section; the panel is the card now. */
+  .panel-body > .card {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+  }
+  /* The page's main panel: deep green head, white text. */
+  .panel-primary {
+    border-color: color-mix(in oklab, var(--accent-strong) 55%, var(--line));
+  }
+  .panel-primary .panel-head {
+    background: var(--accent-deep);
+    border-bottom-color: var(--accent-deep);
+  }
+  .panel-primary .panel-icon {
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+  }
+  .panel-primary .panel-title {
+    color: #fff;
+  }
+  .panel-primary .panel-hint {
+    color: rgb(255 255 255 / 0.82);
+  }
+  .panel-primary .panel-head :focus-visible {
+    outline-color: #fff;
+  }
+  .panel-warm .panel-icon {
+    background: var(--sun-soft);
+    color: var(--sun-ink);
+  }
+  .panel-warn .panel-icon {
+    background: var(--warn-soft);
+    color: var(--warn-ink);
+  }
+  /* Reference content: no shadow, lighter head. */
+  .panel-quiet {
+    box-shadow: none;
+    background: color-mix(in oklab, var(--surface) 60%, var(--bg));
+  }
+  .panel-quiet .panel-head {
+    background: transparent;
+  }
+  .panel-quiet .panel-icon {
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+
+  /* Rows: a list of links. On their own they are cards; inside a panel they
+     are flat rows with dividers. */
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: var(--surface);
+    text-decoration: none;
+    transition:
+      background-color 150ms,
+      border-color 150ms;
+  }
+  @media (hover: hover) {
+    .row:hover {
+      border-color: color-mix(in oklab, var(--accent) 50%, var(--line));
+    }
+    .row:hover .row-chevron {
+      color: var(--accent-strong);
+      transform: translateX(2px);
+    }
+  }
+  .row-title {
+    display: block;
+    overflow-wrap: anywhere;
+    font-weight: 650;
+    color: var(--ink-strong);
+  }
+  .row-meta {
+    display: block;
+    margin-top: 0.1rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .row-chevron {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition:
+      transform 150ms,
+      color 150ms;
+  }
+  .panel-body:has(> ul > li > .row) {
+    padding: 0.35rem 0;
+  }
+  .panel-body > ul:has(> li > .row) > li {
+    margin: 0;
+  }
+  .panel-body > ul:has(> li > .row) > li + li {
+    border-top: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+  }
+  .panel-body .row {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0.8rem 1.15rem;
+  }
+  @media (hover: hover) {
+    .panel-body .row:hover {
+      background: color-mix(in oklab, var(--accent-soft) 45%, transparent);
+    }
+  }
+
+  /* People's initials */
+  .mono {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .mono-lg {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.2rem;
+    box-shadow: 0 0 0 4px var(--surface);
+  }
+  .mono-green {
+    background: var(--accent-soft);
+    color: var(--accent-soft-ink);
+  }
+  .mono-sun {
+    background: var(--sun-soft);
+    color: var(--sun-ink);
+  }
+  .mono-rose {
+    background: var(--rose-soft);
+    color: var(--rose-ink);
+  }
+  .mono-sky {
+    background: var(--sky-soft);
+    color: var(--sky-ink);
+  }
+
+  /* Empty states */
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.4rem 1rem;
+    border: 1px dashed var(--line);
+    border-radius: 1rem;
+    text-align: center;
+    color: var(--muted);
+  }
+  /* Inside a panel the header already says what goes here: one calm line. */
+  .panel-body > .empty {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 0.92rem;
+  }
+  .panel-body > .empty p {
+    flex: 1 1 12rem;
+  }
+  .panel-body > .empty .empty-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  .empty-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--accent-strong);
+  }
+  .empty p {
+    max-width: 30rem;
+  }
+
+  /* Suggestion tiles inside a panel */
+  .pick {
+    padding: 1rem 1.1rem;
+    border-radius: 1rem;
+    background: var(--bg);
+    border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+    border-left: 3px solid var(--accent);
+  }
+  .pick-source {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+  }
+
+  /* Timeline (history on a person) */
+  .timeline {
+    position: relative;
+  }
+  .timeline > li {
+    position: relative;
+    padding: 0 0 0.9rem 1.4rem;
+    font-size: 0.9rem;
+  }
+  .timeline > li::before {
+    content: '';
+    position: absolute;
+    left: 0.2rem;
+    top: 0.45rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .timeline > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 0.43rem;
+    top: 1.1rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+  .timeline time {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* Facts (dl) */
+  .facts {
+    display: grid;
+    gap: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  .facts dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .facts dd {
+    margin-top: 0.1rem;
+    color: var(--ink);
+  }
+
+  /* The message preview: an outgoing chat bubble on a dotted backdrop, like
+     the landing's phone scenes. */
+  .chat-stage {
+    padding: 1.25rem 1rem;
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--ink) 9%, transparent) 1px, transparent 0) 0 0 / 14px 14px,
+      var(--surface-2);
+  }
+  .chat-bubble {
+    margin-left: auto;
+    max-width: 34rem;
+    padding: 0.85rem 1rem;
+    border-radius: 1.15rem 1.15rem 0.35rem 1.15rem;
+    background: var(--accent-strong);
+    color: #fff;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    box-shadow: 0 10px 24px -16px rgb(20 40 30 / 0.7);
+  }
+  .chat-bubble a {
+    color: #fff;
+  }
+
+  /* Options (radio or checkbox rows) */
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 0.85rem;
+    background: var(--surface);
+    cursor: pointer;
+    transition:
+      border-color 150ms,
+      background-color 150ms;
+  }
+  .option:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent-soft) 55%, var(--surface));
+  }
+  .option:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .option input {
+    margin-top: 0.2rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+  }
+
+  /* Buttons in the app: one deep green main action, quieter others, and a
+     visible shape for every button so none reads as stray text. */
+  .app .btn {
+    transition:
+      background-color 150ms,
+      border-color 150ms,
+      color 150ms,
+      transform 120ms,
+      box-shadow 150ms;
+  }
+  .app .btn:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  .app .btn-primary {
+    background: var(--accent-strong);
+    box-shadow: 0 8px 20px -12px color-mix(in oklab, var(--accent-strong) 85%, transparent);
+  }
+  @media (hover: hover) {
+    .app .btn-primary:hover {
+      background: var(--accent-strong-hover);
+    }
+  }
+  .app .btn-secondary {
+    border-color: color-mix(in oklab, var(--line) 70%, var(--muted));
+  }
+  .app .btn-ghost {
+    background: transparent;
+    color: var(--accent-strong);
+    border-color: transparent;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--accent-strong) 35%, transparent);
+    text-underline-offset: 3px;
+  }
+  @media (hover: hover) {
+    .app .btn-ghost:hover {
+      background: var(--accent-soft);
+      text-decoration-color: currentColor;
+    }
+  }
+  .app .btn-ghost.btn-flush {
+    padding-inline: 0;
+  }
+  .app .btn-lg {
+    min-height: 3.1rem;
+    padding: 0.7rem 1.4rem;
+    font-size: 1rem;
+    border-radius: 0.9rem;
+  }
+  .badge-solid {
+    background: var(--accent-strong);
+    color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app .btn,
+  .row,
+  .row-chevron,
+  .option,
+  .app-nav-link {
+    transition: none;
+  }
+  .app .btn:active:not(:disabled) {
+    transform: none;
+  }
+}
