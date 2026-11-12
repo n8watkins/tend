@@ -18,6 +18,8 @@ export interface ComposeProps {
   item?: ContentItem
   translation: Translation
   initialNote: string
+  /** The conversation starter this message began from, if any. */
+  promptId?: string
   stopUrl: string
   stopLinkDefault: boolean
   nextAt: number | null
@@ -58,6 +60,7 @@ export function ComposeForm(props: ComposeProps) {
       <input type="hidden" name="contactId" value={props.contactId} />
       <input type="hidden" name="kind" value={props.kind} />
       {props.item ? <input type="hidden" name="contentId" value={props.item.id} /> : null}
+      {props.promptId ? <input type="hidden" name="promptId" value={props.promptId} /> : null}
       {props.nextAt ? <input type="hidden" name="nextAt" value={props.nextAt} /> : null}
 
       <div className="card space-y-4">

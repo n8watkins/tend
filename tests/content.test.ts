@@ -154,7 +154,7 @@ describe('surprise', () => {
   })
 
   it('can stick to one kind and avoids the last surprise when it can', () => {
-    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, [], now, { kind: 'scripture', random: () => r })!.kind).toBe('scripture')
+    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, [], now, { mode: 'scripture', random: () => r })!.kind).toBe('scripture')
     const first = surprise(LIBRARY, [], now, { random: () => 0 })!
     expect(surprise(LIBRARY, [], now, { avoid: first.id, random: () => 0 })!.id).not.toBe(first.id)
   })

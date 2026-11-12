@@ -9,6 +9,7 @@ import { MESSAGE_KINDS, type MessageKind } from '@/lib/enums'
 import { getItem } from '@/lib/content'
 import { consentRequestBody } from '@/lib/format'
 import { OCCASION_KINDS, occasionGreeting, occasionSlot, parsePartialDate, upcoming } from '@/lib/occasions'
+import { getPrompt } from '@/lib/prompts'
 import { allowedKinds, checkTime, nextGoodTime, REFUSAL_TEXT } from '@/lib/schedule'
 import { contactHistory, getContact, openConsentRequests, sentCount } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
@@ -22,7 +23,7 @@ export const metadata: Metadata = { title: 'Compose' }
 export default async function ComposePage({
   searchParams,
 }: {
-  searchParams: Promise<{ contact?: string; content?: string; kind?: string; surprise?: string; occasion?: string }>
+  searchParams: Promise<{ contact?: string; content?: string; kind?: string; surprise?: string; occasion?: string; prompt?: string }>
 }) {
   const user = await requireUser()
   const params = await searchParams
@@ -35,6 +36,7 @@ export default async function ComposePage({
     : MESSAGE_KINDS.includes(params.kind as MessageKind)
       ? (params.kind as MessageKind)
       : 'personal'
+  const prompt = kind === 'personal' ? getPrompt(params.prompt) : undefined
 
   const [settings, history, openRequests, sent] = await Promise.all([
     getSettings(user.id),
@@ -80,7 +82,7 @@ export default async function ComposePage({
     <>
       <PageTitle
         title={title}
-        subtitle={kind === 'consent_request' ? 'Edit it so it sounds like you.' : item ? item.context : undefined}
+        subtitle={kind === 'consent_request' || prompt ? 'Edit it so it sounds like you.' : item ? item.context : undefined}
       />
       {item && params.surprise && contact.consent === 'yes' ? (
         <form action={surpriseMe.bind(null, contact.id)} className="mb-6 flex flex-wrap items-center gap-3">
@@ -103,9 +105,10 @@ export default async function ComposePage({
             ? consentRequestBody(contact.name, contact.minDaysBetween)
             : occasion
               ? occasionGreeting(occasion.kind, contact.name)
-              : ''
+              : (prompt?.text ?? '')
         }
         nextHeading={onTheDay && occasion ? `On their ${occasion.kind}` : 'Next good time'}
+        promptId={prompt?.id}
         stopUrl={publicUrl(`/stop/${contact.stopToken}`)}
         stopLinkDefault={sent < 3}
         nextAt={nextAt}

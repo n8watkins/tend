@@ -20,6 +20,7 @@ export default async function NewContactPage() {
         action={createContact}
         isNew
         defaultTranslation={settings.translation}
+        defaultSuggest={settings.suggest}
         timezones={timeZoneOptions(settings.timezone)}
         initial={{
           name: '',
@@ -39,6 +40,7 @@ export default async function NewContactPage() {
           occasionLeadDays: DEFAULT_LEAD_DAYS,
           cadenceDays: null,
           lastInTouch: '',
+          suggest: '',
         }}
       />
     </>

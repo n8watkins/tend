@@ -49,3 +49,7 @@ export const HELPER_EVENT_KINDS = [
   'unlinked',
 ] as const
 export type HelperEventKind = (typeof HELPER_EVENT_KINDS)[number]
+// What Tend suggests for a person (docs/SPEC.md section 7). Chosen by the
+// sender, per person or as their default; Tend never guesses anyone's beliefs.
+export const SUGGEST_MODES = ['mix', 'scripture', 'quotes', 'words'] as const
+export type SuggestMode = (typeof SUGGEST_MODES)[number]

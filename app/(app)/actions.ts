@@ -21,6 +21,7 @@ import {
   contactTopics,
   messages,
   SIGNAL_STATUSES,
+  SUGGEST_MODES,
   TRANSLATIONS,
   users,
   userSettings,
@@ -56,6 +57,7 @@ import { createLinkUrl, ensureTelegramWebhook, telegramConfigured, unlinkTelegra
 import { getSettings, requireUser } from '@/lib/server/session'
 import { allowedEndpoint, deviceLabel } from '@/lib/push'
 import { fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
+import { getPrompt } from '@/lib/prompts'
 import { surprise } from '@/lib/suggest'
 import { isTopic, MAX_TOPICS_PER_CONTACT } from '@/lib/topics'
 import { publicUrl } from '@/lib/url'
@@ -77,6 +79,7 @@ const contactSchema = z.object({
   windowEnd: z.string(),
   notes: z.string().max(1000, 'Keep notes under 1,000 characters.').optional().default(''),
   translation: z.union([z.enum(TRANSLATIONS), z.literal('')]).optional().default(''),
+  suggest: z.union([z.enum(SUGGEST_MODES), z.literal('')]).optional().default(''),
 })
 
 function parseContactForm(form: FormData) {
@@ -96,7 +99,7 @@ function parseContactForm(form: FormData) {
   if (topics.length > MAX_TOPICS_PER_CONTACT) return { error: `Pick up to ${MAX_TOPICS_PER_CONTACT} topics.` } as const
   const occasions = parseOccasionFields(form, v.timezone)
   if ('error' in occasions) return { error: occasions.error } as const
-  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics, translation: v.translation || null, ...occasions.value } } as const
+  return { value: { ...v, phone, windowStart, windowEnd, allowedDays, topics, translation: v.translation || null, suggest: v.suggest || null, ...occasions.value } } as const
 }
 
 /** Birthday, anniversary, how far ahead to remind, and the keep-in-touch cadence. */
@@ -151,6 +154,7 @@ export async function createContact(_prev: FormState, form: FormData): Promise<F
     occasionLeadDays: v.occasionLeadDays,
     cadenceDays: v.cadenceDays,
     lastInTouchAt: v.lastInTouch.value,
+    suggest: v.suggest,
     stopToken: randomToken(),
     createdAt: now,
     updatedAt: now,
@@ -189,6 +193,7 @@ export async function updateContact(contactId: string, _prev: FormState, form: F
       cadenceDays: v.cadenceDays,
       // The same day as before keeps the exact moment ("We were in touch today" at 15:00).
       lastInTouchAt: v.lastInTouch.date === lastInTouchInput(existing) ? existing.lastInTouchAt : v.lastInTouch.value,
+      suggest: v.suggest,
       updatedAt: Date.now(),
     })
     .where(and(eq(contacts.id, contactId), eq(contacts.userId, user.id)))
@@ -269,6 +274,7 @@ const composeSchema = z.object({
   contactId: z.string().min(1),
   kind: z.enum(['content', 'consent_request', 'personal']),
   contentId: z.string().optional(),
+  promptId: z.string().optional(),
   translation: z.enum(TRANSLATIONS).optional(),
   note: z.string().max(MAX_BODY).optional().default(''),
   question: z.string().max(300).optional().default(''),
@@ -331,7 +337,9 @@ export async function scheduleMessage(_prev: FormState, form: FormData): Promise
     userId: user.id,
     contactId: contact.id,
     kind: v.kind,
-    contentId: item?.id ?? null,
+    // A personal message started from a conversation starter keeps its id,
+    // so the same starter is never suggested to this person again.
+    contentId: item?.id ?? (v.kind === 'personal' ? (getPrompt(v.promptId)?.id ?? null) : null),
     body,
     status: 'scheduled',
     scheduledFor: at,
@@ -352,13 +360,13 @@ export async function surpriseMe(contactId: string, form: FormData): Promise<voi
   const contact = await getContact(user.id, contactId)
   if (!contact) redirect('/people')
   if (contact.consent !== 'yes') redirect(`/people/${contact.id}`)
-  const history = await contactMessages(user.id, contact.id)
+  const [history, settings] = await Promise.all([contactMessages(user.id, contact.id), getSettings(user.id)])
   const avoid = form.get('avoid')
   const pick = surprise(
     LIBRARY,
     history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status })),
     Date.now(),
-    { avoid: typeof avoid === 'string' ? avoid : undefined },
+    { avoid: typeof avoid === 'string' ? avoid : undefined, mode: contact.suggest ?? settings.suggest },
   )
   if (!pick) redirect(`/people/${contact.id}?error=surprise`)
   redirect(`/compose?contact=${contact.id}&content=${pick.id}&surprise=1`)
@@ -412,6 +420,7 @@ export async function rescheduleMessage(messageId: string, _prev: FormState, for
 const settingsSchema = z.object({
   timezone: z.string().refine(isValidTimeZone),
   translation: z.enum(TRANSLATIONS),
+  suggest: z.enum(SUGGEST_MODES),
   emailReminders: z.string().optional(),
 })
 
@@ -425,6 +434,7 @@ export async function updateSettings(_prev: FormState, form: FormData): Promise<
     .set({
       timezone: parsed.data.timezone,
       translation: parsed.data.translation,
+      suggest: parsed.data.suggest,
       emailReminders: parsed.data.emailReminders === 'on',
     })
     .where(eq(userSettings.userId, user.id))
