@@ -125,6 +125,7 @@ Every application row carries `userId`, and every query filters by the signed-in
 | emailReminders | integer bool | default true |
 | pausedAt | integer null | global pause: no reminders, no scheduling while set |
 | translation | text | `web` (default) or another code from `TRANSLATIONS` (docs/TRANSLATIONS.md): preferred scripture translation |
+| suggest | text | what to suggest by default: `mix` (default), `scripture`, `quotes` or `words` (section 7) |
 | telegramChatId, telegramLinkedAt, telegramReminders | | Telegram (section 2) |
 | helperEnabled | integer bool | Signal helper turned on in Settings; default false |
 | helperAckAt | integer null | when the risk text was accepted |
@@ -150,6 +151,7 @@ Every application row carries `userId`, and every query filters by the signed-in
 | windowEnd | integer | default 1200 (20:00); must be after windowStart |
 | allowedDays | integer | bitmask, bit 0 = Sunday; default 127 (every day) |
 | translation | text null | their own Bible translation; null uses the sender's default |
+| suggest | text null | what to suggest for them; null uses the sender's default |
 | birthday | text null | `YYYY-MM-DD`, or `--MM-DD` without a year (as vCard writes it); a date in their time zone |
 | anniversary | text null | same format |
 | occasionLeadDays | integer | default 3; one of 0, 1, 2, 3, 7, 14: the first reminder that many days ahead, and one on the day |
@@ -172,7 +174,7 @@ Every application row carries `userId`, and every query filters by the signed-in
 | userId | text FK | |
 | contactId | text FK contact, cascade | |
 | kind | text | `content`, `consent_request`, `personal` |
-| contentId | text null | library item id for `content` |
+| contentId | text null | library item id for `content`; for `personal`, the conversation starter it began from, if any |
 | body | text | the exact text to send, at most 2,000 characters |
 | status | text | `scheduled`, `sent`, `skipped`, `canceled` |
 | scheduledFor | integer | when the reminder is due |
@@ -231,11 +233,11 @@ Every page is light only (whatever the system setting), meets WCAG 2.2 AA contra
 | `/api/import/google` | user | Starts the Google OAuth flow |
 | `/people/[id]` | user | Consent panel, keeping in touch (last in touch, next due, birthday, anniversary, "We were in touch today"), picks for an occasion within 14 days, suggestions, scheduled, history, consent log, edit and delete |
 | `/people/[id]/edit` | user | Edit contact |
-| `/compose` | user | `?contact=&content=&kind=&occasion=`: compose, preview, schedule; with an occasion, the greeting is written and their day itself is the suggested time |
+| `/compose` | user | `?contact=&content=&kind=&occasion=&prompt=`: compose, preview, schedule; with an occasion, the greeting is written and their day itself is the suggested time |
 | `/send/[messageId]` | user | The send screen |
 | `/library` | user | Browse and filter the library by topic and kind |
 | `/history` | user | All sent, skipped and canceled messages |
-| `/settings` | user | Time zone, translation, email reminders, pause all, export, delete account, sign out |
+| `/settings` | user | Time zone, what to suggest, translation, email reminders, pause all, export, delete account, sign out |
 | `/stop/[token]` | public | Recipient's stop page (GET shows a button, POST stops) |
 | `/privacy`, `/terms` | public | Short, plain policies |
 | `/api/auth/[...nextauth]` | public | Auth.js |
@@ -305,8 +307,13 @@ type ContentItem = {
   readingUrl: string         // a page to read more in context
   context: string            // one or two sentences, written by us
   topics: TopicSlug[]        // 1 to 4
+  occasions?: Occasion[]     // quotes: birthday, encouragement, grief, congratulations, thinking-of-you, gratitude, new-chapter
+  tone?: 'light' | 'tender' | 'steady'  // quotes; a missing tag fits anything
 }
 ```
+
+Conversation starters (`content/prompts.json`) are short first lines in our own words, written once and reviewed, never generated at runtime: `{ id, text, situation, tone }`, with `situation` one of `birthday`, `been-a-while`, `going-through-something`, `congratulations`, `just-because`.
+The build script checks their situations, tones and ids along with the quotes.
 
 ### Verification
 
@@ -319,19 +326,37 @@ type ContentItem = {
 
 ### Suggestions
 
-For a contact, score each library item:
+**What to suggest.** The sender chooses, never Tend: Settings has a default and each person can have their own (`suggest`).
+A mix offers passages and quotes, Scripture only passages, Quotes only quotes, and Just my words neither.
+Every choice also offers conversation starters; Just my words offers only those (five instead of two).
+Nothing about the person's beliefs is inferred.
+
+**Library items.** For a contact, among the kinds their choice allows, score each item:
 
 ```
 score = sum(weight of the contact's topics the item has) * 10
+      + 5 if a quote's occasions match one their topics point to (hope, courage, strength, patience to encouragement; gratitude; new beginnings, purpose to new chapter; friendship, love to thinking of you; grief, comfort to grief)
       + 3 if item.kind differs from the kind of the last message sent to them
-      - excluded if sent to this contact in the last 180 days or already scheduled for them
 ```
 
 Ties break by a stable hash of `(contactId, itemId, ISO week)`, so suggestions vary week to week without being random on every load.
 The top five are shown; "Browse library" shows the rest.
 A contact with no topics gets the most broadly tagged items.
 
-"Surprise me" (on the contact page) picks one item at random from the whole library, whatever their topics, with the same exclusions: nothing sent to them in the last 180 days and nothing already scheduled for them.
+**Fit.** A quote tagged for grief goes only to someone the sender tagged with grief or comfort, and a light-hearted quote never does.
+A quote without tags fits anyone.
+
+**No repeats** (`lib/suggest.ts`):
+
+- A quote or a conversation starter is never suggested to the same person twice; a Bible passage can come back after 180 days.
+- Nothing already scheduled for them is suggested.
+- A passage or quote sent to any of the user's other people in the last 90 days, or scheduled for them, is offered only after everything fresh, so one quote does not go to everyone at once.
+- Skipped and canceled messages do not count.
+
+**Conversation starters.** Situations are ranked from what the sender told Tend: their birthday when it is within 14 days, then "it's been a while" when nothing was sent for 60 days, then "going through something" when they are tagged with grief or comfort, then "just because".
+"Start with this" opens compose with the starter as the message, and the message keeps the starter's id so it is never suggested to them again.
+
+**Surprise me** (on the contact page) picks one item at random from the kinds their choice allows, whatever their topics, with the same fit and no-repeat rules, preferring one nobody else had lately.
 It opens the pick in compose, where "Surprise me again" picks another (not the same one, when there is a choice).
 
 ## 8. Scheduling and reminders
@@ -384,7 +409,12 @@ The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads
 - **Keep in touch.** Last in touch is the later of the last message marked sent and `lastInTouchAt`. The next due time is `cadenceDays` after that (or after the contact was added, if never), moved to the first slot their window, allowed days, spacing and 30-day cap allow (`nextGoodTime` from that moment, earliest slot). The reminder goes once that time has passed, while their window is open on an allowed day, keyed by the due date.
 - **Who gets reminded.** Only for a person at consent `yes`, not archived, with nothing already scheduled for them, while the user is not paused. Today and the person page still show the dates for everyone, with a note when they have not said yes.
 - **Delivery.** Each run's reminders are claimed in `nudge` (insert, do nothing on conflict) and travel with the due messages: one email, one phone notification, and one Telegram message each (with an "Open in Tend" button), within the same caps. If nothing delivers and a later run could, the claims are handed back.
-- **Suggestions.** A reminder opens the person page, which shows picks for the occasion (`OCCASION_PICKS`: blessings such as Numbers 6:24-26 for a birthday, passages on love and companionship for an anniversary; never one sent in the last 180 days or scheduled) and "Write your own wishes". Compose starts the note with "Happy birthday, Sam!" and offers the start of their window on the day itself when their rules allow it.
+- **Suggestions.** A reminder opens the person page, which shows picks for the occasion, following what to suggest for them (section 7):
+  passages from `OCCASION_PICKS` (blessings such as Numbers 6:24-26 for a birthday, passages on love and companionship for an anniversary);
+  quotes tagged for birthdays, or about love and friendship for an anniversary, never one about loss, light ones first for a birthday and tender ones first for an anniversary;
+  a mix alternates them, a passage first; Just my words shows birthday starters instead.
+  The no-repeat rules of section 7 apply. "Write your own wishes" is always there.
+  Compose starts the note with "Happy birthday, Sam!" (before a chosen starter, unless the starter already says it) and offers the start of their window on the day itself when their rules allow it.
 
 ## 9. Consent flow
 

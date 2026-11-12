@@ -205,7 +205,7 @@ describe('occasion suggestions', () => {
 
   it('leaves out what they had recently or have scheduled', () => {
     const now = ny(11, 11, 12 * 60)
-    const picks = occasionPicks(LIBRARY, 'birthday', [{ contentId: 'numbers-6-24-26', at: now - 30 * DAY, status: 'sent' }], now)
+    const picks = occasionPicks(LIBRARY, 'birthday', [{ contentId: 'numbers-6-24-26', at: now - 30 * DAY, status: 'sent' }], now, { mode: 'scripture' })
     expect(picks.map((p) => p.id)).toEqual(['3-john-1-2', 'psalm-118-24', 'romans-15-13'])
   })
 

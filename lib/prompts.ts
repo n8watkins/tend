@@ -1,13 +1,11 @@
 /**
  * Conversation starters: short lines in our own words that the sender can use
  * to begin a personal message. They are content like the library, written once
- * and reviewed; nothing is generated at runtime. Safe for client components.
- *
- * PREVIEW: reads placeholder entries from tests/fixtures/prompts.json until the
- * content lane lands content/prompts.json (same shape); then this import moves.
+ * and reviewed (content/prompts.json, checked by scripts/build-library.mjs);
+ * nothing is generated at runtime. Safe for client components.
  */
 
-import prompts from '@/tests/fixtures/prompts.json'
+import prompts from '@/content/prompts.json'
 
 import type { SuggestMode } from './enums'
 

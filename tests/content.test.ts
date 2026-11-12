@@ -114,13 +114,15 @@ describe('suggest', () => {
     for (const p of picks) expect(p.topics).toContain('grief')
   })
 
-  it('never repeats something sent in the last 180 days or already scheduled', () => {
-    const first = suggest(LIBRARY, 'c1', [{ topic: 'friendship', weight: 2 }], [], now)[0]!
-    const second = suggest(LIBRARY, 'c1', [{ topic: 'friendship', weight: 2 }], [{ contentId: first.id, at: now - 10 * DAY, status: 'sent' }], now)
+  it('never repeats a passage sent in the last 180 days or anything already scheduled', () => {
+    const topics = [{ topic: 'friendship', weight: 2 }]
+    const opts = { mode: 'scripture' as const }
+    const first = suggest(LIBRARY, 'c1', topics, [], now, opts)[0]!
+    const second = suggest(LIBRARY, 'c1', topics, [{ contentId: first.id, at: now - 10 * DAY, status: 'sent' }], now, opts)
     expect(second.map((i) => i.id)).not.toContain(first.id)
-    const scheduled = suggest(LIBRARY, 'c1', [{ topic: 'friendship', weight: 2 }], [{ contentId: first.id, at: now + DAY, status: 'scheduled' }], now)
+    const scheduled = suggest(LIBRARY, 'c1', topics, [{ contentId: first.id, at: now + DAY, status: 'scheduled' }], now, opts)
     expect(scheduled.map((i) => i.id)).not.toContain(first.id)
-    const old = suggest(LIBRARY, 'c1', [{ topic: 'friendship', weight: 2 }], [{ contentId: first.id, at: now - 200 * DAY, status: 'sent' }], now, 100)
+    const old = suggest(LIBRARY, 'c1', topics, [{ contentId: first.id, at: now - 200 * DAY, status: 'sent' }], now, { ...opts, limit: 100 })
     expect(old.map((i) => i.id)).toContain(first.id)
   })
 
@@ -141,16 +143,16 @@ describe('surprise', () => {
   })
 
   it('still never repeats within 180 days or something already scheduled', () => {
-    const [keep, ...rest] = LIBRARY
+    const [keep, ...rest] = LIBRARY.filter((i) => i.kind === 'scripture')
     const past = [
       ...rest.slice(1).map((i) => ({ contentId: i.id, at: now - 179 * DAY, status: 'sent' as const })),
       { contentId: rest[0]!.id, at: now + DAY, status: 'scheduled' as const },
     ]
-    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, past, now, { random: () => r })!.id).toBe(keep!.id)
+    for (const r of [0, 0.5, 0.99]) expect(surprise(LIBRARY, past, now, { mode: 'scripture', random: () => r })!.id).toBe(keep!.id)
     const all = [...past, { contentId: keep!.id, at: now - DAY, status: 'sent' as const }]
-    expect(surprise(LIBRARY, all, now)).toBeUndefined()
+    expect(surprise(LIBRARY, all, now, { mode: 'scripture' })).toBeUndefined()
     const later = all.map((m) => (m.status === 'sent' ? { ...m, at: now - 181 * DAY } : m))
-    expect(surprise(LIBRARY, later, now)).toBeDefined()
+    expect(surprise(LIBRARY, later, now, { mode: 'scripture' })).toBeDefined()
   })
 
   it('can stick to one kind and avoids the last surprise when it can', () => {

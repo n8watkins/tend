@@ -8,7 +8,7 @@ import { PageTitle } from '@/components/ui'
 import { MESSAGE_KINDS, type MessageKind } from '@/lib/enums'
 import { getItem } from '@/lib/content'
 import { consentRequestBody } from '@/lib/format'
-import { OCCASION_KINDS, occasionGreeting, occasionSlot, parsePartialDate, upcoming } from '@/lib/occasions'
+import { OCCASION_KINDS, occasionNote, occasionSlot, parsePartialDate, upcoming } from '@/lib/occasions'
 import { getPrompt } from '@/lib/prompts'
 import { allowedKinds, checkTime, nextGoodTime, REFUSAL_TEXT } from '@/lib/schedule'
 import { contactHistory, getContact, openConsentRequests, sentCount } from '@/lib/server/data'
@@ -104,7 +104,7 @@ export default async function ComposePage({
           kind === 'consent_request'
             ? consentRequestBody(contact.name, contact.minDaysBetween)
             : occasion
-              ? occasionGreeting(occasion.kind, contact.name)
+              ? occasionNote(occasion.kind, contact.name, prompt?.text)
               : (prompt?.text ?? '')
         }
         nextHeading={onTheDay && occasion ? `On their ${occasion.kind}` : 'Next good time'}

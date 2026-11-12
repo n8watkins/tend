@@ -57,6 +57,26 @@ export async function contactMessages(userId: string, contactId: string): Promis
     .orderBy(desc(sql`coalesce(${messages.sentAt}, ${messages.scheduledFor})`))
 }
 
+/**
+ * Library and starter ids the user sent to anyone other than this contact
+ * since `since`, or has scheduled for them now. Suggestions offer these last
+ * (lib/suggest.ts, ELSEWHERE_DAYS), so one quote doesn't go to everyone.
+ */
+export async function usedElsewhere(userId: string, contactId: string, since: number): Promise<Set<string>> {
+  const rows = await db
+    .select({ contentId: messages.contentId })
+    .from(messages)
+    .where(
+      and(
+        eq(messages.userId, userId),
+        ne(messages.contactId, contactId),
+        sql`${messages.contentId} is not null`,
+        or(eq(messages.status, 'scheduled'), and(eq(messages.status, 'sent'), gt(messages.sentAt, since))),
+      ),
+    )
+  return new Set(rows.map((r) => r.contentId as string))
+}
+
 export async function contactConsentEvents(userId: string, contactId: string) {
   return db
     .select()
