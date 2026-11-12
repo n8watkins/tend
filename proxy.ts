@@ -15,6 +15,9 @@ export function proxy(request: NextRequest) {
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://challenges.cloudflare.com${dev ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
+    // The service worker (public/sw.js); 'strict-dynamic' above would refuse it otherwise.
+    "worker-src 'self'",
+    "manifest-src 'self'",
     "font-src 'self'",
     `connect-src 'self' https://challenges.cloudflare.com${dev ? ' ws:' : ''}`,
     'frame-src https://challenges.cloudflare.com',
@@ -34,6 +37,11 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Pages only: not static files, images or the API.
-  matcher: [{ source: '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|opengraph-image).*)' }],
+  // Pages only: not static files, images, the app manifest, service worker and icons, or the API.
+  matcher: [
+    {
+      source:
+        '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|opengraph-image|manifest.webmanifest|sw.js|offline.html|icons/).*)',
+    },
+  ],
 }

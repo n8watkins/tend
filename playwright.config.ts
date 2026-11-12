@@ -1,3 +1,5 @@
+import { createECDH } from 'node:crypto'
+
 import { defineConfig, devices } from '@playwright/test'
 
 /**
@@ -9,6 +11,9 @@ import { defineConfig, devices } from '@playwright/test'
 const PORT = Number(process.env.E2E_PORT || 7842)
 const baseURL = `http://localhost:${PORT}`
 const TELEGRAM_MOCK_PORT = Number(process.env.E2E_TELEGRAM_PORT || 7843)
+
+const vapid = createECDH('prime256v1')
+vapid.generateKeys()
 
 export const E2E_ENV = {
   APP_ENV: 'test',
@@ -30,6 +35,12 @@ export const E2E_ENV = {
   TELEGRAM_API_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}`,
   TELEGRAM_PER_USER_DAILY: '1000',
   TELEGRAM_SITE_DAILY: '1000',
+  // Web Push: a fresh VAPID key for each run; the push service is
+  // e2e/telegram-mock.mjs, which logs to .e2e/push.jsonl.
+  VAPID_PRIVATE_KEY: vapid.getPrivateKey('hex').padStart(64, '0'),
+  PUSH_TEST_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}/push`,
+  PUSH_PER_USER_DAILY: '1000',
+  PUSH_SITE_DAILY: '1000',
   // Dummy GitHub OAuth app, so the GitHub button shows; the test stops at github.com.
   AUTH_GITHUB_ID: 'e2e-github-client-id',
   AUTH_GITHUB_SECRET: 'e2e-github-client-secret',

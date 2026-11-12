@@ -11,3 +11,8 @@ export const REMINDERS_SITE_DAILY = 10
 export const TELEGRAM_PER_USER_DAILY = 20
 export const TELEGRAM_SITE_DAILY = 300
 export const TELEGRAM_PUBLIC_DAILY = 50
+// Phone notifications (Web Push, free): one per reminder run, with the same
+// daily caps as reminder emails; PUSH_* in the environment override them.
+export const PUSH_PER_USER_DAILY = REMINDERS_PER_USER_DAILY
+export const PUSH_SITE_DAILY = REMINDERS_SITE_DAILY
+export const PUSH_SUBSCRIPTIONS_PER_USER = 10

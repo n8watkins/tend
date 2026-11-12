@@ -2,7 +2,7 @@ import { and, eq } from 'drizzle-orm'
 
 import { auth } from '@/auth'
 import { db } from '@/db'
-import { consentEvents, contacts, contactTopics, messages, userSettings } from '@/db/schema'
+import { consentEvents, contacts, contactTopics, messages, pushSubscriptions, userSettings } from '@/db/schema'
 import { decrypt } from '@/lib/crypto'
 
 export const dynamic = 'force-dynamic'
@@ -13,11 +13,15 @@ export async function GET(): Promise<Response> {
   const userId = session?.user?.id
   if (!userId) return new Response('Sign in first.', { status: 401 })
 
-  const [settings, people, sent, consent] = await Promise.all([
+  const [settings, people, sent, consent, devices] = await Promise.all([
     db.query.userSettings.findFirst({ where: eq(userSettings.userId, userId) }),
     db.select().from(contacts).where(eq(contacts.userId, userId)),
     db.select().from(messages).where(eq(messages.userId, userId)),
     db.select().from(consentEvents).where(eq(consentEvents.userId, userId)),
+    db
+      .select({ device: pushSubscriptions.device, createdAt: pushSubscriptions.createdAt, lastPushedAt: pushSubscriptions.lastPushedAt })
+      .from(pushSubscriptions)
+      .where(eq(pushSubscriptions.userId, userId)),
   ])
   const exported = await Promise.all(
     people.map(async ({ phoneEnc, notesEnc, stopToken: _stopToken, userId: _userId, ...contact }) => ({
@@ -37,6 +41,8 @@ export async function GET(): Promise<Response> {
     contacts: exported,
     messages: sent.map(({ userId: _u, ...m }) => m),
     consentEvents: consent.map(({ userId: _u, ...e }) => e),
+    // Devices with phone notifications on (their push addresses stay out).
+    notificationDevices: devices,
   }
   return new Response(JSON.stringify(body, null, 2), {
     headers: {
