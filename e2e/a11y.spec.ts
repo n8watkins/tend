@@ -19,7 +19,7 @@ for (const colorScheme of ['dark'] as const) {
 
       await signIn(page, testEmail(info, `a11y-${colorScheme}`))
       const id = await addPerson(page, { name: 'Robin', consent: 'yes', topics: ['Joy'] })
-      for (const path of ['/today', '/people', '/people/new', `/people/${id}`, `/people/${id}/edit`, `/compose?contact=${id}&kind=personal`, '/library', '/history', '/settings']) {
+      for (const path of ['/today', '/people', '/people/new', '/people/import', `/people/${id}`, `/people/${id}/edit`, `/compose?contact=${id}&kind=personal`, '/library', '/history', '/settings']) {
         await check(path)
       }
     })

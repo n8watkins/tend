@@ -61,6 +61,36 @@ export async function decrypt(stored: string | null | undefined): Promise<string
   return new TextDecoder().decode(plain)
 }
 
+let indexCache: { raw: string; key: Promise<CryptoKey> } | undefined
+
+/**
+ * A keyed hash (HMAC-SHA-256, key derived from DATA_ENCRYPTION_KEY) of a
+ * value Tend must recognise but not keep, such as an imported contact's
+ * email address: equal inputs give equal outputs, and without the key the
+ * value cannot be recovered or guessed by hashing candidates.
+ */
+export async function blindIndex(value: string): Promise<string> {
+  const raw = process.env.DATA_ENCRYPTION_KEY
+  if (!raw || raw.length < 32) throw new Error('DATA_ENCRYPTION_KEY is not set')
+  if (indexCache?.raw !== raw) {
+    const material = crypto.subtle.importKey('raw', new TextEncoder().encode(raw), 'HKDF', false, ['deriveKey'])
+    indexCache = {
+      raw,
+      key: material.then((base) =>
+        crypto.subtle.deriveKey(
+          { name: 'HKDF', hash: 'SHA-256', salt: new TextEncoder().encode('tend'), info: new TextEncoder().encode('blind-index-v1') },
+          base,
+          { name: 'HMAC', hash: 'SHA-256', length: 256 },
+          false,
+          ['sign'],
+        ),
+      ),
+    }
+  }
+  const mac = await crypto.subtle.sign('HMAC', await indexCache.key, new TextEncoder().encode(value))
+  return `v1.${b64urlEncode(new Uint8Array(mac))}`
+}
+
 /** 32 random bytes as base64url: stop tokens. */
 export function randomToken(): string {
   return b64urlEncode(crypto.getRandomValues(new Uint8Array(32)))

@@ -9,22 +9,33 @@ import { formatWhen } from '@/lib/time'
 
 export const metadata: Metadata = { title: 'People' }
 
-export default async function PeoplePage({ searchParams }: { searchParams: Promise<{ q?: string; done?: string }> }) {
+export default async function PeoplePage({ searchParams }: { searchParams: Promise<{ q?: string; done?: string; n?: string }> }) {
   const user = await requireUser()
-  const { q, done } = await searchParams
+  const { q, done, n } = await searchParams
   const [people, settings] = await Promise.all([listContacts(user.id, q), getSettings(user.id)])
   return (
     <>
       <PageTitle
         title="People"
         action={
-          <Link href="/people/new" className="btn btn-primary">
-            <PlusIcon />
-            Add someone
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/people/import" className="btn btn-secondary">
+              Import
+            </Link>
+            <Link href="/people/new" className="btn btn-primary">
+              <PlusIcon />
+              Add someone
+            </Link>
+          </div>
         }
       />
-      <Done code={done} />
+      {done === 'imported' ? (
+        <p role="status" className="notice notice-good mb-6">
+          Imported {Number(n) || 0} {Number(n) === 1 ? 'person' : 'people'}. Open each one to ask whether they would like messages.
+        </p>
+      ) : (
+        <Done code={done} />
+      )}
       <form role="search" className="mb-5 flex gap-2" action="/people">
         <label htmlFor="q" className="sr-only">
           Search people

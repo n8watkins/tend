@@ -18,6 +18,10 @@ export default function PrivacyPage() {
         <ul>
           <li>Your account: your email address, and your GitHub name and picture if you sign in with GitHub.</li>
           <li>The people you add: a name, and only if you choose to add them, a phone number and private notes. Phone numbers and notes are encrypted before they are saved.</li>
+          <li>If you add them: their birthday and anniversary, how often you want to keep in touch, and when you were last in touch.</li>
+          <li>
+            If you import people: the people you choose, as above. The file is read in memory and not kept. An email address in it is kept only as a keyed hash, so Tend can tell when you import the same person again; the address itself is not stored.
+          </li>
           <li>Their consent state, the topics you picked, their timing rules, the messages you scheduled, sent or skipped, and changes to their consent.</li>
           <li>Your settings: time zone, preferred Bible translation and whether you want email reminders.</li>
           <li>If you connect Telegram: the id of your private chat with Tend&rsquo;s bot, so reminders can reach you there. Disconnect in Settings or send /stop to remove it.</li>
@@ -38,7 +42,7 @@ export default function PrivacyPage() {
 
         <h2>Where it lives</h2>
         <p>
-          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through a shared mail relay on Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots. If you connect Telegram, each reminder, including the message you prepared, is sent to you through Telegram&rsquo;s Bot API, so Telegram handles it under its own privacy policy.
+          Tend runs on Cloudflare Workers. Data is stored in a Turso (libSQL) database in the United States. Sign-in and reminder emails are sent through a shared mail relay on Cloudflare Email Service. Cloudflare Turnstile may check the sign-in form for bots. If you connect Telegram, each reminder, including the message you prepared, is sent to you through Telegram&rsquo;s Bot API, so Telegram handles it under its own privacy policy. If you import from Google Contacts, Tend asks Google for read-only access to your contacts, reads them once to show you the list, then revokes that access; it keeps no Google token.
         </p>
 
         <h2>Your control</h2>

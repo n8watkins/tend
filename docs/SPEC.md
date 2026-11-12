@@ -35,7 +35,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ### Later milestones
 
-- M2: CSV import and export of contacts; "Invite to Signal" text with the native SMS composer link; Signal usernames.
+- M2: export of contacts as CSV (import shipped, below); "Invite to Signal" text with the native SMS composer link; Signal usernames.
 - M3 (shipped): Telegram reminders through the official Bot API (see below); Web Push reminders and the installable app (section 15).
 - M4: Opt-in AI suggestions that send only topic labels (never names, notes or numbers) to a model, still returning only library items.
 - M5: Community content contributions (articles, videos) with a review queue.
@@ -47,6 +47,35 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 - Each due message gets its own Telegram message with the prepared text and buttons: Share (`t.me/share/url`), Open in Tend, and callback buttons "I sent it" and "Snooze a day" that update Tend. Email and Telegram are separate choices.
 - Caps (lib/limits.ts): 20 bot messages a day per user and 300 site-wide; replies to chats linked to nobody have their own caps (3 a day per chat, 50 overall). If a cap or its counter is unavailable, nothing is sent.
 - The send screen also offers free share links for WhatsApp (`wa.me/?text=`), a text message (`sms:?&body=`) and Telegram, beside Signal. No paid WhatsApp Business API.
+
+### Contact import (shipped)
+
+- `/people/import` (and "Import" on People): upload a vCard (`.vcf`, the phone-contacts export from iPhone and Android; vCard 2.1, 3.0 and 4.0, quoted-printable, folded lines) or a CSV (comma, semicolon or tab; Google, Outlook and plain exports) up to 1 MB and 500 people.
+  The file is read in memory by a server action and never stored. Reading a file (or starting a Google import) spends from a per-user cap of 30 a day.
+- CSV gets a column-mapping step (full name, or first and last; phone; email; birthday; anniversary; whether 03/04 means 3 April or 4 March), with Tend's guess filled in.
+- The review lists everyone found, each marked new, "Already in People" (same phone number, or same email via its keyed hash) or "Twice in this file"; new ones are chosen by default. A number without a country code is left out with a warning (a 10-digit number is read as US).
+- Imported people get consent `not_asked`, the user's time zone, the default rules, the birthday from `BDAY` (iPhone's "no year" `1604` and `X-APPLE-OMIT-YEAR` understood) and the anniversary (`ANNIVERSARY`, `X-ANNIVERSARY`, or iPhone's Anniversary-labelled `X-ABDATE`). Phone numbers are encrypted as usual. The 500-contact limit applies.
+- `contact.emailHash` (migration 0005): HMAC-SHA-256 of the lower-cased email with a key derived from `DATA_ENCRYPTION_KEY`, only to spot repeats. Tend does not keep email addresses. The export leaves it out.
+- The parsing is pure (`lib/import.ts`); `lib/server/import.ts` reads uploads, marks duplicates and inserts; `app/(app)/people/import/actions.ts` runs the steps.
+
+#### Google Contacts (optional)
+
+- Shown only when the Worker has `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+- `GET /api/import/google` sets a 10-minute, httpOnly state cookie (bound to the user) and redirects to Google with scope `https://www.googleapis.com/auth/contacts.readonly`, `access_type=online` (no refresh token).
+- Google returns to `/people/import/google`, which checks the state, exchanges the code, reads `people/me/connections` (names, phone numbers, emails, birthdays, events), revokes the token, and shows the same review. The token is never stored.
+- `contacts.readonly` is a sensitive scope: until Google verifies the app, the consent screen shows an "unverified app" warning and at most 100 users can use it.
+
+Owner setup:
+
+1. Open https://console.cloud.google.com/ signed in as the owner, and create a project: project picker, New project, name `Tend`, Create; select it.
+2. APIs & Services, Library: search "People API", open it, Enable.
+3. Google Auth Platform (APIs & Services, OAuth consent screen), Get started: app name `Tend`, user support email the owner's; audience External; contact email the owner's; agree and Create.
+4. Branding: app home page `https://tend.n8builds.dev`, privacy policy `https://tend.n8builds.dev/privacy`, terms `https://tend.n8builds.dev/terms`, authorised domain `n8builds.dev`; Save.
+5. Data access, Add or remove scopes: add `https://www.googleapis.com/auth/contacts.readonly` (".../auth/contacts.readonly", under People API); Update, Save.
+6. Audience: leave the publishing status "In production" if offered (Publish app), so anyone (up to 100 users while unverified) can use it; in "Testing" only listed test users can, so add your own Google account as a test user if you keep it there.
+7. Clients, Create client: type Web application, name `Tend web`; Authorised redirect URIs: `https://tend.n8builds.dev/people/import/google` (and `http://localhost:7841/people/import/google` for local dev); Create. Copy the client id and secret from the dialog.
+8. In a terminal: `! pass-env set tend/GOOGLE_CLIENT_ID` and `! pass-env set tend/GOOGLE_CLIENT_SECRET`, pasting each when asked; then add both names to `.env.pass` and set them as Worker secrets (an agent can do this with `pass-env pipe tend/GOOGLE_CLIENT_ID -- npx wrangler secret put GOOGLE_CLIENT_ID`, and the same for the secret). No rebuild is needed.
+9. Optional, later: Verification Center, submit for verification to remove the warning and the 100-user cap (Google asks for a demo video and a privacy policy that covers contacts data).
 
 ### Not planned
 
@@ -173,6 +202,9 @@ Every page is light only (whatever the system setting), meets WCAG 2.2 AA contra
 | `/today` | user | Pause banner; Due now; Due to reach out (keep-in-touch cadences that have come due); Birthdays and anniversaries (next 14 days); Upcoming (next 14 days); people who could use a message (consent yes, nothing in the last `minDaysBetween` days and nothing scheduled) |
 | `/people` | user | Contact list with search, consent badges, next scheduled |
 | `/people/new` | user | Create contact |
+| `/people/import` | user | Import from a .vcf or .csv (and Google when configured): read, map columns, review duplicates, import |
+| `/people/import/google` | user | Google's OAuth return: reads contacts once and shows the review |
+| `/api/import/google` | user | Starts the Google OAuth flow |
 | `/people/[id]` | user | Consent panel, keeping in touch (last in touch, next due, birthday, anniversary, "We were in touch today"), picks for an occasion within 14 days, suggestions, scheduled, history, consent log, edit and delete |
 | `/people/[id]/edit` | user | Edit contact |
 | `/compose` | user | `?contact=&content=&kind=&occasion=`: compose, preview, schedule; with an occasion, the greeting is written and their day itself is the suggested time |
@@ -346,13 +378,14 @@ The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads
 - **Logging:** structured JSON logs with ids and outcomes only; never names, numbers, notes, message bodies or emails.
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
 - **Export:** `/api/export` returns contacts (decrypted), topics, messages and consent events as JSON.
-- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `VAPID_PRIVATE_KEY`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
+- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `VAPID_PRIVATE_KEY`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
 
 ## 11. Limits
 
 | Limit | Value |
 | --- | --- |
 | Contacts per user | 500 |
+| Import | 1 MB and 500 people per file; 30 files or Google imports per user per UTC day |
 | Scheduled (open) messages per user | 20 |
 | Topics per contact | 6 |
 | Message body | 2,000 characters |

@@ -16,3 +16,5 @@ export const TELEGRAM_PUBLIC_DAILY = 50
 export const PUSH_PER_USER_DAILY = REMINDERS_PER_USER_DAILY
 export const PUSH_SITE_DAILY = REMINDERS_SITE_DAILY
 export const PUSH_SUBSCRIPTIONS_PER_USER = 10
+// Contact import: files read (or Google imports started) per user a day.
+export const IMPORT_READS_PER_USER_DAILY = 30

@@ -41,6 +41,10 @@ export const E2E_ENV = {
   PUSH_TEST_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}/push`,
   PUSH_PER_USER_DAILY: '1000',
   PUSH_SITE_DAILY: '1000',
+  // Google Contacts import against the mock in e2e/telegram-mock.mjs.
+  GOOGLE_CLIENT_ID: 'e2e-google-client-id',
+  GOOGLE_CLIENT_SECRET: 'e2e-google-client-secret',
+  GOOGLE_API_BASE: `http://localhost:${TELEGRAM_MOCK_PORT}`,
   // Dummy GitHub OAuth app, so the GitHub button shows; the test stops at github.com.
   AUTH_GITHUB_ID: 'e2e-github-client-id',
   AUTH_GITHUB_SECRET: 'e2e-github-client-secret',
