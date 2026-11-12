@@ -20,7 +20,8 @@ import { describeDays } from '@/lib/schedule'
 import { contactConsentEvents, contactMessages, getContact } from '@/lib/server/data'
 import { contactOccasions, keepInTouchState } from '@/lib/server/nudges'
 import { getSettings, requireUser } from '@/lib/server/session'
-import { suggest } from '@/lib/suggest'
+import { PROMPTS, SITUATION_LABEL, SUGGEST_LABEL } from '@/lib/prompts'
+import { promptLimit, situationsFor, suggest, suggestPrompts } from '@/lib/suggest'
 import { formatDate, formatMinutes, formatWhen } from '@/lib/time'
 import { topicLabel } from '@/lib/topics'
 
@@ -76,11 +77,17 @@ export default async function ContactPage({
   const past = history.filter((m) => m.status !== 'scheduled')
   // Not the occasion's picks again, when those are shown above.
   const shownPicks = new Set(contact.consent === 'yes' ? picks.map((p) => p.id) : [])
+  const mode = contact.suggest ?? settings.suggest
+  const pastMessages = pastForPicks
   const suggestions =
     contact.consent === 'yes'
-      ? suggest(LIBRARY, contact.id, contact.topics, pastForPicks, now, 5 + shownPicks.size)
+      ? suggest(LIBRARY, contact.id, contact.topics, pastMessages, now, 5 + shownPicks.size, mode)
           .filter((item) => !shownPicks.has(item.id))
           .slice(0, 5)
+      : []
+  const starters =
+    contact.consent === 'yes'
+      ? suggestPrompts(PROMPTS, contact.id, situationsFor(contact.topics, pastMessages, now), pastMessages, now, promptLimit(mode))
       : []
   const timeline = [
     ...past.map((m) => ({
@@ -297,10 +304,18 @@ export default async function ContactPage({
 
       {contact.consent === 'yes' ? (
         <Section title="Suggestions" id="suggestions">
-          {contact.topics.length ? (
-            <p className="hint mb-3">Picked for what {contact.name} cares about: {contact.topics.map((t) => topicLabel(t.topic).toLowerCase()).join(', ')}.</p>
-          ) : null}
-          {contact.topics.length === 0 ? (
+          <p className="hint mb-3">
+            Suggesting {mode === 'words' ? 'conversation starters only' : SUGGEST_LABEL[mode].toLowerCase()}
+            {contact.suggest ? '' : ' (your default)'}
+            {mode !== 'words' && contact.topics.length
+              ? `, picked for what ${contact.name} cares about: ${contact.topics.map((t) => topicLabel(t.topic).toLowerCase()).join(', ')}`
+              : null}
+            .{' '}
+            <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
+              Change
+            </Link>
+          </p>
+          {mode !== 'words' && contact.topics.length === 0 ? (
             <p className="hint mb-3">
               <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
                 Pick a few topics
@@ -308,39 +323,67 @@ export default async function ContactPage({
               for suggestions that fit {contact.name} better.
             </p>
           ) : null}
-          {suggestions.length ? (
-            <ul className="space-y-3">
-              {suggestions.map((item) => (
-                <li key={item.id} className="card">
-                  <p className="text-sm font-semibold">{itemHeading(item)}</p>
-                  <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
-                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                    <span className="flex flex-wrap gap-1">
-                      {item.topics.map((t) => (
-                        <span key={t} className="badge">
-                          {topicLabel(t)}
-                        </span>
-                      ))}
-                    </span>
-                    <Link href={`/compose?contact=${contact.id}&content=${item.id}`} className="btn btn-primary btn-sm">
-                      Use this
+          {mode !== 'words' ? (
+            suggestions.length ? (
+              <ul className="space-y-3">
+                {suggestions.map((item) => (
+                  <li key={item.id} className="card">
+                    <p className="text-sm font-semibold">{itemHeading(item)}</p>
+                    <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                      <span className="flex flex-wrap gap-1">
+                        {item.topics.map((t) => (
+                          <span key={t} className="badge">
+                            {topicLabel(t)}
+                          </span>
+                        ))}
+                      </span>
+                      <Link href={`/compose?contact=${contact.id}&content=${item.id}`} className="btn btn-primary btn-sm">
+                        Use this
+                      </Link>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <Empty>Nothing new fits their topics right now. Browse the library or write your own.</Empty>
+            )
+          ) : null}
+          {starters.length ? (
+            <div className={mode === 'words' ? '' : 'mt-6'}>
+              <h3 className="mb-1 font-semibold">{mode === 'words' ? 'Start in your own words' : 'Or start in your own words'}</h3>
+              <p className="hint mb-3">A first line to make your own. Tend never suggests the same one to {contact.name} twice.</p>
+              <ul className="space-y-2">
+                {starters.map((p) => (
+                  <li key={p.id} className="card flex flex-wrap items-center justify-between gap-3">
+                    <div className="min-w-0 flex-1 basis-56">
+                      <span className="badge mb-1.5">{SITUATION_LABEL[p.situation]}</span>
+                      <p>{p.text}</p>
+                    </div>
+                    <Link href={`/compose?contact=${contact.id}&kind=personal&prompt=${p.id}`} className="btn btn-secondary btn-sm">
+                      Start with this
                     </Link>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Empty>Nothing new fits their topics right now. Browse the library or write your own.</Empty>
-          )}
-          <div className="mt-3 flex flex-wrap gap-2">
-            <form action={surpriseMe.bind(null, contact.id)}>
-              <SubmitButton className="btn btn-secondary">Surprise me</SubmitButton>
-            </form>
-            <Link href={`/library?contact=${contact.id}`} className="btn btn-ghost">
-              Browse the whole library
-            </Link>
-          </div>
-          <p className="hint mt-2">Surprise me picks any passage or quote at random, never one {contact.name} has had in the last 180 days.</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {mode !== 'words' ? (
+            <>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <form action={surpriseMe.bind(null, contact.id)}>
+                  <SubmitButton className="btn btn-secondary">Surprise me</SubmitButton>
+                </form>
+                <Link href={`/library?contact=${contact.id}`} className="btn btn-ghost">
+                  Browse the whole library
+                </Link>
+              </div>
+              <p className="hint mt-2">
+                Surprise me picks any {mode === 'scripture' ? 'passage' : mode === 'quotes' ? 'quote' : 'passage or quote'} at random, never one{' '}
+                {contact.name} has had in the last 180 days.
+              </p>
+            </>
+          ) : null}
         </Section>
       ) : null}
 

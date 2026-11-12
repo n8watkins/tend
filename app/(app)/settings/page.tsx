@@ -33,6 +33,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
         action={updateSettings}
         timezone={settings.timezone}
         translation={settings.translation}
+        suggest={settings.suggest}
         emailReminders={settings.emailReminders}
         timezones={timeZoneOptions(settings.timezone)}
       />

@@ -265,6 +265,26 @@
     outline: 3px solid var(--focus);
     outline-offset: 2px;
   }
+  /* A radio or checkbox shown as a small card: a title and a line of hint. */
+  .choice {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.8rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .choice:has(input:checked) {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-soft-ink);
+  }
+  .choice:has(input:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
   .passage {
     font-family: var(--font-serif);
     font-size: 1.08rem;

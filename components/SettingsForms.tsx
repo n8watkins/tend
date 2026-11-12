@@ -3,22 +3,25 @@
 import { useActionState } from 'react'
 
 import type { FormState } from '@/app/(app)/actions'
-import type { Translation } from '@/lib/enums'
+import type { SuggestMode, Translation } from '@/lib/enums'
 
 import { TranslationOptions } from './TranslationOptions'
 
 import { SubmitButton } from './SubmitButton'
+import { SuggestChoice } from './SuggestChoice'
 
 export function PreferencesForm({
   action,
   timezone,
   translation,
+  suggest,
   emailReminders,
   timezones,
 }: {
   action: (state: FormState, form: FormData) => Promise<FormState>
   timezone: string
   translation: Translation
+  suggest: SuggestMode
   emailReminders: boolean
   timezones: string[]
 }) {
@@ -37,6 +40,11 @@ export function PreferencesForm({
           ))}
         </select>
       </div>
+      <SuggestChoice
+        value={suggest}
+        legend="What to suggest"
+        hint="For everyone, unless you choose differently on someone's page. Conversation starters come with every choice."
+      />
       <div>
         <label htmlFor="translation" className="label">
           Bible translation

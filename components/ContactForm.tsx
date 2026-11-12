@@ -3,7 +3,7 @@
 import { useActionState, useState } from 'react'
 
 import type { FormState } from '@/app/(app)/actions'
-import { SIGNAL_STATUSES, type SignalStatus, type Translation } from '@/lib/enums'
+import { SIGNAL_STATUSES, type SignalStatus, type SuggestMode, type Translation } from '@/lib/enums'
 import { TRANSLATION_LABEL } from '@/lib/item'
 import { CADENCE_CHOICES, describeCadence, LEAD_DAY_CHOICES, MAX_CADENCE_DAYS, MONTH_NAMES, parsePartialDate } from '@/lib/occasions'
 import { DAY_NAMES } from '@/lib/schedule'
@@ -11,6 +11,7 @@ import { formatMinutes } from '@/lib/time'
 import { MAX_TOPICS_PER_CONTACT, TOPICS } from '@/lib/topics'
 
 import { SubmitButton } from './SubmitButton'
+import { SuggestChoice } from './SuggestChoice'
 import { TranslationOptions } from './TranslationOptions'
 import { SIGNAL_LABEL } from './ui'
 
@@ -36,6 +37,8 @@ export interface ContactValues {
   cadenceDays: number | null
   /** "YYYY-MM-DD" of the last catch-up you recorded, or ''. */
   lastInTouch: string
+  /** '' for the sender's default. */
+  suggest: SuggestMode | ''
 }
 
 function DateFields({ name, label, value }: { name: 'birthday' | 'anniversary'; label: string; value: string }) {
@@ -124,12 +127,14 @@ export function ContactForm({
   timezones,
   isNew,
   defaultTranslation,
+  defaultSuggest,
 }: {
   action: (state: FormState, form: FormData) => Promise<FormState>
   initial: ContactValues
   timezones: string[]
   isNew: boolean
   defaultTranslation: Translation
+  defaultSuggest: SuggestMode
 }) {
   const [state, formAction] = useActionState(action, undefined)
   return (
@@ -200,6 +205,14 @@ export function ContactForm({
               {t.label}
             </label>
           ))}
+        </div>
+        <div className="mt-4">
+          <SuggestChoice
+            value={initial.suggest}
+            defaultMode={defaultSuggest}
+            legend="What to suggest for them"
+            hint="Your choice, from what you know of them. You can change it anytime."
+          />
         </div>
         <div className="mt-4">
           <label htmlFor="translation" className="label">

@@ -27,6 +27,10 @@ export interface QuoteItem extends ItemCommon {
   author: string
   work: string
   translator?: string
+  /** Occasions it fits (birthday, grief, ...); missing means any. */
+  occasions?: string[]
+  /** light, tender or steady; missing means any. */
+  tone?: string
   sourceUrl: string
   readingUrl: string
 }

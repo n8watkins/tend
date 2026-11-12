@@ -17,6 +17,7 @@ import type {
   SendState,
   SentVia,
   SignalStatus,
+  SuggestMode,
   Translation,
 } from '@/lib/enums'
 
@@ -77,11 +78,13 @@ export {
   MESSAGE_KINDS,
   MESSAGE_STATUSES,
   SIGNAL_STATUSES,
+  SUGGEST_MODES,
   TRANSLATIONS,
   type ConsentState,
   type MessageKind,
   type MessageStatus,
   type SignalStatus,
+  type SuggestMode,
   type Translation,
 } from '@/lib/enums'
 
@@ -95,6 +98,8 @@ export const userSettings = sqliteTable(
     emailReminders: integer('emailReminders', { mode: 'boolean' }).notNull().default(true),
     pausedAt: integer('pausedAt'),
     translation: text('translation').$type<Translation>().notNull().default('web'),
+    // What to suggest by default (scripture, quotes, a mix, or just your own words).
+    suggest: text('suggest').$type<SuggestMode>().notNull().default('mix'),
     // Telegram (lib/server/telegram.ts): the linked private chat, if any, and
     // whether due reminders also go there.
     telegramChatId: text('telegramChatId'),
@@ -185,6 +190,8 @@ export const contacts = sqliteTable(
     // contact came with, only to spot the same person in a later import.
     // Tend does not keep email addresses.
     emailHash: text('emailHash'),
+    // What to suggest for them; null means the sender's default.
+    suggest: text('suggest').$type<SuggestMode>(),
     stopToken: text('stopToken').notNull().unique(),
     archivedAt: integer('archivedAt'),
     createdAt: integer('createdAt').notNull(),

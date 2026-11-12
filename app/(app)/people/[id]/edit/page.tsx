@@ -24,6 +24,7 @@ export default async function EditContactPage({ params }: { params: Promise<{ id
         action={updateContact.bind(null, contact.id)}
         isNew={false}
         defaultTranslation={settings.translation}
+        defaultSuggest={settings.suggest}
         timezones={timeZoneOptions(contact.timezone)}
         initial={{
           name: contact.name,
@@ -43,6 +44,7 @@ export default async function EditContactPage({ params }: { params: Promise<{ id
           occasionLeadDays: contact.occasionLeadDays,
           cadenceDays: contact.cadenceDays,
           lastInTouch: lastInTouchInput(contact),
+          suggest: contact.suggest ?? '',
         }}
       />
     </>
