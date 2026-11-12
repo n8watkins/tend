@@ -214,7 +214,8 @@ describe('pairing and the device token', () => {
     for (let i = 0; i < HELPER_LIMITS.callsPerHour; i++) expect((await authenticateHelper(`Bearer ${token}`, ip(), hour)).ok).toBe(true)
     expect(await authenticateHelper(`Bearer ${token}`, ip(), hour)).toEqual({ ok: false, status: 429 })
     expect((await authenticateHelper(`Bearer ${token}`, ip(), hour + HOUR)).ok).toBe(true)
-  })
+    // About 330 limit writes to a local database: seconds on a busy machine.
+  }, 30_000)
 })
 
 describe('approve, claim, send, report', () => {
