@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { AppNav } from '@/components/AppNav'
+import { InstallHint } from '@/components/InstallHint'
 import { Logo } from '@/components/icons'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SubmitButton } from '@/components/SubmitButton'
@@ -35,6 +36,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
       ) : null}
       <main id="main" className="mx-auto w-full max-w-3xl px-4 py-6">
+        <InstallHint />
         {children}
       </main>
       <SiteFooter />

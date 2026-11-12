@@ -103,6 +103,30 @@ export const telegramLinkCodes = sqliteTable('telegram_link_code', {
   expiresAt: integer('expiresAt').notNull(),
 })
 
+/**
+ * Web Push subscriptions (lib/server/push.ts): one per browser or installed
+ * app that turned on phone notifications. Stored as given: a subscription is
+ * useless without Tend's VAPID private key, which the push services check.
+ * Deleted when the push service says it is gone (404 or 410).
+ */
+export const pushSubscriptions = sqliteTable(
+  'push_subscription',
+  {
+    id: text('id').primaryKey().$defaultFn(uuid),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    endpoint: text('endpoint').notNull().unique(),
+    p256dh: text('p256dh').notNull(),
+    auth: text('auth').notNull(),
+    // A short label for Settings, like "Chrome on Android".
+    device: text('device').notNull(),
+    createdAt: integer('createdAt').notNull(),
+    lastPushedAt: integer('lastPushedAt'),
+  },
+  (t) => [index('push_subscription_user_idx').on(t.userId)],
+)
+
 /** Small site-wide facts, such as the Telegram bot's username and webhook fingerprint. */
 export const appState = sqliteTable('app_state', {
   key: text('key').primaryKey(),

@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
+import { headers } from 'next/headers'
 
+import { ServiceWorker } from '@/components/ServiceWorker'
 import { TimezoneCookie } from '@/components/TimezoneCookie'
+import { INSTALL_CAPTURE } from '@/lib/install-capture'
 import { siteUrl } from '@/lib/url'
 
 import './globals.css'
@@ -39,6 +42,8 @@ export const metadata: Metadata = {
   title: { default: 'Tend: thoughtful messages, for Signal', template: '%s · Tend' },
   description,
   applicationName: 'Tend',
+  // Installed on iPhone: full screen, named Tend (the manifest covers the rest).
+  appleWebApp: { capable: true, title: 'Tend', statusBarStyle: 'default' },
   // The n8builds family share card, rendered by ops/share-cards/source (render.mjs tend).
   openGraph: {
     title: 'Tend',
@@ -57,14 +62,17 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const nonce = (await headers()).get('x-nonce') ?? undefined
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="min-h-dvh">
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: INSTALL_CAPTURE }} />
         <a href="#main" className="sr-only-focusable btn btn-primary fixed top-2 left-2 z-50">
           Skip to content
         </a>
         <TimezoneCookie />
+        <ServiceWorker />
         {children}
       </body>
     </html>

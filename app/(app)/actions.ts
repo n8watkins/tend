@@ -8,6 +8,7 @@
 
 import { and, eq, inArray } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
@@ -41,8 +42,10 @@ import {
   openConsentRequests,
 } from '@/lib/server/data'
 import { recordSent } from '@/lib/server/messages'
+import { pushConfigured, pushTest, removeOtherSubscriptions, removeSubscription, saveSubscription, userSubscriptions } from '@/lib/server/push'
 import { createLinkUrl, ensureTelegramWebhook, telegramConfigured, unlinkTelegram } from '@/lib/server/telegram'
 import { getSettings, requireUser } from '@/lib/server/session'
+import { allowedEndpoint, deviceLabel } from '@/lib/push'
 import { fromLocalInput, isValidTimeZone, parseMinutes } from '@/lib/time'
 import { surprise } from '@/lib/suggest'
 import { isTopic, MAX_TOPICS_PER_CONTACT } from '@/lib/topics'
@@ -406,6 +409,57 @@ export async function setTelegramReminders(form: FormData): Promise<void> {
     .where(eq(userSettings.userId, user.id))
   revalidatePath('/settings')
   redirect('/settings?done=saved')
+}
+
+/* Phone notifications ------------------------------------------------------ */
+
+export type PushState = { ok: boolean; error?: string }
+
+const subscriptionSchema = z.object({
+  endpoint: z.string().max(1024),
+  keys: z.object({
+    // The browser's P-256 public key (65 bytes) and auth secret (16 bytes), base64url.
+    p256dh: z.string().regex(/^[A-Za-z0-9_-]{87}$/),
+    auth: z.string().regex(/^[A-Za-z0-9_-]{22}$/),
+  }),
+})
+
+/** Saves this device's push subscription (PushSubscription.toJSON()) for the signed-in user. */
+export async function savePushSubscription(input: unknown): Promise<PushState> {
+  const user = await requireUser()
+  if (!pushConfigured()) return { ok: false, error: 'Phone notifications are not available just now.' }
+  const parsed = subscriptionSchema.safeParse(input)
+  if (!parsed.success || !allowedEndpoint(parsed.data.endpoint)) return { ok: false, error: 'This browser’s notifications are not supported.' }
+  const device = deviceLabel((await headers()).get('user-agent') ?? '')
+  await saveSubscription(user.id, { endpoint: parsed.data.endpoint, p256dh: parsed.data.keys.p256dh, auth: parsed.data.keys.auth, device })
+  revalidatePath('/settings')
+  return { ok: true }
+}
+
+export async function removePushSubscription(endpoint: unknown): Promise<PushState> {
+  const user = await requireUser()
+  if (typeof endpoint !== 'string' || endpoint.length > 1024) return { ok: false }
+  await removeSubscription(user.id, endpoint)
+  revalidatePath('/settings')
+  return { ok: true }
+}
+
+/** Turns phone notifications off on the user's other devices: all but `keep`, this one, if given. */
+export async function removeOtherPushSubscriptions(keep: unknown): Promise<PushState> {
+  const user = await requireUser()
+  await removeOtherSubscriptions(user.id, typeof keep === 'string' && keep ? keep : undefined)
+  revalidatePath('/settings')
+  return { ok: true }
+}
+
+export async function sendTestPush(): Promise<PushState> {
+  const user = await requireUser()
+  const outcome = await pushTest(user.id, await userSubscriptions(user.id))
+  if (outcome === 'sent') return { ok: true }
+  return {
+    ok: false,
+    error: outcome === 'retry' ? 'That is enough tests for today. Try again tomorrow.' : 'The notification could not be delivered. Turn notifications off, then on again.',
+  }
 }
 
 export async function setPaused(form: FormData): Promise<void> {

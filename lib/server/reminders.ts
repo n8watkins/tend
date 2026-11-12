@@ -5,11 +5,12 @@ import 'server-only'
  * 15 minutes (worker/cron.ts, via lib/server/reminder-cron.ts).
  *
  * 1. Messages whose contact no longer allows them are canceled.
- * 2. Due, unreminded messages of users with email reminders on and not paused
+ * 2. Due, unreminded messages of users with a reminder channel and not paused
  *    are grouped by user. Each user's rows are claimed with a conditional
  *    UPDATE (remindedAt IS NULL), so overlapping runs never email twice.
- * 3. Each user's channels, as they chose in Settings: one email per run, and
- *    (when Telegram is linked) one Telegram message per due item with its
+ * 3. Each user's channels, as they chose in Settings: one email per run,
+ *    one phone notification per run (to every device that turned them on),
+ *    and (when Telegram is linked) one Telegram message per due item with its
  *    buttons, each within its own per-user and site-wide daily caps. When no
  *    channel delivers, the claim is handed back so a later run (after the
  *    daily reset) tries again; "Due now" in the app shows them either way.
@@ -23,6 +24,7 @@ import { REMINDERS_PER_USER_DAILY, REMINDERS_SITE_DAILY } from '@/lib/limits'
 import { allowedKinds } from '@/lib/schedule'
 import { emailKey, layout, sendEmail } from '@/lib/server/email'
 import { pruneLimits, readLimit, spend } from '@/lib/server/limits'
+import { pushReminder, subscriptionsFor } from '@/lib/server/push'
 import { sendTelegramReminders, telegramConfigured } from '@/lib/server/telegram'
 import { publicUrl } from '@/lib/url'
 
@@ -33,11 +35,12 @@ export interface ReminderRun {
   users: number
   emailed: number
   telegram: number
+  pushed: number
   capped: number
 }
 
 export async function runReminders(now = Date.now()): Promise<ReminderRun> {
-  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, capped: 0 }
+  const result: ReminderRun = { canceled: 0, users: 0, emailed: 0, telegram: 0, pushed: 0, capped: 0 }
 
   const due = await db
     .select({
@@ -85,11 +88,13 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
     .where(inArray(users.id, userIds))
 
   const telegramOn = telegramConfigured()
+  const devices = await subscriptionsFor(recipients.filter((u) => !u.pausedAt).map((u) => u.id))
   for (const user of recipients) {
     if (user.pausedAt) continue
     const byEmail = Boolean(user.email) && user.emailReminders !== false
     const telegramChat = telegramOn && user.telegramReminders !== false ? user.telegramChatId : null
-    if (!byEmail && !telegramChat) continue
+    const pushDevices = devices.get(user.id) ?? []
+    if (!byEmail && !telegramChat && !pushDevices.length) continue
     result.users++
     const mine = ready.filter((m) => m.userId === user.id)
     const claimed = await db
@@ -108,6 +113,13 @@ export async function runReminders(now = Date.now()): Promise<ReminderRun> {
       if (outcome === 'sent') {
         delivered = true
         result.emailed++
+      } else if (outcome === 'retry') retry = true
+    }
+    if (pushDevices.length) {
+      const outcome = await pushReminder(user.id, pushDevices, items, now)
+      if (outcome === 'sent') {
+        delivered = true
+        result.pushed++
       } else if (outcome === 'retry') retry = true
     }
     if (telegramChat) {

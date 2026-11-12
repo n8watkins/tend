@@ -36,7 +36,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 ### Later milestones
 
 - M2: CSV import and export of contacts; "Invite to Signal" text with the native SMS composer link; Signal usernames.
-- M3 (part shipped): Telegram reminders through the official Bot API (see below); Web push reminders (free, no email quota); installable PWA.
+- M3 (shipped): Telegram reminders through the official Bot API (see below); Web Push reminders and the installable app (section 15).
 - M4: Opt-in AI suggestions that send only topic labels (never names, notes or numbers) to a model, still returning only library items.
 - M5: Community content contributions (articles, videos) with a review queue.
 
@@ -145,6 +145,10 @@ Indexes: `(status, scheduledFor)` for the cron, `(contactId, sentAt)` for caps a
 ### `rate_limit`
 
 `key` text PK, `count` integer, `resetAt` integer: fixed-window counters for sign-in emails (per address hash, per IP hash, site-wide) and reminder emails (per user, site-wide).
+
+### `push_subscription`
+
+`id, userId (cascade), endpoint (unique), p256dh, auth, device, createdAt, lastPushedAt`: one row per browser or installed app with phone notifications on (section 15).
 
 ## 5. Screens and routes
 
@@ -288,11 +292,12 @@ At schedule time (and consent only, at mark-sent time):
 Cron Trigger `*/15 * * * *` calls the reminder code directly (worker/cron.ts), without a request through Next.js. `POST /api/cron/reminders` with `Authorization: Bearer $CRON_SECRET` runs the same code by hand.
 The run:
 
-1. Selects messages with `status = 'scheduled'`, `scheduledFor <= now`, `remindedAt IS NULL`, whose user has `emailReminders` on and no `pausedAt`, and whose contact still allows sending.
+1. Selects messages with `status = 'scheduled'`, `scheduledFor <= now`, `remindedAt IS NULL`, whose user has a reminder channel (email, phone notifications or Telegram) and no `pausedAt`, and whose contact still allows sending.
 2. Groups them by user; for each user (up to 100 users a run):
    - claims the rows with `UPDATE message SET remindedAt = now WHERE id IN (...) AND remindedAt IS NULL` and continues only with the rows it claimed, so overlapping runs cannot email twice;
    - spends from the per-user daily cap (6) and the site-wide daily cap (`REMINDER_EMAILS_DAILY`, default 10);
-   - sends one email: "Time to send a message to Sam" (or "3 messages are due"), each with a link to its send screen.
+   - sends one email: "Time to send a message to Sam" (or "3 messages are due"), each with a link to its send screen;
+   - sends one phone notification to each device with notifications on, within its own caps (section 15).
 3. A message whose contact has become `no` or `stopped` is set to `canceled` instead.
 
 Due messages show in "Due now" whether or not an email was sent; messages more than 7 days overdue move to "Missed" with Reschedule and Skip.
@@ -320,7 +325,7 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 - **Logging:** structured JSON logs with ids and outcomes only; never names, numbers, notes, message bodies or emails.
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
 - **Export:** `/api/export` returns contacts (decrypted), topics, messages and consent events as JSON.
-- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
+- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `VAPID_PRIVATE_KEY`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
 
 ## 11. Limits
 
@@ -334,6 +339,7 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 | Sign-in emails | 5 per address, 20 per IP, 10 site-wide, per UTC day |
 | Reminder emails | 6 per user, 10 site-wide, per UTC day |
 | Telegram bot messages | 20 per user, 300 site-wide; replies to unlinked chats 3 per chat and 50 overall; per UTC day |
+| Phone notifications | 6 per user, 10 site-wide, per UTC day (tests: 5 per user); 10 devices per user |
 
 ## 12. Tests
 
@@ -356,6 +362,41 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 | M0 | PRD review and this spec | Merged |
 | M1 MVP | Everything in section 2 MVP, deployed | Live at tend.n8builds.dev, CI green, owner signs in |
 | M2 | CSV import/export, SMS invite link, usernames | |
-| M3 | Web push, PWA | |
+| M3 | Telegram, Web Push, installable app | Shipped |
 | M4 | Opt-in AI suggestions (labels only) | |
 | M5 | Community content queue | |
+
+## 15. Installable app and phone notifications
+
+### The app
+
+- `app/manifest.ts` serves `/manifest.webmanifest`: name and short name Tend, `start_url` `/today` (which sends anyone signed out to sign in), scope `/`, `display: standalone`, theme `#2f6b4f`, background `#f7f5f0`.
+- Icons are rendered from `app/icon.svg` by `scripts/render-icons.mjs` and committed: 192 and 512 (`any`), a full-bleed 512 `maskable`, `app/apple-icon.png` (180, full bleed, since iOS rounds it and fills transparency with black) and a white 96 badge for Android notifications.
+- Settings, "On your phone": Install Tend uses the browser's install prompt (Chrome, Edge, Android), shows the Share, then Add to Home Screen steps on iPhone and iPad, and says Tend is installed when it runs as the app.
+- Phones also get a one-time hint at the top of the signed-in pages: offered once, kept while the app stays open, never on Settings or in the installed app.
+- The root layout's inline script (with the page's CSP nonce) keeps the `beforeinstallprompt` event from the first moment, so a prompt that fires before hydration is not lost.
+
+### The service worker
+
+- `public/sw.js`, registered from `/sw.js?v=<build id>` in production builds (`NEXT_PUBLIC_BUILD_ID`: the commit in CI, else a timestamp). A new build is a new script URL, so phones install the new worker, which takes over at once and deletes the previous version's shell cache.
+- Cached: the offline page and icons (per version), and `/_next/static/*` files, which are content-hashed and immutable (cache first, at most 200 entries).
+- Never cached: pages and the API, which carry the user's people and messages. A page that cannot load offline gets `public/offline.html`, static and free of user data, with Try again.
+- The CSP adds `worker-src 'self'` (the nonce and `'strict-dynamic'` would otherwise refuse the worker) and `manifest-src 'self'`.
+
+### Web Push reminders
+
+- Free, standard Web Push with VAPID (RFC 8291 encryption, RFC 8292 signing) on Web Crypto only (`lib/webpush.ts`), so it runs in the Worker with no library.
+- On only when the Worker has the `VAPID_PRIVATE_KEY` secret (`tend/VAPID_PRIVATE_KEY` in pass, made with `pass-env generate tend/VAPID_PRIVATE_KEY 64 --charset hex`: the 32-byte P-256 key).
+  The public key the browser subscribes with is derived from it at runtime (Web Crypto computes it on a PKCS #8 import), so there is no second value to keep in step. `VAPID_SUBJECT` defaults to the site's URL.
+  Rotating the key ends every subscription: people turn notifications on again.
+- Settings, "Phone notifications" (per device): on asks permission, subscribes with the public key and stores the subscription in `push_subscription` (endpoint, keys, a device label like "Chrome on Android"); off unsubscribes and deletes it. Other devices are listed with "Turn off on other devices"; "Send a test notification" sends one (5 a day per user).
+- Only endpoints at the browsers' push services are accepted (`fcm.googleapis.com`, `push.services.mozilla.com`, `push.apple.com`, `notify.windows.com`, https only), so the server never posts anywhere else; at most 10 devices per user.
+- iPhone and iPad support Web Push only in the installed app (iOS 16.4 and later), so Settings explains that and turns notifications on from there.
+- The reminder run (section 8) sends one notification per user per run to each of their devices: "Time to message Sam" opens `/send/<id>`; several due messages open `/today`. Caps as for reminder email: 6 per user and 10 site-wide per UTC day (`PUSH_PER_USER_DAILY`, `PUSH_SITE_DAILY`). TTL 12 hours, `Topic: tend-reminder` so a newer reminder replaces an undelivered one.
+- Email and push are separate choices (email in Preferences, push per device); a person can use either or both. When no channel delivers, the claim is handed back as for email.
+- A 404 or 410 from the push service deletes that subscription. Subscriptions are stored as given: without Tend's VAPID private key, which the push services check, they cannot be used to send anything.
+
+### Tests
+
+- Unit: the RFC 8291 example byte for byte, a round trip with fresh keys, the VAPID JWT and its signature, endpoint allowlist, notification text, device labels.
+- End to end: the manifest and every icon's size, Chrome's installability check (`Page.getInstallabilityErrors`, empty), the service worker registering with the build version, the offline page with nothing personal cached, turning notifications on in Settings and receiving the encrypted, signed reminder at a local push service (`e2e/telegram-mock.mjs`, `PUSH_TEST_BASE`), a 410 deleting the subscription, and the install hint and steps on iPhone.

@@ -95,3 +95,24 @@ export const ChevronIcon = (p: IconProps) => (
     <path d="m9 6 6 6-6 6" />
   </Svg>
 )
+
+export const BellIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z" />
+    <path d="M10 20a2.2 2.2 0 0 0 4 0" />
+  </Svg>
+)
+
+export const CloseIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 6l12 12M18 6 6 18" />
+  </Svg>
+)
+
+/** Add to home screen: a phone with a plus. */
+export const InstallIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+    <path d="M12 8.5v7M8.5 12h7" />
+  </Svg>
+)

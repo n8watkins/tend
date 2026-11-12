@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   serverExternalPackages: ['@libsql/client'],
+  // Names this build for the service worker (components/ServiceWorker.tsx):
+  // each deploy registers /sw.js?v=<build>, so phones pick up the new version.
+  env: { NEXT_PUBLIC_BUILD_ID: (process.env.GITHUB_SHA ?? '').slice(0, 12) || Date.now().toString(36) },
   async headers() {
     return [
       {

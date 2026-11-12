@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 
+import { InstallApp } from '@/components/InstallApp'
+import { PushSettings } from '@/components/PushSettings'
 import { DeleteAccountForm, PreferencesForm } from '@/components/SettingsForms'
 import { SubmitButton } from '@/components/SubmitButton'
 import { Done, PageTitle, Section } from '@/components/ui'
+import { userSubscriptions, vapidPublicKey } from '@/lib/server/push'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { telegramConfigured } from '@/lib/server/telegram'
 import { timeZoneOptions } from '@/lib/timezones'
@@ -15,6 +18,8 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
   const user = await requireUser()
   const { done, error } = await searchParams
   const settings = await getSettings(user.id)
+  const pushKey = await vapidPublicKey()
+  const devices = pushKey ? (await userSubscriptions(user.id)).map(({ endpoint, device }) => ({ endpoint, device })) : []
   return (
     <>
       <PageTitle title="Settings" subtitle={user.email ? `Signed in as ${user.email}` : undefined} />
@@ -27,6 +32,21 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
         emailReminders={settings.emailReminders}
         timezones={timeZoneOptions(settings.timezone)}
       />
+
+      <Section title="On your phone" id="phone">
+        <div className="card space-y-5">
+          <div className="space-y-2">
+            <h3 className="font-semibold">Install Tend</h3>
+            <InstallApp />
+          </div>
+          {pushKey ? (
+            <div className="border-t border-line pt-5">
+              <PushSettings publicKey={pushKey} devices={devices} />
+              <p className="hint mt-3">Email reminders are set above. Keep both, or turn email off to get notifications only.</p>
+            </div>
+          ) : null}
+        </div>
+      </Section>
 
       {telegramConfigured() ? (
         <Section title="Telegram" id="telegram">
