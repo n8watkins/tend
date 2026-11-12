@@ -21,10 +21,23 @@ const SHELL_URLS = [OFFLINE_URL, '/icons/icon-192.png', '/icons/badge-96.png']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(SHELL)
-      .then((cache) => cache.addAll(SHELL_URLS.map((url) => new Request(url, { cache: 'reload' }))))
-      .then(() => self.skipWaiting()),
+    (async () => {
+      const cache = await caches.open(SHELL)
+      await Promise.all(
+        SHELL_URLS.map(async (url) => {
+          const response = await fetch(new Request(url, { cache: 'reload' }))
+          if (!response.ok) throw new Error(`${url}: ${response.status}`)
+          // Cloudflare serves /offline.html by redirecting to /offline, and a
+          // browser refuses a redirected response as the answer to a page
+          // load. A fresh copy of the body carries no redirect.
+          const copy = response.redirected
+            ? new Response(await response.blob(), { status: response.status, statusText: response.statusText, headers: response.headers })
+            : response
+          await cache.put(url, copy)
+        }),
+      )
+      await self.skipWaiting()
+    })(),
   )
 })
 
