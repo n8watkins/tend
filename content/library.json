@@ -1793,7 +1793,12 @@
     "topics": [
       "gratitude",
       "joy"
-    ]
+    ],
+    "occasions": [
+      "gratitude",
+      "birthday"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-retreat",
@@ -1810,7 +1815,11 @@
     "topics": [
       "peace",
       "rest"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-transformation",
@@ -1827,7 +1836,11 @@
     "topics": [
       "new-beginnings",
       "wisdom"
-    ]
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-morning-work",
@@ -1844,7 +1857,11 @@
     "topics": [
       "purpose",
       "strength"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
   },
   {
     "id": "aurelius-judgment",
@@ -1861,7 +1878,11 @@
     "topics": [
       "peace",
       "wisdom"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-avenging",
@@ -1878,7 +1899,11 @@
     "topics": [
       "forgiveness",
       "wisdom"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-virtues-of-others",
@@ -1896,7 +1921,12 @@
       "gratitude",
       "friendship",
       "joy"
-    ]
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
   },
   {
     "id": "aurelius-one-another",
@@ -1913,7 +1943,11 @@
     "topics": [
       "patience",
       "love"
-    ]
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
   },
   {
     "id": "aurelius-whole-life",
@@ -1931,7 +1965,12 @@
       "peace",
       "patience",
       "courage"
-    ]
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
   },
   {
     "id": "aurelius-love-wrongdoers",
@@ -1948,7 +1987,11 @@
     "topics": [
       "forgiveness",
       "love"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "aurelius-begin-the-morning",
@@ -1965,7 +2008,11 @@
     "topics": [
       "patience",
       "wisdom"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
   },
   {
     "id": "epictetus-opinions",
@@ -1982,7 +2029,11 @@
     "topics": [
       "peace",
       "wisdom"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "epictetus-restored",
@@ -1998,7 +2049,11 @@
     "context": "Epictetus on loss: what we love was given to us for a time.",
     "topics": [
       "grief"
-    ]
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "steady"
   },
   {
     "id": "emerson-sincere",
@@ -2013,7 +2068,12 @@
     "context": "From Emerson's essay on the two elements of friendship, truth and tenderness.",
     "topics": [
       "friendship"
-    ]
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude"
+    ],
+    "tone": "tender"
   },
   {
     "id": "emerson-be-one",
@@ -2029,7 +2089,11 @@
     "topics": [
       "friendship",
       "love"
-    ]
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
   },
   {
     "id": "emerson-masterpiece",
@@ -2045,7 +2109,12 @@
     "topics": [
       "friendship",
       "gratitude"
-    ]
+    ],
+    "occasions": [
+      "gratitude",
+      "birthday"
+    ],
+    "tone": "tender"
   },
   {
     "id": "emerson-trust-thyself",
@@ -2060,7 +2129,12 @@
     "context": "From Emerson's best-known essay, on trusting your own convictions.",
     "topics": [
       "courage"
-    ]
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
   },
   {
     "id": "emerson-peace",
@@ -2075,7 +2149,11 @@
     "context": "The closing lines of \"Self-Reliance\".",
     "topics": [
       "peace"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
   },
   {
     "id": "thoreau-deliberately",
@@ -2090,7 +2168,11 @@
     "context": "Thoreau on why he spent two years in a cabin by Walden Pond.",
     "topics": [
       "purpose"
-    ]
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
   },
   {
     "id": "thoreau-morning-star",
@@ -2106,7 +2188,13 @@
     "topics": [
       "new-beginnings",
       "hope"
-    ]
+    ],
+    "occasions": [
+      "new-chapter",
+      "birthday",
+      "congratulations"
+    ],
+    "tone": "tender"
   },
   {
     "id": "kempis-love-no-burden",
@@ -2123,7 +2211,11 @@
     "topics": [
       "love",
       "strength"
-    ]
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
   },
   {
     "id": "kempis-be-thankful",
@@ -2139,7 +2231,11 @@
     "context": "On gratitude for small things.",
     "topics": [
       "gratitude"
-    ]
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "steady"
   },
   {
     "id": "augustine-restless",
@@ -2156,7 +2252,11 @@
     "topics": [
       "rest",
       "purpose"
-    ]
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "tender"
   },
   {
     "id": "boethius-thinking",
@@ -2174,6 +2274,3041 @@
       "peace",
       "patience",
       "grief"
-    ]
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "dickinson-hope-feathers",
+    "kind": "quote",
+    "reference": "Poems, Second Series (1891), \"Hope\"",
+    "text": "Hope is the thing with feathers That perches in the soul, And sings the tune without the words, And never stops at all",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "One of Dickinson's best-loved poems. Almost none of her poems were published until after her death.",
+    "topics": [
+      "hope"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "dickinson-one-heart",
+    "kind": "quote",
+    "reference": "Poems, First Series (1890), Life, VI",
+    "text": "If I can stop one heart from breaking, I shall not live in vain;",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "A short poem on what makes a life worthwhile: easing even one person's pain.",
+    "topics": [
+      "love",
+      "purpose"
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "dickinson-word",
+    "kind": "quote",
+    "reference": "Poems, Third Series (1896), \"A Word\"",
+    "text": "A word is dead When it is said, Some say. I say it just Begins to live That day.",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "The whole of a tiny poem about why words matter after they are spoken.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "dickinson-how-high",
+    "kind": "quote",
+    "reference": "Poems, Third Series (1896), \"Aspiration\"",
+    "text": "We never know how high we are Till we are called to rise; And then, if we are true to plan, Our statures touch the skies.",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "Dickinson on how people find out what they can do only when they are asked to do it.",
+    "topics": [
+      "courage",
+      "purpose"
+    ],
+    "occasions": [
+      "congratulations",
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "dickinson-dawn",
+    "kind": "quote",
+    "reference": "Poems, Third Series (1896), \"Dawn\"",
+    "text": "Not knowing when the dawn will come I open every door;",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "The opening of a short poem about waiting for good things with every door open.",
+    "topics": [
+      "hope",
+      "patience"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "dickinson-frigate",
+    "kind": "quote",
+    "reference": "Poems, Third Series (1896), \"A Book\"",
+    "text": "There is no frigate like a book To take us lands away,",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "Dickinson on reading as the cheapest way to travel.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "dickinson-plank",
+    "kind": "quote",
+    "reference": "Poems, Third Series (1896), \"Experience\"",
+    "text": "I stepped from plank to plank So slow and cautiously; The stars about my head I felt, About my feet the sea.",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "A poem about getting through an uncertain time one careful step at a time.",
+    "topics": [
+      "courage",
+      "patience"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "dickinson-honey",
+    "kind": "quote",
+    "reference": "Poems, First Series (1890), Nature, V",
+    "text": "The pedigree of honey Does not concern the bee; A clover, any time, to him Is aristocracy.",
+    "author": "Emily Dickinson",
+    "work": "Poems",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/12242",
+    "readingUrl": "https://www.gutenberg.org/ebooks/12242",
+    "context": "A playful poem: the bee does not care where the flower came from, only that it is sweet.",
+    "topics": [
+      "joy",
+      "gratitude"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "rossetti-singing-bird",
+    "kind": "quote",
+    "reference": "Poems, \"A Birthday\" (1862)",
+    "text": "My heart is like a singing bird Whose nest is in a watered shoot; My heart is like an apple-tree Whose boughs are bent with thick-set fruit;",
+    "author": "Christina Rossetti",
+    "work": "A Birthday",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/19188",
+    "readingUrl": "https://www.gutenberg.org/ebooks/19188",
+    "context": "The opening of Rossetti's poem \"A Birthday\", about a heart too glad to hold still.",
+    "topics": [
+      "joy",
+      "love"
+    ],
+    "occasions": [
+      "birthday",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "rossetti-sister",
+    "kind": "quote",
+    "reference": "Poems, \"Goblin Market\" (1862)",
+    "text": "there is no friend like a sister, In calm or stormy weather, To cheer one on the tedious way, To fetch one if one goes astray, To lift one if one totters down, To strengthen whilst one stands.",
+    "author": "Christina Rossetti",
+    "work": "Goblin Market",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/19188",
+    "readingUrl": "https://www.gutenberg.org/ebooks/19188",
+    "context": "The closing lines of \"Goblin Market\", where one sister has risked everything to save the other.",
+    "topics": [
+      "friendship",
+      "love",
+      "gratitude"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude",
+      "birthday"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "rossetti-forget-and-smile",
+    "kind": "quote",
+    "reference": "Poems, \"Remember\" (1862)",
+    "text": "Better by far you should forget and smile Than that you should remember and be sad.",
+    "author": "Christina Rossetti",
+    "work": "Remember",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/19188",
+    "readingUrl": "https://www.gutenberg.org/ebooks/19188",
+    "context": "The end of Rossetti's sonnet in which someone who has died wants those left behind to be happy.",
+    "topics": [
+      "grief",
+      "comfort"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "rossetti-queen",
+    "kind": "quote",
+    "reference": "Sing-Song: A Nursery Rhyme Book (1872)",
+    "text": "If I were a Queen, What would I do? I’d make you King, And I’d wait on you.",
+    "author": "Christina Rossetti",
+    "work": "Sing-Song",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/76703",
+    "readingUrl": "https://www.gutenberg.org/ebooks/76703",
+    "context": "A nursery rhyme from Rossetti's book of poems for children.",
+    "topics": [
+      "love",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "rossetti-flint",
+    "kind": "quote",
+    "reference": "Sing-Song: A Nursery Rhyme Book (1872)",
+    "text": "A diamond is a brilliant stone, To catch the world’s desire; An opal holds a fiery spark; But a flint holds fire.",
+    "author": "Christina Rossetti",
+    "work": "Sing-Song",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/76703",
+    "readingUrl": "https://www.gutenberg.org/ebooks/76703",
+    "context": "A children's rhyme with a quiet point: the plain stone is the one that can make fire.",
+    "topics": [
+      "strength",
+      "courage"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-courage-rises",
+    "kind": "quote",
+    "reference": "Pride and Prejudice, Chapter 31 (1813)",
+    "text": "There is a stubbornness about me that never can bear to be frightened at the will of others. My courage always rises with every attempt to intimidate me.",
+    "author": "Jane Austen",
+    "work": "Pride and Prejudice",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1342",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1342",
+    "context": "Elizabeth Bennet, teasing Mr. Darcy, who has come to listen to her play the piano.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-past-pleasure",
+    "kind": "quote",
+    "reference": "Pride and Prejudice, Chapter 58 (1813)",
+    "text": "Think only of the past as its remembrance gives you pleasure.",
+    "author": "Jane Austen",
+    "work": "Pride and Prejudice",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1342",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1342",
+    "context": "Elizabeth tells Darcy to let go of their old misunderstandings and keep only the good memories.",
+    "topics": [
+      "peace",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "austen-reading",
+    "kind": "quote",
+    "reference": "Pride and Prejudice, Chapter 11 (1813)",
+    "text": "I declare, after all, there is no enjoyment like reading! How much sooner one tires of anything than of a book!",
+    "author": "Jane Austen",
+    "work": "Pride and Prejudice",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1342",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1342",
+    "context": "Caroline Bingley says this with a yawn, pretending to read to impress Mr. Darcy. Austen is laughing, but the line stands.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-everybody-happy",
+    "kind": "quote",
+    "reference": "Pride and Prejudice, Chapter 55 (1813)",
+    "text": "Oh, why is not everybody as happy?",
+    "author": "Jane Austen",
+    "work": "Pride and Prejudice",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1342",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1342",
+    "context": "Jane Bennet, just engaged, can hardly believe her own happiness.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-half-the-world",
+    "kind": "quote",
+    "reference": "Emma, Volume 1, Chapter 9 (1815)",
+    "text": "One half of the world cannot understand the pleasures of the other.",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "Emma, cheerfully explaining to her father why other people enjoy things he cannot see the point of.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-friendship-money",
+    "kind": "quote",
+    "reference": "Emma, Volume 2, Chapter 16 (1815)",
+    "text": "Business, you know, may bring money, but friendship hardly ever does.",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "John Knightley, dryly, to a young woman who walks to the post office every day for letters from friends.",
+    "topics": [
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-silly-things",
+    "kind": "quote",
+    "reference": "Emma, Volume 2, Chapter 7 (1815)",
+    "text": "silly things do cease to be silly if they are done by sensible people in an impudent way.",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "Emma decides that Frank Churchill's spur-of-the-moment trip to London for a haircut was charming after all.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-truer-friend",
+    "kind": "quote",
+    "reference": "Emma, Volume 1, Chapter 5 (1815)",
+    "text": "Where shall we see a better daughter, or a kinder sister, or a truer friend?",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "Mrs. Weston, defending Emma warmly to Mr. Knightley.",
+    "topics": [
+      "friendship",
+      "love",
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude",
+      "birthday"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "austen-pleasant-companions",
+    "kind": "quote",
+    "reference": "Emma, Volume 1, Chapter 7 (1815)",
+    "text": "Nobody cares for a letter; the thing is, to be always happy with pleasant companions.",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "Harriet Smith's simple philosophy of life, offered with complete sincerity.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-judge-of-happiness",
+    "kind": "quote",
+    "reference": "Emma, Volume 1, Chapter 7 (1815)",
+    "text": "You must be the best judge of your own happiness.",
+    "author": "Jane Austen",
+    "work": "Emma",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/158",
+    "readingUrl": "https://www.gutenberg.org/ebooks/158",
+    "context": "Emma to her friend Harriet, who is deciding whether to accept a proposal. Emma has her own hopes for the answer, but the advice is sound.",
+    "topics": [
+      "wisdom",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-good-company",
+    "kind": "quote",
+    "reference": "Persuasion, Chapter 16 (1817)",
+    "text": "My idea of good company, Mr Elliot, is the company of clever, well-informed people, who have a great deal of conversation; that is what I call good company.",
+    "author": "Jane Austen",
+    "work": "Persuasion",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/105",
+    "readingUrl": "https://www.gutenberg.org/ebooks/105",
+    "context": "Anne Elliot, gently disagreeing with a cousin who values rank over conversation.",
+    "topics": [
+      "friendship"
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-be-firm",
+    "kind": "quote",
+    "reference": "Persuasion, Chapter 10 (1817)",
+    "text": "Let those who would be happy be firm.",
+    "author": "Jane Austen",
+    "work": "Persuasion",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/105",
+    "readingUrl": "https://www.gutenberg.org/ebooks/105",
+    "context": "Captain Wentworth, admiring someone who knows her own mind.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-own-way",
+    "kind": "quote",
+    "reference": "Sense and Sensibility, Chapter 17 (1811)",
+    "text": "I wish as well as every body else to be perfectly happy; but, like every body else it must be in my own way.",
+    "author": "Jane Austen",
+    "work": "Sense and Sensibility",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/161",
+    "readingUrl": "https://www.gutenberg.org/ebooks/161",
+    "context": "Edward Ferrars, explaining that he has no wish for the grand career his family wants for him.",
+    "topics": [
+      "joy",
+      "purpose"
+    ],
+    "occasions": [
+      "birthday",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-know-happiness",
+    "kind": "quote",
+    "reference": "Sense and Sensibility, Chapter 19 (1811)",
+    "text": "Know your own happiness.",
+    "author": "Jane Austen",
+    "work": "Sense and Sensibility",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/161",
+    "readingUrl": "https://www.gutenberg.org/ebooks/161",
+    "context": "Mrs. Dashwood's advice to a young man who cannot see how much he has.",
+    "topics": [
+      "gratitude",
+      "joy"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-better-guide",
+    "kind": "quote",
+    "reference": "Mansfield Park, Chapter 42 (1814)",
+    "text": "We have all a better guide in ourselves, if we would attend to it, than any other person can be.",
+    "author": "Jane Austen",
+    "work": "Mansfield Park",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/141",
+    "readingUrl": "https://www.gutenberg.org/ebooks/141",
+    "context": "Fanny Price refuses to be anyone's rule of right, and points them back to their own conscience.",
+    "topics": [
+      "wisdom",
+      "courage"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-selfishness",
+    "kind": "quote",
+    "reference": "Mansfield Park, Chapter 7 (1814)",
+    "text": "Selfishness must always be forgiven, you know, because there is no hope of a cure.",
+    "author": "Jane Austen",
+    "work": "Mansfield Park",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/141",
+    "readingUrl": "https://www.gutenberg.org/ebooks/141",
+    "context": "Mary Crawford, cheerfully apologising for keeping a borrowed horse too long.",
+    "topics": [
+      "forgiveness",
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-little-rubs",
+    "kind": "quote",
+    "reference": "Mansfield Park, Chapter 5 (1814)",
+    "text": "There will be little rubs and disappointments everywhere, and we are all apt to expect too much; but then, if one scheme of happiness fails, human nature turns to another;",
+    "author": "Jane Austen",
+    "work": "Mansfield Park",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/141",
+    "readingUrl": "https://www.gutenberg.org/ebooks/141",
+    "context": "Mrs. Grant's practical comfort: when one plan fails, people find another way to be happy.",
+    "topics": [
+      "hope",
+      "patience"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "austen-good-novel",
+    "kind": "quote",
+    "reference": "Northanger Abbey, Chapter 14 (1817)",
+    "text": "The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.",
+    "author": "Jane Austen",
+    "work": "Northanger Abbey",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/121",
+    "readingUrl": "https://www.gutenberg.org/ebooks/121",
+    "context": "Henry Tilney, happily admitting he loves the same novels Catherine does.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "austen-finest-balm",
+    "kind": "quote",
+    "reference": "Northanger Abbey, Chapter 4 (1817)",
+    "text": "Friendship is certainly the finest balm for the pangs of disappointed love.",
+    "author": "Jane Austen",
+    "work": "Northanger Abbey",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/121",
+    "readingUrl": "https://www.gutenberg.org/ebooks/121",
+    "context": "Austen's narrator, on how a new friend helps when a hoped-for romance has not appeared.",
+    "topics": [
+      "friendship",
+      "comfort"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-sail-my-ship",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 44 (1869)",
+    "text": "I’m not afraid of storms, for I’m learning how to sail my ship.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Amy, newly married, on facing whatever comes.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-strong-words",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 4 (1868)",
+    "text": "I like good strong words that mean something,",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Jo March, defending her colourful language on a cold, windy walk.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-work-and-play",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 11 (1868)",
+    "text": "Have regular hours for work and play, make each day both useful and pleasant,",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Mrs. March, after her daughters try a week of doing nothing at all and hate it.",
+    "topics": [
+      "purpose",
+      "rest"
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-light-behind-clouds",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 15 (1868)",
+    "text": "Be comforted, dear soul! There is always light behind the clouds.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "What the moon seems to whisper to Meg on the night bad news arrives about their father.",
+    "topics": [
+      "comfort",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-elegant-or-die",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 3 (1868)",
+    "text": "let us be elegant or die.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "The March sisters, in tight shoes and too many hairpins, heading to a New Year's Eve dance.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-burdens-lighten",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 11 (1868)",
+    "text": "though they seem heavy sometimes, they are good for us, and lighten as we learn to carry them.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Mrs. March on everyday responsibilities: they get lighter as we get used to carrying them.",
+    "topics": [
+      "strength",
+      "patience"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-coffee-compliments",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 37 (1869)",
+    "text": "I’d rather take coffee than compliments just now.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Amy, briskly ordering Laurie to stop flattering her and pour the coffee.",
+    "topics": [
+      "joy",
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-carry-with-us",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 40 (1869)",
+    "text": "love is the only thing that we can carry with us when we go, and it makes the end so easy.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Beth, near the end of her life, comforting her sister Jo.",
+    "topics": [
+      "love",
+      "grief",
+      "comfort"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-grow-up",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 1 (1868)",
+    "text": "I hate to think I’ve got to grow up, and be Miss March, and wear long gowns, and look as prim as a China Aster!",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Jo March at fifteen, shaking her hair loose in protest at being a young lady.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-beautifier",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 24 (1869)",
+    "text": "love is a great beautifier.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "On Meg, engaged and prettier than ever.",
+    "topics": [
+      "love",
+      "joy"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-keep-together",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 4 (1868)",
+    "text": "Rich or poor, we will keep together and be happy in one another.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "The March parents, refusing a rich relative's offer to take one of their daughters off their hands.",
+    "topics": [
+      "love",
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "new-chapter"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-without-you",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 16 (1868)",
+    "text": "Everyone is very kind, and we are as happy as we can be without you.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "From the sisters' letters to their mother while she is away nursing their father.",
+    "topics": [
+      "love"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-hope-keep-busy",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 15 (1868)",
+    "text": "Hope and keep busy,",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Mrs. March's advice to her daughters as she leaves to care for their wounded father.",
+    "topics": [
+      "hope",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-keep-on",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 2 (1868)",
+    "text": "I’m glad you began at once, and hope you will keep on.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Mrs. March, pleased to see her daughters start on a good resolution straight away.",
+    "topics": [
+      "purpose",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "congratulations",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-safe-and-happy",
+    "kind": "quote",
+    "reference": "Little Women, Chapter 8 (1868)",
+    "text": "it’s so comfortable to say all I think to you, and feel so safe and happy here.",
+    "author": "Louisa May Alcott",
+    "work": "Little Women",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/514",
+    "readingUrl": "https://www.gutenberg.org/ebooks/514",
+    "context": "Jo, talking late at night with her mother after a hard day.",
+    "topics": [
+      "love",
+      "comfort"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-happy-times",
+    "kind": "quote",
+    "reference": "An Old-Fashioned Girl, Chapter 4 (1870)",
+    "text": "We used to have such happy times, and it's so pleasant to think about them now.",
+    "author": "Louisa May Alcott",
+    "work": "An Old-Fashioned Girl",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2787",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2787",
+    "context": "Polly, remembering the little brother she lost, with gladness rather than only sorrow.",
+    "topics": [
+      "joy",
+      "grief"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-useful",
+    "kind": "quote",
+    "reference": "An Old-Fashioned Girl, Chapter 9 (1870)",
+    "text": "Well, if I can't be happy, I can be useful, perhaps.",
+    "author": "Louisa May Alcott",
+    "work": "An Old-Fashioned Girl",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2787",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2787",
+    "context": "Polly, on a lonely day, deciding to do some good instead of moping.",
+    "topics": [
+      "purpose",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-keep-yourself-happy",
+    "kind": "quote",
+    "reference": "An Old-Fashioned Girl, Chapter 13 (1870)",
+    "text": "keep yourself happy, if you can; it will help other people to see you cheerful.",
+    "author": "Louisa May Alcott",
+    "work": "An Old-Fashioned Girl",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2787",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2787",
+    "context": "Polly's advice to a friend who is bored and low.",
+    "topics": [
+      "joy",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-does-me-good",
+    "kind": "quote",
+    "reference": "An Old-Fashioned Girl, Chapter 13 (1870)",
+    "text": "So clever, and energetic, and kind, and happy, it always does me good to see them,",
+    "author": "Louisa May Alcott",
+    "work": "An Old-Fashioned Girl",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2787",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2787",
+    "context": "Polly, full of admiration for a group of hard-working young women.",
+    "topics": [
+      "joy",
+      "gratitude"
+    ],
+    "occasions": [
+      "congratulations",
+      "gratitude"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-love-the-task",
+    "kind": "quote",
+    "reference": "Jo's Boys, Chapter 10 (1886)",
+    "text": "It adds so much to one's happiness to love the task one does.",
+    "author": "Louisa May Alcott",
+    "work": "Jo's Boys",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3499",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3499",
+    "context": "Meg, glad that her son has found work he loves, and remembering how she once hated teaching.",
+    "topics": [
+      "purpose",
+      "joy"
+    ],
+    "occasions": [
+      "congratulations",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-right-place",
+    "kind": "quote",
+    "reference": "Jo's Boys, Chapter 10 (1886)",
+    "text": "I have fumbled my way into my right place at last, I hope.",
+    "author": "Louisa May Alcott",
+    "work": "Jo's Boys",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3499",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3499",
+    "context": "Demi, after trying several jobs, settles into one that fits.",
+    "topics": [
+      "purpose",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "alcott-wish-you-well",
+    "kind": "quote",
+    "reference": "Jo's Boys, Chapter 6 (1886)",
+    "text": "We all wish you well and hope much for you.",
+    "author": "Louisa May Alcott",
+    "work": "Jo's Boys",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3499",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3499",
+    "context": "Jo's send-off to Nat as he leaves to study music abroad.",
+    "topics": [
+      "hope",
+      "love"
+    ],
+    "occasions": [
+      "new-chapter",
+      "congratulations",
+      "birthday"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-perseverance",
+    "kind": "quote",
+    "reference": "Jo's Boys, Chapter 8 (1886)",
+    "text": "I think you have the courage, and this proves that you have perseverance.",
+    "author": "Louisa May Alcott",
+    "work": "Jo's Boys",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3499",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3499",
+    "context": "A great actress, encouraging a young woman who wants to go on the stage.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "congratulations",
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-happy-day",
+    "kind": "quote",
+    "reference": "Work: A Story of Experience, Chapter 5 (1873)",
+    "text": "This day is to be a happy one, no matter what comes after it.",
+    "author": "Louisa May Alcott",
+    "work": "Work: A Story of Experience",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/4770",
+    "readingUrl": "https://www.gutenberg.org/ebooks/4770",
+    "context": "Helen, who is very ill, decides that this one day with her brothers will be a happy one.",
+    "topics": [
+      "joy",
+      "courage"
+    ],
+    "occasions": [
+      "encouragement",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-heart-into",
+    "kind": "quote",
+    "reference": "Work: A Story of Experience, Chapter 1 (1873)",
+    "text": "I want work that I can put my heart into, and feel that it does me good, no matter how hard it is.",
+    "author": "Louisa May Alcott",
+    "work": "Work: A Story of Experience",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/4770",
+    "readingUrl": "https://www.gutenberg.org/ebooks/4770",
+    "context": "Christie, at twenty-one, leaving home to make her own way.",
+    "topics": [
+      "purpose",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "alcott-be-my-friend",
+    "kind": "quote",
+    "reference": "Work: A Story of Experience, Chapter 6 (1873)",
+    "text": "Will you be my friend, and let me be yours?",
+    "author": "Louisa May Alcott",
+    "work": "Work: A Story of Experience",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/4770",
+    "readingUrl": "https://www.gutenberg.org/ebooks/4770",
+    "context": "Christie, reaching out to a lonely new acquaintance.",
+    "topics": [
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "alcott-cried-all-her-heart",
+    "kind": "quote",
+    "reference": "Work: A Story of Experience, Chapter 4 (1873)",
+    "text": "She seldom wept, but when any thing did unseal the fountains that lay so deep, she cried with all her heart, and felt the better for it.",
+    "author": "Louisa May Alcott",
+    "work": "Work: A Story of Experience",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/4770",
+    "readingUrl": "https://www.gutenberg.org/ebooks/4770",
+    "context": "On Christie, who rarely cried, and found that a good cry helped.",
+    "topics": [
+      "grief",
+      "comfort"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "keller-overcoming",
+    "kind": "quote",
+    "reference": "Optimism: An Essay, Part 1 (1903)",
+    "text": "although the world is full of suffering, it is full also of the overcoming of it.",
+    "author": "Helen Keller",
+    "work": "Optimism",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/31622",
+    "readingUrl": "https://www.gutenberg.org/ebooks/31622",
+    "context": "Written while Keller was a student at Radcliffe, the first deafblind person to earn a college degree.",
+    "topics": [
+      "hope",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-optimism",
+    "kind": "quote",
+    "reference": "Optimism: An Essay, Part 3 (1903)",
+    "text": "Optimism is the faith that leads to achievement; nothing can be done without hope.",
+    "author": "Helen Keller",
+    "work": "Optimism",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/31622",
+    "readingUrl": "https://www.gutenberg.org/ebooks/31622",
+    "context": "Keller on hope as the starting point of everything people have built.",
+    "topics": [
+      "hope",
+      "courage"
+    ],
+    "occasions": [
+      "encouragement",
+      "congratulations"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-hope-and-joy",
+    "kind": "quote",
+    "reference": "Optimism: An Essay, Part 1 (1903)",
+    "text": "Once I knew only darkness and stillness. Now I know hope and joy.",
+    "author": "Helen Keller",
+    "work": "Optimism",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/31622",
+    "readingUrl": "https://www.gutenberg.org/ebooks/31622",
+    "context": "Keller looking back on her early childhood, before her teacher came.",
+    "topics": [
+      "hope",
+      "joy",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "congratulations",
+      "new-chapter"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "keller-new-courage",
+    "kind": "quote",
+    "reference": "Optimism: An Essay, Part 3 (1903)",
+    "text": "I tried again with new courage and succeeded almost before I knew it.",
+    "author": "Helen Keller",
+    "work": "Optimism",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/31622",
+    "readingUrl": "https://www.gutenberg.org/ebooks/31622",
+    "context": "Keller on returning to a task she had been stuck on, after a cheerful essay lifted her mood.",
+    "topics": [
+      "courage",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "keller-sown-with-good",
+    "kind": "quote",
+    "reference": "Optimism: An Essay, Part 1 (1903)",
+    "text": "The world is sown with good; but unless I turn my glad thoughts into practical living and till my own field, I cannot reap a kernel of the good.",
+    "author": "Helen Keller",
+    "work": "Optimism",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/31622",
+    "readingUrl": "https://www.gutenberg.org/ebooks/31622",
+    "context": "Keller on optimism as something you do, not only something you feel.",
+    "topics": [
+      "purpose",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-soar",
+    "kind": "quote",
+    "reference": "The Story of My Life, Part 3, her address at Mt. Airy (1896)",
+    "text": "One can never consent to creep when one feels an impulse to soar.",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "From a speech Keller gave at sixteen, about learning to speak aloud when many thought she never could.",
+    "topics": [
+      "courage",
+      "purpose"
+    ],
+    "occasions": [
+      "encouragement",
+      "congratulations",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-wonders",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 22 (1903)",
+    "text": "Everything has its wonders, even darkness and silence, and I learn, whatever state I may be in, therein to be content.",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "Keller, who could neither see nor hear, on finding wonder in her own world.",
+    "topics": [
+      "peace",
+      "gratitude"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-friends-story",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 23 (1903)",
+    "text": "my friends have made the story of my life. In a thousand ways they have turned my limitations into beautiful privileges,",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "The closing thanks of Keller's autobiography, written when she was twenty-two.",
+    "topics": [
+      "friendship",
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "keller-slip-back",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 20 (1903)",
+    "text": "I slip back many times, I fall, I stand still, I run against the edge of hidden obstacles, I lose my temper and find it again and keep it better, I trudge on, I gain a little,",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "Keller on the slow, uneven climb of her college studies.",
+    "topics": [
+      "patience",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "keller-touch-love",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 6 (1903)",
+    "text": "You cannot touch love either; but you feel the sweetness that it pours into everything.",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "Her teacher Anne Sullivan, explaining to young Helen what the word love means.",
+    "topics": [
+      "love"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "keller-invisible-lines",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 6 (1903)",
+    "text": "I felt that there were invisible lines stretched between my spirit and the spirits of others.",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "Keller remembering the moment she first understood love.",
+    "topics": [
+      "love",
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "keller-best-of-me",
+    "kind": "quote",
+    "reference": "The Story of My Life, Chapter 7 (1903)",
+    "text": "there is not a talent, or an aspiration or a joy in me that has not been awakened by her loving touch.",
+    "author": "Helen Keller",
+    "work": "The Story of My Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2397",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2397",
+    "context": "Keller on her teacher, Anne Sullivan.",
+    "topics": [
+      "gratitude",
+      "love"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "seneca-long-enough",
+    "kind": "quote",
+    "reference": "Minor Dialogues, \"On the Shortness of Life\", 1",
+    "text": "We do not have a very short time assigned to us, but we lose a great deal of it: life is long enough to carry out the most important projects:",
+    "author": "Seneca",
+    "work": "On the Shortness of Life",
+    "translator": "Aubrey Stewart (1889)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/64576",
+    "readingUrl": "https://www.gutenberg.org/ebooks/64576",
+    "context": "The opening argument of Seneca's essay: life is not short, we just let it slip away.",
+    "topics": [
+      "purpose",
+      "wisdom"
+    ],
+    "occasions": [
+      "birthday",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "seneca-fire-tries-gold",
+    "kind": "quote",
+    "reference": "Minor Dialogues, \"On Providence\", 5",
+    "text": "Fire tries gold, misfortune tries brave men.",
+    "author": "Seneca",
+    "work": "On Providence",
+    "translator": "Aubrey Stewart (1889)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/64576",
+    "readingUrl": "https://www.gutenberg.org/ebooks/64576",
+    "context": "Seneca on why hard times show what people are made of.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "seneca-first-instalment",
+    "kind": "quote",
+    "reference": "On Benefits, Book 2, 22",
+    "text": "He who receives a benefit with gratitude, repays the first instalment of it.",
+    "author": "Seneca",
+    "work": "On Benefits",
+    "translator": "Aubrey Stewart (1887)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3794",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3794",
+    "context": "Seneca's long essay on giving and receiving kindness: thanking someone well is already a way of repaying them.",
+    "topics": [
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "seneca-spirit-of-giving",
+    "kind": "quote",
+    "reference": "On Benefits, Book 1, 6",
+    "text": "It is not, therefore, the thing which is done or given, but the spirit in which it is done or given, that must be considered,",
+    "author": "Seneca",
+    "work": "On Benefits",
+    "translator": "Aubrey Stewart (1887)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3794",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3794",
+    "context": "Seneca on what makes a gift a gift: the care behind it, not its price.",
+    "topics": [
+      "gratitude",
+      "love"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "epictetus-slow-growth",
+    "kind": "quote",
+    "reference": "The Golden Sayings of Epictetus, 38",
+    "text": "All great things are slow of growth; nay, this is true even of a grape or of a fig.",
+    "author": "Epictetus",
+    "work": "The Golden Sayings of Epictetus",
+    "translator": "Hastings Crossley (1903)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/871",
+    "readingUrl": "https://www.gutenberg.org/ebooks/871",
+    "context": "Epictetus to a man hoping to make peace with his brother: good things take time to ripen.",
+    "topics": [
+      "patience",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "epictetus-festival",
+    "kind": "quote",
+    "reference": "The Golden Sayings of Epictetus, 3",
+    "text": "Try to enjoy the great festival of life with other men.",
+    "author": "Epictetus",
+    "work": "The Golden Sayings of Epictetus",
+    "translator": "Hastings Crossley (1903)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/871",
+    "readingUrl": "https://www.gutenberg.org/ebooks/871",
+    "context": "One of the shortest of the sayings his students wrote down.",
+    "topics": [
+      "joy",
+      "friendship"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "epictetus-good-reader",
+    "kind": "quote",
+    "reference": "Discourses, Book 2, Chapter 18",
+    "text": "If you would be a good reader, read; if a writer, write.",
+    "author": "Epictetus",
+    "work": "Discourses",
+    "translator": "George Long (1877)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/10661",
+    "readingUrl": "https://www.gutenberg.org/ebooks/10661",
+    "context": "Epictetus on habits: we become what we practise.",
+    "topics": [
+      "purpose",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "epictetus-every-other-day",
+    "kind": "quote",
+    "reference": "Discourses, Book 2, Chapter 18",
+    "text": "I used to be in passion every day; now every second day; then every third, then every fourth.",
+    "author": "Epictetus",
+    "work": "Discourses",
+    "translator": "George Long (1877)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/10661",
+    "readingUrl": "https://www.gutenberg.org/ebooks/10661",
+    "context": "Epictetus on breaking a bad temper slowly: count the good days, and let progress be gradual.",
+    "topics": [
+      "patience",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-enthusiasm",
+    "kind": "quote",
+    "reference": "Essays: First Series, \"Circles\" (1841)",
+    "text": "Nothing great was ever achieved without enthusiasm.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Circles",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2944",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2944",
+    "context": "From Emerson's essay on how every life keeps drawing new and larger circles.",
+    "topics": [
+      "purpose",
+      "joy"
+    ],
+    "occasions": [
+      "congratulations",
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "emerson-happy-house",
+    "kind": "quote",
+    "reference": "Essays: First Series, \"Friendship\" (1841)",
+    "text": "Happy is the house that shelters a friend!",
+    "author": "Ralph Waldo Emerson",
+    "work": "Friendship",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2944",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2944",
+    "context": "Emerson on the joy of having a friend under your roof.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-thanksgiving",
+    "kind": "quote",
+    "reference": "Essays: First Series, \"Friendship\" (1841)",
+    "text": "I awoke this morning with devout thanksgiving for my friends, the old and the new.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Friendship",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2944",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2944",
+    "context": "Emerson, waking up grateful for the people in his life.",
+    "topics": [
+      "gratitude",
+      "friendship"
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "emerson-insist",
+    "kind": "quote",
+    "reference": "Essays: First Series, \"Self-Reliance\" (1841)",
+    "text": "Insist on yourself; never imitate.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Self-Reliance",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2944",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2944",
+    "context": "Emerson on trusting your own gifts instead of borrowing someone else's.",
+    "topics": [
+      "courage"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "emerson-what-i-must-do",
+    "kind": "quote",
+    "reference": "Essays: First Series, \"Self-Reliance\" (1841)",
+    "text": "What I must do is all that concerns me, not what the people think.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Self-Reliance",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2944",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2944",
+    "context": "Emerson on doing what you know is right, whatever others say.",
+    "topics": [
+      "courage",
+      "purpose"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "emerson-years-teach",
+    "kind": "quote",
+    "reference": "Essays: Second Series, \"Experience\" (1844)",
+    "text": "The years teach much which the days never know.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Experience",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2945",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2945",
+    "context": "Emerson on how the meaning of a life shows only over time.",
+    "topics": [
+      "wisdom",
+      "patience"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "emerson-portion-of-thyself",
+    "kind": "quote",
+    "reference": "Essays: Second Series, \"Gifts\" (1844)",
+    "text": "Rings and other jewels are not gifts, but apologies for gifts. The only gift is a portion of thyself.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Gifts",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/2945",
+    "readingUrl": "https://www.gutenberg.org/ebooks/2945",
+    "context": "Emerson's short essay on giving: the best present is something of yourself.",
+    "topics": [
+      "love",
+      "gratitude"
+    ],
+    "occasions": [
+      "birthday",
+      "gratitude"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-ornament-of-a-house",
+    "kind": "quote",
+    "reference": "Society and Solitude, \"Domestic Life\" (1870)",
+    "text": "The ornament of a house is the friends who frequent it.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Domestic Life",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/69258",
+    "readingUrl": "https://www.gutenberg.org/ebooks/69258",
+    "context": "Emerson on what really makes a home beautiful.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "gratitude",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-best-day",
+    "kind": "quote",
+    "reference": "Society and Solitude, \"Works and Days\" (1870)",
+    "text": "Write it on your heart that every day is the best day in the year.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Works and Days",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/69258",
+    "readingUrl": "https://www.gutenberg.org/ebooks/69258",
+    "context": "Emerson on not waiting for some better day to come along.",
+    "topics": [
+      "joy",
+      "gratitude"
+    ],
+    "occasions": [
+      "birthday",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-hitch-your-wagon",
+    "kind": "quote",
+    "reference": "Society and Solitude, \"Civilization\" (1870)",
+    "text": "Hitch your wagon to a star.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Civilization",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/69258",
+    "readingUrl": "https://www.gutenberg.org/ebooks/69258",
+    "context": "Emerson's famous advice to aim high and let great things pull you along.",
+    "topics": [
+      "purpose",
+      "hope"
+    ],
+    "occasions": [
+      "new-chapter",
+      "encouragement",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "emerson-service-of-a-friend",
+    "kind": "quote",
+    "reference": "The Conduct of Life, \"Considerations by the Way\" (1860)",
+    "text": "Our chief want in life, is, somebody who shall make us do what we can. This is the service of a friend.",
+    "author": "Ralph Waldo Emerson",
+    "work": "Considerations by the Way",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/39827",
+    "readingUrl": "https://www.gutenberg.org/ebooks/39827",
+    "context": "Emerson on what a real friend does: brings out the best we are capable of.",
+    "topics": [
+      "friendship",
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "thoreau-dreams",
+    "kind": "quote",
+    "reference": "Walden, \"Conclusion\" (1854)",
+    "text": "if one advances confidently in the direction of his dreams, and endeavors to live the life which he has imagined, he will meet with a success unexpected in common hours.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "What Thoreau says he learned from his two years at Walden Pond.",
+    "topics": [
+      "hope",
+      "courage",
+      "purpose"
+    ],
+    "occasions": [
+      "congratulations",
+      "new-chapter",
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "thoreau-castles",
+    "kind": "quote",
+    "reference": "Walden, \"Conclusion\" (1854)",
+    "text": "If you have built castles in the air, your work need not be lost; that is where they should be. Now put the foundations under them.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau's cheerful defence of big dreams, as long as you then build on them.",
+    "topics": [
+      "hope",
+      "purpose"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "thoreau-three-chairs",
+    "kind": "quote",
+    "reference": "Walden, \"Visitors\" (1854)",
+    "text": "I had three chairs in my house; one for solitude, two for friendship, three for society.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau, in his one-room cabin, on how he made room for visitors.",
+    "topics": [
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "thoreau-company",
+    "kind": "quote",
+    "reference": "Walden, \"Solitude\" (1854)",
+    "text": "I have a great deal of company in my house; especially in the morning, when nobody calls.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau, poking fun at the idea that living alone must be lonely.",
+    "topics": [
+      "peace",
+      "rest"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "thoreau-lost",
+    "kind": "quote",
+    "reference": "Walden, \"The Village\" (1854)",
+    "text": "Not till we are lost, in other words not till we have lost the world, do we begin to find ourselves,",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau on getting lost in the woods at night, and what it teaches.",
+    "topics": [
+      "new-beginnings",
+      "hope"
+    ],
+    "occasions": [
+      "new-chapter",
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "thoreau-different-drummer",
+    "kind": "quote",
+    "reference": "Walden, \"Conclusion\" (1854)",
+    "text": "If a man does not keep pace with his companions, perhaps it is because he hears a different drummer. Let him step to the music which he hears, however measured or far away.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau on going at your own pace, in your own direction.",
+    "topics": [
+      "courage",
+      "patience"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "thoreau-meanings",
+    "kind": "quote",
+    "reference": "A Week on the Concord and Merrimack Rivers, \"Wednesday\" (1849)",
+    "text": "The language of Friendship is not words, but meanings.",
+    "author": "Henry David Thoreau",
+    "work": "A Week on the Concord and Merrimack Rivers",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/4232",
+    "readingUrl": "https://www.gutenberg.org/ebooks/4232",
+    "context": "From a long passage on friendship in Thoreau's first book, about a boat trip with his brother.",
+    "topics": [
+      "friendship"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "thoreau-every-child",
+    "kind": "quote",
+    "reference": "Walden, \"Economy\" (1854)",
+    "text": "Every child begins the world again, to some extent, and loves to stay out doors, even in wet and cold.",
+    "author": "Henry David Thoreau",
+    "work": "Walden",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/205",
+    "readingUrl": "https://www.gutenberg.org/ebooks/205",
+    "context": "Thoreau on children, who rediscover the world for themselves.",
+    "topics": [
+      "joy",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "whitman-celebrate",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of Myself\", 1",
+    "text": "I celebrate myself, and sing myself,",
+    "author": "Walt Whitman",
+    "work": "Song of Myself",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "The first line of Whitman's best-known poem.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "whitman-multitudes",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of Myself\", 51",
+    "text": "Do I contradict myself? Very well then I contradict myself, (I am large, I contain multitudes.)",
+    "author": "Walt Whitman",
+    "work": "Song of Myself",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman, cheerfully unbothered by being more than one thing.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "whitman-open-road",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of the Open Road\", 1",
+    "text": "Afoot and light-hearted I take to the open road, Healthy, free, the world before me, The long brown path before me leading wherever I choose.",
+    "author": "Walt Whitman",
+    "work": "Song of the Open Road",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "The opening of Whitman's poem about setting out.",
+    "topics": [
+      "new-beginnings",
+      "joy"
+    ],
+    "occasions": [
+      "new-chapter",
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "whitman-good-fortune",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of the Open Road\", 1",
+    "text": "Henceforth I ask not good-fortune, I myself am good-fortune,",
+    "author": "Walt Whitman",
+    "work": "Song of the Open Road",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman, starting out on the road and deciding to make his own luck.",
+    "topics": [
+      "courage",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter",
+      "congratulations"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "whitman-exist-as-i-am",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of Myself\", 20",
+    "text": "I exist as I am, that is enough,",
+    "author": "Walt Whitman",
+    "work": "Song of Myself",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman on not needing anyone's approval to be who you are.",
+    "topics": [
+      "peace",
+      "courage"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "whitman-keep-encouraged",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Song of Myself\", 52",
+    "text": "Failing to fetch me at first keep encouraged, Missing me one place search another, I stop somewhere waiting for you.",
+    "author": "Walt Whitman",
+    "work": "Song of Myself",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "The last lines of \"Song of Myself\", where the poet promises he is never far away.",
+    "topics": [
+      "hope",
+      "love",
+      "comfort"
+    ],
+    "occasions": [
+      "grief",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "whitman-those-i-like",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"I Sing the Body Electric\", 4",
+    "text": "I have perceiv’d that to be with those I like is enough,",
+    "author": "Walt Whitman",
+    "work": "I Sing the Body Electric",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman on the simple happiness of good company.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "whitman-this-hour",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"A Song for Occupations\", 6",
+    "text": "Happiness, knowledge, not in another place but this place, not for another hour but this hour,",
+    "author": "Walt Whitman",
+    "work": "A Song for Occupations",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman on finding happiness right where you are.",
+    "topics": [
+      "joy",
+      "peace"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "whitman-dark-patches",
+    "kind": "quote",
+    "reference": "Leaves of Grass, \"Crossing Brooklyn Ferry\", 6",
+    "text": "It is not upon you alone the dark patches fall, The dark threw its patches down upon me also,",
+    "author": "Walt Whitman",
+    "work": "Crossing Brooklyn Ferry",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/1322",
+    "readingUrl": "https://www.gutenberg.org/ebooks/1322",
+    "context": "Whitman, speaking to future readers: whatever weighs on you, he felt it too.",
+    "topics": [
+      "comfort",
+      "friendship"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-fierce",
+    "kind": "quote",
+    "reference": "A Midsummer Night's Dream, Act 3, Scene 2",
+    "text": "And though she be but little, she is fierce.",
+    "author": "William Shakespeare",
+    "work": "A Midsummer Night's Dream",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Helena, in the middle of a quarrel, on her small but formidable friend Hermia.",
+    "topics": [
+      "courage",
+      "strength"
+    ],
+    "occasions": [
+      "birthday",
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-true-love",
+    "kind": "quote",
+    "reference": "A Midsummer Night's Dream, Act 1, Scene 1",
+    "text": "The course of true love never did run smooth.",
+    "author": "William Shakespeare",
+    "work": "A Midsummer Night's Dream",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Lysander, consoling Hermia when their families stand in the way.",
+    "topics": [
+      "love",
+      "patience"
+    ],
+    "occasions": [
+      "congratulations",
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-doubts",
+    "kind": "quote",
+    "reference": "Measure for Measure, Act 1, Scene 4",
+    "text": "Our doubts are traitors, And make us lose the good we oft might win By fearing to attempt.",
+    "author": "William Shakespeare",
+    "work": "Measure for Measure",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Lucio, urging Isabella to try, even though she doubts she can help.",
+    "topics": [
+      "courage"
+    ],
+    "occasions": [
+      "encouragement",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "shakespeare-prologue",
+    "kind": "quote",
+    "reference": "The Tempest, Act 2, Scene 1",
+    "text": "what’s past is prologue",
+    "author": "William Shakespeare",
+    "work": "The Tempest",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Four words from The Tempest: everything so far has only set the stage.",
+    "topics": [
+      "new-beginnings",
+      "hope"
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "shakespeare-what-we-may-be",
+    "kind": "quote",
+    "reference": "Hamlet, Act 4, Scene 5",
+    "text": "we know what we are, but know not what we may be.",
+    "author": "William Shakespeare",
+    "work": "Hamlet",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "One of Ophelia's lines in Hamlet, which has outlived its scene.",
+    "topics": [
+      "hope",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter",
+      "birthday"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "shakespeare-sorrow-words",
+    "kind": "quote",
+    "reference": "Macbeth, Act 4, Scene 3",
+    "text": "Give sorrow words.",
+    "author": "William Shakespeare",
+    "work": "Macbeth",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Malcolm, to a friend who has just heard terrible news: talk about it, do not hold it in.",
+    "topics": [
+      "grief",
+      "comfort"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-master-a-grief",
+    "kind": "quote",
+    "reference": "Much Ado About Nothing, Act 3, Scene 2",
+    "text": "everyone can master a grief but he that has it.",
+    "author": "William Shakespeare",
+    "work": "Much Ado About Nothing",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Benedick, on how easy it is to give advice about pain that is not your own.",
+    "topics": [
+      "grief",
+      "patience"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-old-wrinkles",
+    "kind": "quote",
+    "reference": "The Merchant of Venice, Act 1, Scene 1",
+    "text": "With mirth and laughter let old wrinkles come,",
+    "author": "William Shakespeare",
+    "work": "The Merchant of Venice",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Gratiano, cheering up a gloomy friend: if we are going to age, let it be from laughing.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-greatness",
+    "kind": "quote",
+    "reference": "Twelfth Night, Act 2, Scene 5",
+    "text": "Some are born great, some achieve greatness, and some have greatness thrust upon ’em.",
+    "author": "William Shakespeare",
+    "work": "Twelfth Night",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "From a prank letter in Twelfth Night, now a line people use in earnest.",
+    "topics": [
+      "courage",
+      "joy"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-love-all",
+    "kind": "quote",
+    "reference": "All's Well That Ends Well, Act 1, Scene 1",
+    "text": "Love all, trust a few, Do wrong to none.",
+    "author": "William Shakespeare",
+    "work": "All's Well That Ends Well",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "A mother's advice to her son as he leaves home.",
+    "topics": [
+      "love",
+      "wisdom"
+    ],
+    "occasions": [
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "shakespeare-light-heart",
+    "kind": "quote",
+    "reference": "Love's Labour's Lost, Act 5, Scene 2",
+    "text": "a light heart lives long.",
+    "author": "William Shakespeare",
+    "work": "Love's Labour's Lost",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "A friend's teasing wish in Love's Labour's Lost.",
+    "topics": [
+      "joy"
+    ],
+    "occasions": [
+      "birthday"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-companion",
+    "kind": "quote",
+    "reference": "The Tempest, Act 3, Scene 1",
+    "text": "I would not wish Any companion in the world but you;",
+    "author": "William Shakespeare",
+    "work": "The Tempest",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Miranda, speaking to Ferdinand.",
+    "topics": [
+      "love"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-true-minds",
+    "kind": "quote",
+    "reference": "Sonnet 116",
+    "text": "Let me not to the marriage of true minds Admit impediments,",
+    "author": "William Shakespeare",
+    "work": "Sonnets",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "The opening of the sonnet most often read at weddings.",
+    "topics": [
+      "love"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-dear-friend",
+    "kind": "quote",
+    "reference": "Sonnet 30",
+    "text": "But if the while I think on thee (dear friend) All losses are restored, and sorrows end.",
+    "author": "William Shakespeare",
+    "work": "Sonnets",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "The end of a sonnet about old sorrows, and the one thought that undoes them.",
+    "topics": [
+      "friendship",
+      "comfort"
+    ],
+    "occasions": [
+      "thinking-of-you",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-good-friends",
+    "kind": "quote",
+    "reference": "Richard II, Act 2, Scene 3",
+    "text": "I count myself in nothing else so happy As in a soul rememb’ring my good friends;",
+    "author": "William Shakespeare",
+    "work": "Richard II",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Bolingbroke, thanking a young ally for his loyalty.",
+    "topics": [
+      "friendship",
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "shakespeare-ever-thanks",
+    "kind": "quote",
+    "reference": "Twelfth Night, Act 3, Scene 3",
+    "text": "I can no other answer make but thanks, And thanks, and ever thanks;",
+    "author": "William Shakespeare",
+    "work": "Twelfth Night",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Sebastian, to the friend who followed him into a strange city to keep him safe.",
+    "topics": [
+      "gratitude"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-roughest-day",
+    "kind": "quote",
+    "reference": "Macbeth, Act 1, Scene 3",
+    "text": "Come what come may, Time and the hour runs through the roughest day.",
+    "author": "William Shakespeare",
+    "work": "Macbeth",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Even the hardest day comes to an end.",
+    "topics": [
+      "patience",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "shakespeare-merry-heart",
+    "kind": "quote",
+    "reference": "The Winter's Tale, Act 4, Scene 3",
+    "text": "A merry heart goes all the day, Your sad tires in a mile-a.",
+    "author": "William Shakespeare",
+    "work": "The Winter's Tale",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "A walking song sung by Autolycus, a cheerful rogue.",
+    "topics": [
+      "joy",
+      "strength"
+    ],
+    "occasions": [
+      "birthday",
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "shakespeare-joy-in-the-doing",
+    "kind": "quote",
+    "reference": "Troilus and Cressida, Act 1, Scene 2",
+    "text": "joy’s soul lies in the doing.",
+    "author": "William Shakespeare",
+    "work": "Troilus and Cressida",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/100",
+    "readingUrl": "https://www.gutenberg.org/ebooks/100",
+    "context": "Cressida: the real pleasure is in the doing, not the having done.",
+    "topics": [
+      "joy",
+      "purpose"
+    ],
+    "occasions": [
+      "congratulations",
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "laozi-single-step",
+    "kind": "quote",
+    "reference": "Tao Teh King, Chapter 64",
+    "text": "the journey of a thousand li commenced with a single step.",
+    "author": "Lao Tzu",
+    "work": "Tao Teh King",
+    "translator": "James Legge (1891)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/216",
+    "readingUrl": "https://www.gutenberg.org/ebooks/216",
+    "context": "The source of a famous saying. A li is an old Chinese measure of distance, about a third of a mile.",
+    "topics": [
+      "new-beginnings",
+      "patience"
+    ],
+    "occasions": [
+      "new-chapter",
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "laozi-tiniest-sprout",
+    "kind": "quote",
+    "reference": "Tao Teh King, Chapter 64",
+    "text": "The tree which fills the arms grew from the tiniest sprout;",
+    "author": "Lao Tzu",
+    "work": "Tao Teh King",
+    "translator": "James Legge (1891)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/216",
+    "readingUrl": "https://www.gutenberg.org/ebooks/216",
+    "context": "Lao Tzu on how everything great starts small.",
+    "topics": [
+      "patience",
+      "hope"
+    ],
+    "occasions": [
+      "encouragement",
+      "birthday"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "laozi-knows-himself",
+    "kind": "quote",
+    "reference": "Tao Teh King, Chapter 33",
+    "text": "He who knows other men is discerning; he who knows himself is intelligent. He who overcomes others is strong; he who overcomes himself is mighty.",
+    "author": "Lao Tzu",
+    "work": "Tao Teh King",
+    "translator": "James Legge (1891)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/216",
+    "readingUrl": "https://www.gutenberg.org/ebooks/216",
+    "context": "One of the best-known passages of the Tao Teh King, a short book of Chinese wisdom from about 2,500 years ago.",
+    "topics": [
+      "wisdom",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "laozi-satisfied",
+    "kind": "quote",
+    "reference": "Tao Teh King, Chapter 33",
+    "text": "He who is satisfied with his lot is rich;",
+    "author": "Lao Tzu",
+    "work": "Tao Teh King",
+    "translator": "James Legge (1891)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/216",
+    "readingUrl": "https://www.gutenberg.org/ebooks/216",
+    "context": "Lao Tzu on contentment as a kind of wealth.",
+    "topics": [
+      "gratitude",
+      "peace"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "laozi-soft-overcomes",
+    "kind": "quote",
+    "reference": "Tao Teh King, Chapter 36",
+    "text": "The soft overcomes the hard; and the weak the strong.",
+    "author": "Lao Tzu",
+    "work": "Tao Teh King",
+    "translator": "James Legge (1891)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/216",
+    "readingUrl": "https://www.gutenberg.org/ebooks/216",
+    "context": "A favourite idea of Lao Tzu's: gentleness, like water, wears down what is hard.",
+    "topics": [
+      "patience",
+      "strength"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "confucius-friends-from-afar",
+    "kind": "quote",
+    "reference": "Analects 1.1",
+    "text": "Is it not delightful to have friends coming from distant quarters?",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "From the very first passage of the Analects, the sayings of Confucius gathered by his students.",
+    "topics": [
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "confucius-pine-and-cypress",
+    "kind": "quote",
+    "reference": "Analects 9.27",
+    "text": "When the year becomes cold, then we know how the pine and the cypress are the last to lose their leaves.",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "Confucius on how hard times show who and what lasts.",
+    "topics": [
+      "strength",
+      "friendship"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief",
+      "gratitude"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "confucius-neighbors",
+    "kind": "quote",
+    "reference": "Analects 4.25",
+    "text": "Virtue is not left to stand alone. He who practises it will have neighbors.",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "Confucius on how goodness draws good people near.",
+    "topics": [
+      "friendship",
+      "hope"
+    ],
+    "occasions": [
+      "new-chapter",
+      "thinking-of-you"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "confucius-delight",
+    "kind": "quote",
+    "reference": "Analects 6.18",
+    "text": "They who know the truth are not equal to those who love it, and they who love it are not equal to those who delight in it.",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "Confucius on the difference between knowing something, loving it and delighting in it.",
+    "topics": [
+      "joy",
+      "wisdom"
+    ],
+    "occasions": [
+      "congratulations"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "confucius-free-from-fear",
+    "kind": "quote",
+    "reference": "Analects 9.28",
+    "text": "The wise are free from perplexities; the virtuous from anxiety; and the bold from fear.",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "Three short lines on what wisdom, goodness and courage each give us.",
+    "topics": [
+      "courage",
+      "peace"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "confucius-years-do-not-wait",
+    "kind": "quote",
+    "reference": "Analects 17.1",
+    "text": "The days and months are passing away; the years do not wait for us.",
+    "author": "Confucius",
+    "work": "The Analects",
+    "translator": "James Legge (1893)",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/3330",
+    "readingUrl": "https://www.gutenberg.org/ebooks/3330",
+    "context": "Said to Confucius to urge him to take up public work while he still could. He agreed.",
+    "topics": [
+      "purpose",
+      "wisdom"
+    ],
+    "occasions": [
+      "birthday",
+      "new-chapter"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "tagore-miss-the-stars",
+    "kind": "quote",
+    "reference": "Stray Birds, 6 (1916)",
+    "text": "If you shed tears when you miss the sun, you also miss the stars.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "From Tagore's book of short sayings, which he wrote in English himself.",
+    "topics": [
+      "hope",
+      "comfort"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-summer-flowers",
+    "kind": "quote",
+    "reference": "Stray Birds, 82 (1916)",
+    "text": "Let life be beautiful like summer flowers and death like autumn leaves.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "One of Tagore's short sayings, comparing a good life and a gentle end to the seasons.",
+    "topics": [
+      "grief",
+      "peace"
+    ],
+    "occasions": [
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-talked-of-nothing",
+    "kind": "quote",
+    "reference": "Stray Birds, 42 (1916)",
+    "text": "You smiled and talked to me of nothing and I felt that for this I had been waiting long.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "Tagore on the quiet happiness of easy conversation with someone you love.",
+    "topics": [
+      "love",
+      "friendship",
+      "joy"
+    ],
+    "occasions": [
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-one-star",
+    "kind": "quote",
+    "reference": "Stray Birds, 142 (1916)",
+    "text": "Let me think that there is one among those stars that guides my life through the dark unknown.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "A short saying about finding something to steer by in uncertain times.",
+    "topics": [
+      "hope",
+      "comfort"
+    ],
+    "occasions": [
+      "encouragement",
+      "grief"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-new-morning",
+    "kind": "quote",
+    "reference": "Stray Birds, 235 (1916)",
+    "text": "Do not say, \"It is morning,\" and dismiss it with a name of yesterday. See it for the first time as a new-born child that has no name.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "Tagore on meeting each day as if it were brand new.",
+    "topics": [
+      "new-beginnings",
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "new-chapter"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "tagore-roots",
+    "kind": "quote",
+    "reference": "Stray Birds, 134 (1916)",
+    "text": "The roots below the earth claim no rewards for making the branches fruitful.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "Tagore on the people whose quiet support makes everything else possible.",
+    "topics": [
+      "gratitude",
+      "love"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "steady"
+  },
+  {
+    "id": "tagore-lampholder",
+    "kind": "quote",
+    "reference": "Stray Birds, 64 (1916)",
+    "text": "Thank the flame for its light, but do not forget the lampholder standing in the shade with constancy of patience.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "A saying about remembering those who help without being seen.",
+    "topics": [
+      "gratitude",
+      "patience"
+    ],
+    "occasions": [
+      "gratitude"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-rest-belongs",
+    "kind": "quote",
+    "reference": "Stray Birds, 24 (1916)",
+    "text": "Rest belongs to the work as the eyelids to the eyes.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "Tagore on rest as part of the work, not a break from it.",
+    "topics": [
+      "rest",
+      "peace"
+    ],
+    "occasions": [
+      "encouragement"
+    ],
+    "tone": "light"
+  },
+  {
+    "id": "tagore-love-it",
+    "kind": "quote",
+    "reference": "Stray Birds, 279 (1916)",
+    "text": "We live in this world when we love it.",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "One of the shortest of Tagore's sayings.",
+    "topics": [
+      "love",
+      "joy"
+    ],
+    "occasions": [
+      "birthday",
+      "thinking-of-you"
+    ],
+    "tone": "tender"
+  },
+  {
+    "id": "tagore-waterfall",
+    "kind": "quote",
+    "reference": "Stray Birds, 36 (1916)",
+    "text": "The waterfall sings, \"I find my song, when I find my freedom.\"",
+    "author": "Rabindranath Tagore",
+    "work": "Stray Birds",
+    "license": "public-domain",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/6524",
+    "readingUrl": "https://www.gutenberg.org/ebooks/6524",
+    "context": "Tagore on how people come into their own when they are free to.",
+    "topics": [
+      "joy",
+      "new-beginnings"
+    ],
+    "occasions": [
+      "new-chapter",
+      "congratulations"
+    ],
+    "tone": "light"
   }
 ]

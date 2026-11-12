@@ -3,6 +3,7 @@
 Tend only offers a translation when we know we are allowed to store its text and send it in people's messages.
 Today that means public-domain translations, whose full text for each passage is kept in `content/library.json` and checked against its source on every change (`scripts/build-library.mjs`).
 Everyone picks a default translation in Settings, and can choose a different one for any person on that person's page.
+Quotes from books and the conversation starters have their own page: [QUOTES.md](QUOTES.md).
 
 Last checked: 11 November 2026.
 

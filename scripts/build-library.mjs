@@ -2,7 +2,10 @@
 //   content/scripture-refs.json  passages, fetched from bible-api.com in every
 //                                translation Tend offers (docs/TRANSLATIONS.md)
 //   content/quotes.json          quotes, each checked word for word against its
-//                                Project Gutenberg source text
+//                                Project Gutenberg source text (docs/QUOTES.md)
+//
+// It also checks content/prompts.json, the conversation starters, which are
+// read directly by the app: valid situations and tones, and unique ids.
 //
 //   node scripts/build-library.mjs           fetch, verify and write the library
 //   node scripts/build-library.mjs --check   verify only: fails if library.json
@@ -24,6 +27,45 @@ const squash = (s) => s.replace(/\s+/g, ' ').trim()
 
 const refs = JSON.parse(await readFile(join(root, 'content/scripture-refs.json'), 'utf8'))
 const quotes = JSON.parse(await readFile(join(root, 'content/quotes.json'), 'utf8'))
+const prompts = JSON.parse(await readFile(join(root, 'content/prompts.json'), 'utf8'))
+
+// When a quote fits (docs/QUOTES.md), and how it feels: light, tender or steady.
+const OCCASIONS = ['birthday', 'encouragement', 'grief', 'congratulations', 'thinking-of-you', 'gratitude', 'new-chapter']
+const TONES = ['light', 'tender', 'steady']
+// What a conversation starter is for (content/prompts.json).
+const SITUATIONS = ['birthday', 'been-a-while', 'going-through-something', 'congratulations', 'just-because']
+
+// Cheap checks first, so a typo fails before minutes of fetching.
+const problems = []
+const seen = new Set()
+for (const quote of quotes) {
+  if (seen.has(quote.id)) problems.push(`quote ${quote.id}: duplicate id`)
+  seen.add(quote.id)
+  if (!Array.isArray(quote.occasions) || quote.occasions.length === 0) problems.push(`quote ${quote.id}: no occasions`)
+  for (const occasion of quote.occasions ?? []) {
+    if (!OCCASIONS.includes(occasion)) problems.push(`quote ${quote.id}: unknown occasion "${occasion}"`)
+  }
+  if (!TONES.includes(quote.tone)) problems.push(`quote ${quote.id}: unknown tone "${quote.tone}"`)
+}
+if (!Array.isArray(prompts)) problems.push('content/prompts.json: not an array')
+const promptIds = new Set()
+for (const [index, prompt] of (Array.isArray(prompts) ? prompts : []).entries()) {
+  const label = `prompt ${prompt?.id ?? `#${index}`}`
+  if (typeof prompt?.id !== 'string' || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(prompt.id)) problems.push(`${label}: id must be lowercase words joined by hyphens`)
+  else if (promptIds.has(prompt.id)) problems.push(`${label}: duplicate id`)
+  promptIds.add(prompt?.id)
+  if (typeof prompt?.text !== 'string' || !prompt.text.trim()) problems.push(`${label}: no text`)
+  else if (prompt.text !== prompt.text.trim() || /\s{2}/.test(prompt.text)) problems.push(`${label}: stray whitespace`)
+  else if (/[[\]{}<>]|\u2014/.test(prompt.text)) problems.push(`${label}: placeholder brackets or an em dash`)
+  if (!SITUATIONS.includes(prompt?.situation)) problems.push(`${label}: unknown situation "${prompt?.situation}"`)
+  if (!TONES.includes(prompt?.tone)) problems.push(`${label}: unknown tone "${prompt?.tone}"`)
+  const extra = Object.keys(prompt ?? {}).filter((key) => !['id', 'text', 'situation', 'tone'].includes(key))
+  if (extra.length) problems.push(`${label}: unexpected field(s) ${extra.join(', ')}`)
+}
+if (problems.length) {
+  for (const problem of problems) console.error(problem)
+  process.exit(1)
+}
 
 // Keep in step with TRANSLATIONS in lib/enums.ts. Each is public domain; see
 // docs/TRANSLATIONS.md for the licence and source of each.
@@ -137,6 +179,8 @@ for (const quote of quotes) {
     readingUrl: `https://www.gutenberg.org/ebooks/${quote.gutenberg}`,
     context: quote.context,
     topics: quote.topics,
+    occasions: quote.occasions,
+    tone: quote.tone,
   })
   console.log(`quote ${quote.id}`)
 }
@@ -154,8 +198,8 @@ if (check) {
     console.error('content/library.json differs from its sources; run node scripts/build-library.mjs')
     process.exit(1)
   }
-  console.log(`library verified: ${items.length} items`)
+  console.log(`library verified: ${items.length} items; ${prompts.length} prompts checked`)
 } else {
   await writeFile(target, output, 'utf8')
-  console.log(`wrote ${items.length} items to content/library.json`)
+  console.log(`wrote ${items.length} items to content/library.json; ${prompts.length} prompts checked`)
 }
