@@ -28,6 +28,21 @@
   --sky: #5f93c4;
   --glow: rgba(47, 107, 79, 0.16);
   --glow-warm: rgba(233, 162, 59, 0.18);
+  /* The signed-in app: a deeper green for the frame and the one main action
+     per page, and darker headings, so the eye knows where to go. */
+  --accent-strong: #1f5a40;
+  --accent-strong-hover: #17462f;
+  --accent-deep: #173a2a;
+  --ink-strong: #121c16;
+  --panel-head: #fbfaf7;
+  --sun-soft: #fbedd4;
+  --sun-ink: #6f4308;
+  --rose-soft: #f8e3dc;
+  --rose-ink: #7d3424;
+  --sky-soft: #e1ecf6;
+  --sky-ink: #234d72;
+  --shadow-panel: 0 1px 2px rgb(20 40 30 / 0.05), 0 18px 40px -32px rgb(20 40 30 / 0.45);
+  accent-color: var(--accent);
   color-scheme: light;
 }
 

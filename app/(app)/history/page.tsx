@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
-import { Empty, PageTitle, RowLink } from '@/components/ui'
+import { HistoryIcon } from '@/components/icons'
+import { Empty, Monogram, PageTitle, RowLink, Section } from '@/components/ui'
 import { getItem, itemTitle } from '@/lib/content'
 import { historyList } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
@@ -21,9 +22,10 @@ export default async function HistoryPage() {
   const [rows, settings] = await Promise.all([historyList(user.id), getSettings(user.id)])
   return (
     <>
-      <PageTitle title="History" subtitle="Everything you sent, skipped or canceled." />
+      <PageTitle title="History" subtitle="Everything you sent, skipped or canceled, newest first." />
+      <Section title="All messages" id="all" icon={HistoryIcon} hint={rows.length ? `${rows.length} so far. Open one to see exactly what went out.` : undefined}>
       {rows.length ? (
-        <ul className="space-y-3">
+        <ul>
           {rows.map((m) => {
             const item = getItem(m.contentId)
             const what = m.kind === 'consent_request' ? 'Asked about messages' : item ? itemTitle(item) : 'Personal message'
@@ -33,6 +35,7 @@ export default async function HistoryPage() {
               <li key={m.id}>
                 <RowLink
                   href={`/send/${m.id}`}
+                  lead={<Monogram name={m.contactName} />}
                   title={`${m.contactName}: ${what}`}
                   meta={formatWhen(m.sentAt ?? m.updatedAt, settings.timezone)}
                   badge={<span className={status.className}>{status.label}</span>}
@@ -42,8 +45,9 @@ export default async function HistoryPage() {
           })}
         </ul>
       ) : (
-        <Empty>Nothing yet. Messages you send, skip or cancel show up here.</Empty>
+        <Empty icon={HistoryIcon}>Nothing yet. Messages you send, skip or cancel show up here.</Empty>
       )}
+      </Section>
     </>
   )
 }

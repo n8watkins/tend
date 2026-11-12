@@ -121,7 +121,7 @@ export function HelperSettings({ status, timezone, notificationsOn, error }: { s
           )}
           <form action={turnOffHelper} className="border-t border-line pt-5">
             <p className="hint mb-2">Turning it off removes your helper too. Messages go back to the usual reminders.</p>
-            <SubmitButton className="btn btn-ghost">Turn off the Signal helper</SubmitButton>
+            <SubmitButton className="btn btn-ghost btn-flush">Turn off the Signal helper</SubmitButton>
           </form>
         </>
       )}

@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { ConfirmButton } from '@/components/ConfirmButton'
+import { CalendarIcon, ClockIcon, GiftIcon, HeartIcon, PenIcon, ShieldIcon, SparkleIcon, UserIcon } from '@/components/icons'
 import { SubmitButton } from '@/components/SubmitButton'
-import { ConsentBadge, CONSENT_LABEL, Done, Empty, PageTitle, RowLink, Section, SIGNAL_LABEL } from '@/components/ui'
+import { ConsentBadge, CONSENT_LABEL, Done, Empty, Monogram, PageTitle, RowLink, Section, SIGNAL_LABEL } from '@/components/ui'
 import type { ConsentState } from '@/lib/enums'
 import { getItem, itemHeading, itemText, itemTitle, LIBRARY } from '@/lib/content'
 import {
@@ -105,9 +106,18 @@ export default async function ContactPage({
     })),
   ].sort((a, b) => b.at - a.at)
 
+  // One main panel per page: asking first, else their day, else suggestions.
+  const consentIsTheTask = contact.consent === 'not_asked' || contact.consent === 'asked'
+  const occasionPanel = Boolean(soon && contact.consent === 'yes')
+  const main = consentIsTheTask ? 'consent' : occasionPanel ? 'occasion' : 'suggestions'
+  const topics = contact.topics.map((t) => topicLabel(t.topic).toLowerCase()).join(', ')
+  const modeLabel = mode === 'words' ? 'conversation starters only' : SUGGEST_LABEL[mode].toLowerCase()
+
   return (
     <>
       <PageTitle
+        eyebrow="Person"
+        lead={<Monogram name={contact.name} size="lg" />}
         title={contact.name}
         subtitle={
           <span className="flex flex-wrap items-center gap-2">
@@ -117,6 +127,7 @@ export default async function ContactPage({
         }
         action={
           <Link href={`/people/${contact.id}/edit`} className="btn btn-secondary">
+            <PenIcon className="size-4" />
             Edit
           </Link>
         }
@@ -128,234 +139,198 @@ export default async function ContactPage({
         </p>
       ) : null}
 
-      <section aria-labelledby="consent-title" className="card space-y-3">
-        <h2 id="consent-title" className="font-bold">
-          Messages and consent
-        </h2>
-        {contact.consent === 'not_asked' ? (
-          <>
-            <p>Ask {contact.name} first. Tend drafts a short, friendly question for you to send on Signal.</p>
-            <div className="flex flex-wrap gap-2">
-              <Link href={`/compose?contact=${contact.id}&kind=consent_request`} className="btn btn-primary">
-                Draft the question
-              </Link>
-              <ConsentButton contactId={contact.id} to="yes">
-                They already said yes
-              </ConsentButton>
-            </div>
-          </>
-        ) : null}
-        {contact.consent === 'asked' ? (
-          <>
-            <p>You asked {contact.name}. What did they say?</p>
-            <div className="flex flex-wrap gap-2">
-              <ConsentButton contactId={contact.id} to="yes" className="btn btn-primary">
-                They said yes
-              </ConsentButton>
-              <ConsentButton contactId={contact.id} to="no">
-                They said no
-              </ConsentButton>
-            </div>
-          </>
-        ) : null}
-        {contact.consent === 'yes' ? (
-          <>
-            <p>
-              {contact.name} is happy to hear from you, up to {contact.maxPer30Days} {contact.maxPer30Days === 1 ? 'time' : 'times'} in 30 days.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Link href={`/compose?contact=${contact.id}&kind=personal`} className="btn btn-secondary">
-                Write your own message
-              </Link>
-              <ConsentButton contactId={contact.id} to="stopped" className="btn btn-ghost">
-                They asked me to stop
-              </ConsentButton>
-            </div>
-          </>
-        ) : null}
-        {contact.consent === 'no' ? (
-          <>
-            <p>{contact.name} said no, so Tend won&rsquo;t suggest messages for them.</p>
-            <ConsentButton contactId={contact.id} to="yes">
-              They changed their mind
-            </ConsentButton>
-          </>
-        ) : null}
-        {contact.consent === 'stopped' ? (
-          <>
-            <p>
-              {contact.stoppedByRecipient
-                ? `${contact.name} used their stop link, so everything scheduled for them was canceled.`
-                : `Messages to ${contact.name} are stopped.`}
-            </p>
-            <form action={setConsent.bind(null, contact.id)} className="space-y-3">
-              <input type="hidden" name="to" value="yes" />
-              <label className="flex items-start gap-2 text-sm">
-                <input type="checkbox" name="confirm" value="yes" className="mt-1 size-4" />
-                <span>They told me they want these messages again.</span>
-              </label>
-              <SubmitButton className="btn btn-secondary">Start again</SubmitButton>
-            </form>
-          </>
-        ) : null}
-      </section>
+      <div className="app-columns">
+        <div className="app-col">
+          <Section
+            title="Messages and consent"
+            id="consent-title"
+            icon={ShieldIcon}
+            tone={main === 'consent' ? 'primary' : 'default'}
+            hint="Tend only suggests messages for people who said yes."
+          >
+            {contact.consent === 'not_asked' ? (
+              <>
+                <p>Ask {contact.name} first. Tend drafts a short, friendly question for you to send on Signal.</p>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={`/compose?contact=${contact.id}&kind=consent_request`} className="btn btn-primary">
+                    Draft the question
+                  </Link>
+                  <ConsentButton contactId={contact.id} to="yes">
+                    They already said yes
+                  </ConsentButton>
+                </div>
+              </>
+            ) : null}
+            {contact.consent === 'asked' ? (
+              <>
+                <p>You asked {contact.name}. What did they say?</p>
+                <div className="flex flex-wrap gap-2">
+                  <ConsentButton contactId={contact.id} to="yes" className="btn btn-primary">
+                    They said yes
+                  </ConsentButton>
+                  <ConsentButton contactId={contact.id} to="no">
+                    They said no
+                  </ConsentButton>
+                </div>
+              </>
+            ) : null}
+            {contact.consent === 'yes' ? (
+              <>
+                <p>
+                  {contact.name} is happy to hear from you, up to {contact.maxPer30Days} {contact.maxPer30Days === 1 ? 'time' : 'times'} in 30 days.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={`/compose?contact=${contact.id}&kind=personal`} className="btn btn-secondary">
+                    <PenIcon className="size-4" />
+                    Write your own message
+                  </Link>
+                  <ConsentButton contactId={contact.id} to="stopped" className="btn btn-ghost">
+                    They asked me to stop
+                  </ConsentButton>
+                </div>
+              </>
+            ) : null}
+            {contact.consent === 'no' ? (
+              <>
+                <p>{contact.name} said no, so Tend won&rsquo;t suggest messages for them.</p>
+                <ConsentButton contactId={contact.id} to="yes">
+                  They changed their mind
+                </ConsentButton>
+              </>
+            ) : null}
+            {contact.consent === 'stopped' ? (
+              <>
+                <p>
+                  {contact.stoppedByRecipient
+                    ? `${contact.name} used their stop link, so everything scheduled for them was canceled.`
+                    : `Messages to ${contact.name} are stopped.`}
+                </p>
+                <form action={setConsent.bind(null, contact.id)} className="space-y-3">
+                  <input type="hidden" name="to" value="yes" />
+                  <label className="flex items-start gap-2 text-sm">
+                    <input type="checkbox" name="confirm" value="yes" className="mt-1 size-4" />
+                    <span>They told me they want these messages again.</span>
+                  </label>
+                  <SubmitButton className="btn btn-secondary">Start again</SubmitButton>
+                </form>
+              </>
+            ) : null}
+          </Section>
 
-      <section aria-labelledby="touch-title" className="card mt-4 space-y-3">
-        <h2 id="touch-title" className="font-bold">
-          Keeping in touch
-        </h2>
-        <dl className="grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
-          <div>
-            <dt className="text-muted">Last in touch</dt>
-            <dd data-testid="last-in-touch">{touch.last ? formatDate(touch.last, tz) : 'Not yet'}</dd>
-          </div>
-          <div>
-            <dt className="text-muted">{touch.cadence ? describeCadence(contact.cadenceDays!) : 'Keep in touch'}</dt>
-            <dd data-testid="next-due">
-              {!touch.cadence ? (
-                <Link href={`/people/${contact.id}/edit#cadence`} className="underline underline-offset-2">
-                  Set how often
-                </Link>
-              ) : touch.cadence.scheduled ? (
-                'A message is scheduled'
-              ) : touch.cadence.dueAt <= now ? (
-                <span className="badge badge-warn">Due now</span>
+          {soon && occasionPanel ? (
+            <Section
+              title={soon.daysAway === 0 ? `For their ${soon.kind} today` : `For their ${soon.kind}, ${describeDaysAway(soon.daysAway)}`}
+              id="occasion"
+              icon={GiftIcon}
+              tone={main === 'occasion' ? 'primary' : 'warm'}
+              hint={soon.kind === 'birthday' ? 'A blessing or a hopeful word to send with your wishes.' : 'Passages about love and faithfulness to send with your wishes.'}
+            >
+              {picks.length ? (
+                <ul className="space-y-3">
+                  {picks.map((item, i) => (
+                    <li key={item.id} className="pick">
+                      <p className="pick-source">{itemHeading(item)}</p>
+                      <p className="passage mt-1.5 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
+                      <div className="mt-3 flex justify-end">
+                        <Link
+                          href={`/compose?contact=${contact.id}&content=${item.id}&occasion=${soon.kind}`}
+                          className={`btn btn-sm ${i === 0 && main === 'occasion' ? 'btn-primary' : 'btn-secondary'}`}
+                        >
+                          Use this
+                        </Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <Link href={`/compose?contact=${contact.id}&kind=personal&occasion=${soon.kind}`} className="btn btn-ghost btn-sm">
+                <PenIcon className="size-4" />
+                Write your own wishes
+              </Link>
+            </Section>
+          ) : null}
+
+          {contact.consent === 'yes' && mode !== 'words' ? (
+            <Section
+              title="Suggestions"
+              id="suggestions"
+              icon={SparkleIcon}
+              tone={main === 'suggestions' ? 'primary' : 'default'}
+              hint={
+                <>
+                  Suggesting {modeLabel}
+                  {contact.suggest ? '' : ' (your default)'}
+                  {topics ? `, picked for what ${contact.name} cares about: ${topics}` : ''}.{' '}
+                  <Link href={`/people/${contact.id}/edit`} className="font-semibold underline underline-offset-2">
+                    Change
+                  </Link>
+                </>
+              }
+              action={
+                <form action={surpriseMe.bind(null, contact.id)}>
+                  <SubmitButton className="btn btn-secondary btn-sm">
+                    <SparkleIcon className="size-4" />
+                    Surprise me
+                  </SubmitButton>
+                </form>
+              }
+            >
+              {suggestions.length ? (
+                <ul className="space-y-3">
+                  {suggestions.map((item, i) => (
+                    <li key={item.id} className="pick">
+                      <p className="pick-source">{itemHeading(item)}</p>
+                      <p className="passage mt-1.5 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                        <span className="flex flex-wrap gap-1">
+                          {item.topics.map((t) => (
+                            <span key={t} className="badge">
+                              {topicLabel(t)}
+                            </span>
+                          ))}
+                        </span>
+                        <Link
+                          href={`/compose?contact=${contact.id}&content=${item.id}`}
+                          className={`btn btn-sm ${i === 0 && main === 'suggestions' ? 'btn-primary' : 'btn-secondary'}`}
+                        >
+                          Use this
+                        </Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               ) : (
-                `Next due ${formatWhen(touch.cadence.dueAt, tz)}`
+                <Empty icon={SparkleIcon}>Nothing new fits their topics right now. Browse the library or write your own.</Empty>
               )}
-            </dd>
-          </div>
-          {occasions.map((o) => (
-            <div key={o.kind}>
-              <dt className="text-muted">{OCCASION_LABEL[o.kind]}</dt>
-              <dd>
-                {describePartialDate({ ...parsePartialDate(contact[o.kind])!, year: null })}
-                <span className="text-muted">
-                  {' '}
-                  · {o.daysAway === 0 ? 'today' : describeDaysAway(o.daysAway)}
-                  {o.years !== null && o.years > 0 ? (o.kind === 'birthday' ? `, turns ${o.years}` : `, ${o.years} ${o.years === 1 ? 'year' : 'years'}`) : ''}
-                </span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-        {touch.cadence && contact.consent !== 'yes' ? (
-          <p className="hint">Keep-in-touch reminders start once {contact.name} says yes to messages.</p>
-        ) : null}
-        <div className="flex flex-wrap gap-2">
-          <form action={markInTouch.bind(null, contact.id)}>
-            <SubmitButton className="btn btn-secondary btn-sm">We were in touch today</SubmitButton>
-          </form>
-          {!occasions.length ? (
-            <Link href={`/people/${contact.id}/edit#birthday`} className="btn btn-ghost btn-sm">
-              Add a birthday
-            </Link>
+              <p className="hint">
+                {contact.topics.length === 0 ? (
+                  <>
+                    <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
+                      Pick a few topics
+                    </Link>{' '}
+                    for picks that fit {contact.name} better.{' '}
+                  </>
+                ) : null}
+                Surprise me picks any {mode === 'scripture' ? 'passage' : mode === 'quotes' ? 'quote' : 'passage or quote'}, never one {contact.name} has had in the
+                last 180 days.{' '}
+                <Link href={`/library?contact=${contact.id}`} className="font-semibold text-accent underline underline-offset-2">
+                  Browse the whole library
+                </Link>
+              </p>
+            </Section>
           ) : null}
-        </div>
-      </section>
 
-      {soon && contact.consent === 'yes' ? (
-        <Section title={soon.daysAway === 0 ? `For their ${soon.kind} today` : `For their ${soon.kind}, ${describeDaysAway(soon.daysAway)}`} id="occasion">
-          <p className="hint mb-3">
-            {soon.kind === 'birthday' ? 'A blessing or a hopeful word to send with your wishes.' : 'Passages about love and faithfulness to send with your wishes.'}
-          </p>
-          {picks.length ? (
-            <ul className="space-y-3">
-              {picks.map((item) => (
-                <li key={item.id} className="card">
-                  <p className="text-sm font-semibold">{itemHeading(item)}</p>
-                  <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
-                  <div className="mt-3 flex justify-end">
-                    <Link href={`/compose?contact=${contact.id}&content=${item.id}&occasion=${soon.kind}`} className="btn btn-primary btn-sm">
-                      Use this
-                    </Link>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          <Link href={`/compose?contact=${contact.id}&kind=personal&occasion=${soon.kind}`} className="btn btn-secondary mt-3">
-            Write your own wishes
-          </Link>
-        </Section>
-      ) : null}
-
-      <Section title="Scheduled" id="scheduled">
-        {scheduled.length ? (
-          <ul className="space-y-3">
-            {scheduled.map((m) => {
-              const item = getItem(m.contentId)
-              return (
-                <li key={m.id}>
-                  <RowLink
-                    href={`/send/${m.id}`}
-                    title={m.kind === 'consent_request' ? 'Ask about messages' : item ? itemTitle(item) : 'Personal message'}
-                    meta={`${m.scheduledFor <= now ? 'Ready now' : formatWhen(m.scheduledFor, tz)}`}
-                    badge={m.scheduledFor <= now ? <span className="badge badge-good">Send now</span> : undefined}
-                  />
-                </li>
-              )
-            })}
-          </ul>
-        ) : (
-          <Empty>Nothing scheduled.</Empty>
-        )}
-      </Section>
-
-      {contact.consent === 'yes' ? (
-        <Section title="Suggestions" id="suggestions">
-          <p className="hint mb-3">
-            Suggesting {mode === 'words' ? 'conversation starters only' : SUGGEST_LABEL[mode].toLowerCase()}
-            {contact.suggest ? '' : ' (your default)'}
-            {mode !== 'words' && contact.topics.length
-              ? `, picked for what ${contact.name} cares about: ${contact.topics.map((t) => topicLabel(t.topic).toLowerCase()).join(', ')}`
-              : null}
-            .{' '}
-            <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
-              Change
-            </Link>
-          </p>
-          {mode !== 'words' && contact.topics.length === 0 ? (
-            <p className="hint mb-3">
-              <Link href={`/people/${contact.id}/edit`} className="underline underline-offset-2">
-                Pick a few topics
-              </Link>{' '}
-              for suggestions that fit {contact.name} better.
-            </p>
-          ) : null}
-          {mode !== 'words' ? (
-            suggestions.length ? (
-              <ul className="space-y-3">
-                {suggestions.map((item) => (
-                  <li key={item.id} className="card">
-                    <p className="text-sm font-semibold">{itemHeading(item)}</p>
-                    <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
-                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                      <span className="flex flex-wrap gap-1">
-                        {item.topics.map((t) => (
-                          <span key={t} className="badge">
-                            {topicLabel(t)}
-                          </span>
-                        ))}
-                      </span>
-                      <Link href={`/compose?contact=${contact.id}&content=${item.id}`} className="btn btn-primary btn-sm">
-                        Use this
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Empty>Nothing new fits their topics right now. Browse the library or write your own.</Empty>
-            )
-          ) : null}
           {starters.length ? (
-            <div className={mode === 'words' ? '' : 'mt-6'}>
-              <h3 className="mb-1 font-semibold">{mode === 'words' ? 'Start in your own words' : 'Or start in your own words'}</h3>
-              <p className="hint mb-3">A first line to make your own. Tend never suggests the same one to {contact.name} twice.</p>
-              <ul className="space-y-2">
+            <Section
+              title={mode === 'words' ? 'Start in your own words' : 'Or start in your own words'}
+              id="starters"
+              icon={PenIcon}
+              tone={mode === 'words' && main === 'suggestions' ? 'primary' : 'default'}
+              hint={`A first line to make your own. Tend never suggests the same one to ${contact.name} twice.`}
+            >
+              <ul className="-my-2 divide-y divide-line">
                 {starters.map((p) => (
-                  <li key={p.id} className="card flex flex-wrap items-center justify-between gap-3">
+                  <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
                     <div className="min-w-0 flex-1 basis-56">
                       <span className="badge mb-1.5">{SITUATION_LABEL[p.situation]}</span>
                       <p>{p.text}</p>
@@ -366,85 +341,144 @@ export default async function ContactPage({
                   </li>
                 ))}
               </ul>
-            </div>
+            </Section>
           ) : null}
-          {mode !== 'words' ? (
-            <>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <form action={surpriseMe.bind(null, contact.id)}>
-                  <SubmitButton className="btn btn-secondary">Surprise me</SubmitButton>
-                </form>
-                <Link href={`/library?contact=${contact.id}`} className="btn btn-ghost">
-                  Browse the whole library
-                </Link>
+
+          <Section title="History" id="history" icon={ClockIcon} tone="quiet" hint="What you sent, skipped, and their answers.">
+            {timeline.length ? (
+              <ol className="timeline">
+                {timeline.map((t, i) => (
+                  <li key={i}>
+                    <time>{formatDate(t.at, tz)}</time>
+                    {t.href ? (
+                      <Link href={t.href} className="underline-offset-2 hover:underline">
+                        {t.text}
+                      </Link>
+                    ) : (
+                      <span>{t.text}</span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <Empty icon={ClockIcon}>No history yet. Messages you send show up here.</Empty>
+            )}
+          </Section>
+        </div>
+
+        <div className="app-col">
+          <Section title="Keeping in touch" id="touch-title" icon={HeartIcon} hint="Their dates, and how often Tend nudges you.">
+            <dl className="facts sm:grid-cols-2">
+              <div>
+                <dt>Last in touch</dt>
+                <dd data-testid="last-in-touch">{touch.last ? formatDate(touch.last, tz) : 'Not yet'}</dd>
               </div>
-              <p className="hint mt-2">
-                Surprise me picks any {mode === 'scripture' ? 'passage' : mode === 'quotes' ? 'quote' : 'passage or quote'} at random, never one{' '}
-                {contact.name} has had in the last 180 days.
-              </p>
-            </>
-          ) : null}
-        </Section>
-      ) : null}
-
-      <Section title="History" id="history">
-        {timeline.length ? (
-          <ol className="space-y-2">
-            {timeline.map((t, i) => (
-              <li key={i} className="flex gap-3 text-sm">
-                <span className="w-24 shrink-0 text-muted">{formatDate(t.at, tz)}</span>
-                {t.href ? (
-                  <Link href={t.href} className="underline-offset-2 hover:underline">
-                    {t.text}
-                  </Link>
-                ) : (
-                  <span>{t.text}</span>
-                )}
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <Empty>No history yet.</Empty>
-        )}
-      </Section>
-
-      <Section title="Details" id="details">
-        <dl className="card grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
-          <div>
-            <dt className="text-muted">Phone</dt>
-            <dd>{contact.phone ? maskPhone(contact.phone) : 'Not added'}</dd>
-          </div>
-          <div>
-            <dt className="text-muted">Their time zone</dt>
-            <dd>{contact.timezone.replace(/_/g, ' ')}</dd>
-          </div>
-          <div>
-            <dt className="text-muted">How often</dt>
-            <dd>
-              At most every {contact.minDaysBetween} days, {contact.maxPer30Days} in 30 days
-            </dd>
-          </div>
-          <div>
-            <dt className="text-muted">When</dt>
-            <dd>
-              {describeDays(contact.allowedDays)}, {formatMinutes(contact.windowStart)} to {formatMinutes(contact.windowEnd)}
-            </dd>
-          </div>
-          <div className="sm:col-span-2">
-            <dt className="text-muted">Topics</dt>
-            <dd>{contact.topics.length ? contact.topics.map((t) => topicLabel(t.topic)).join(', ') : 'None yet'}</dd>
-          </div>
-          {contact.notes ? (
-            <div className="sm:col-span-2">
-              <dt className="text-muted">Notes</dt>
-              <dd className="whitespace-pre-wrap">{contact.notes}</dd>
+              <div>
+                <dt>{touch.cadence ? describeCadence(contact.cadenceDays!) : 'Keep in touch'}</dt>
+                <dd data-testid="next-due">
+                  {!touch.cadence ? (
+                    <Link href={`/people/${contact.id}/edit#cadence`} className="underline underline-offset-2">
+                      Set how often
+                    </Link>
+                  ) : touch.cadence.scheduled ? (
+                    'A message is scheduled'
+                  ) : touch.cadence.dueAt <= now ? (
+                    <span className="badge badge-warn">Due now</span>
+                  ) : (
+                    `Next due ${formatWhen(touch.cadence.dueAt, tz)}`
+                  )}
+                </dd>
+              </div>
+              {occasions.map((o) => (
+                <div key={o.kind}>
+                  <dt>{OCCASION_LABEL[o.kind]}</dt>
+                  <dd>
+                    {describePartialDate({ ...parsePartialDate(contact[o.kind])!, year: null })}
+                    <span className="text-muted">
+                      {' '}
+                      · {o.daysAway === 0 ? 'today' : describeDaysAway(o.daysAway)}
+                      {o.years !== null && o.years > 0 ? (o.kind === 'birthday' ? `, turns ${o.years}` : `, ${o.years} ${o.years === 1 ? 'year' : 'years'}`) : ''}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            {touch.cadence && contact.consent !== 'yes' ? <p className="hint">Keep-in-touch reminders start once {contact.name} says yes to messages.</p> : null}
+            <div className="flex flex-wrap gap-2">
+              <form action={markInTouch.bind(null, contact.id)}>
+                <SubmitButton className="btn btn-secondary btn-sm">We were in touch today</SubmitButton>
+              </form>
+              {!occasions.length ? (
+                <Link href={`/people/${contact.id}/edit#birthday`} className="btn btn-ghost btn-sm">
+                  Add a birthday
+                </Link>
+              ) : null}
             </div>
-          ) : null}
-        </dl>
-        <form action={deleteContact.bind(null, contact.id)} className="mt-4">
-          <ConfirmButton message={`Delete ${contact.name} and all of their history? This cannot be undone.`}>Delete {contact.name}</ConfirmButton>
-        </form>
-      </Section>
+          </Section>
+
+          <Section title="Scheduled" id="scheduled" icon={CalendarIcon} hint={`What is on the way to ${contact.name}.`}>
+            {scheduled.length ? (
+              <ul>
+                {scheduled.map((m) => {
+                  const item = getItem(m.contentId)
+                  return (
+                    <li key={m.id}>
+                      <RowLink
+                        href={`/send/${m.id}`}
+                        title={m.kind === 'consent_request' ? 'Ask about messages' : item ? itemTitle(item) : 'Personal message'}
+                        meta={`${m.scheduledFor <= now ? 'Ready now' : formatWhen(m.scheduledFor, tz)}`}
+                        badge={m.scheduledFor <= now ? <span className="badge badge-solid">Send now</span> : undefined}
+                      />
+                    </li>
+                  )
+                })}
+              </ul>
+            ) : (
+              <Empty icon={CalendarIcon}>Nothing scheduled. Pick a suggestion to plan the next one.</Empty>
+            )}
+          </Section>
+
+          <Section title="Details" id="details" icon={UserIcon} tone="quiet" hint="Only you can see these.">
+            <dl className="facts sm:grid-cols-2">
+              <div>
+                <dt>Phone</dt>
+                <dd>{contact.phone ? maskPhone(contact.phone) : 'Not added'}</dd>
+              </div>
+              <div>
+                <dt>Their time zone</dt>
+                <dd>{contact.timezone.replace(/_/g, ' ')}</dd>
+              </div>
+              <div>
+                <dt>How often</dt>
+                <dd>
+                  At most every {contact.minDaysBetween} days, {contact.maxPer30Days} in 30 days
+                </dd>
+              </div>
+              <div>
+                <dt>When</dt>
+                <dd>
+                  {describeDays(contact.allowedDays)}, {formatMinutes(contact.windowStart)} to {formatMinutes(contact.windowEnd)}
+                </dd>
+              </div>
+              <div className="sm:col-span-2">
+                <dt>Topics</dt>
+                <dd>{contact.topics.length ? contact.topics.map((t) => topicLabel(t.topic)).join(', ') : 'None yet'}</dd>
+              </div>
+              {contact.notes ? (
+                <div className="sm:col-span-2">
+                  <dt>Notes</dt>
+                  <dd className="whitespace-pre-wrap">{contact.notes}</dd>
+                </div>
+              ) : null}
+            </dl>
+            <form action={deleteContact.bind(null, contact.id)} className="border-t border-line pt-4">
+              <ConfirmButton message={`Delete ${contact.name} and all of their history? This cannot be undone.`} className="btn btn-danger btn-sm">
+                Delete {contact.name}
+              </ConfirmButton>
+            </form>
+          </Section>
+        </div>
+      </div>
     </>
   )
 }

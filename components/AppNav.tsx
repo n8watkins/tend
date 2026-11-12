@@ -26,13 +26,10 @@ export function AppNav() {
     <>
       <nav aria-label="Main" className="hidden md:block">
         <ul className="flex gap-1">
-          {ITEMS.map(({ href, label }) => (
+          {ITEMS.map(({ href, label, Icon }) => (
             <li key={href}>
-              <Link
-                href={href}
-                aria-current={isActive(pathname, href) ? 'page' : undefined}
-                className="btn btn-ghost btn-sm aria-[current=page]:bg-surface-2"
-              >
+              <Link href={href} aria-current={isActive(pathname, href) ? 'page' : undefined} className="app-nav-link">
+                <Icon className="size-[1.1rem]" />
                 {label}
               </Link>
             </li>
@@ -41,7 +38,7 @@ export function AppNav() {
       </nav>
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="app-tabbar fixed inset-x-0 bottom-0 z-40 pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <ul className="mx-auto grid max-w-lg grid-cols-5">
           {ITEMS.map(({ href, label, Icon }) => {
@@ -51,9 +48,11 @@ export function AppNav() {
                 <Link
                   href={href}
                   aria-current={active ? 'page' : undefined}
-                  className={`flex min-h-14 flex-col items-center justify-center gap-0.5 text-xs font-medium no-underline ${active ? 'text-accent' : 'text-muted'}`}
+                  className="app-tab"
                 >
-                  <Icon className="size-6" />
+                  <span className="app-tab-icon">
+                    <Icon className="size-[1.35rem]" />
+                  </span>
                   {label}
                 </Link>
               </li>

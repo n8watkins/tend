@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { Empty, PageTitle, RowLink, Section } from '@/components/ui'
+import { AlertIcon, CheckIcon, SendIcon } from '@/components/icons'
+import { Empty, Monogram, PageTitle, RowLink, Section } from '@/components/ui'
 import { getItem, itemTitle } from '@/lib/content'
 import { approvalQueue, helperAllowedFor, helperStatus, type QueueItem } from '@/lib/server/helper'
 import { getSettings, requireUser } from '@/lib/server/session'
@@ -30,6 +31,7 @@ export default async function ApprovalsPage() {
   return (
     <>
       <PageTitle
+        eyebrow="Signal helper"
         title="Approvals"
         subtitle={
           !status.enabled || !device
@@ -51,32 +53,34 @@ export default async function ApprovalsPage() {
         </p>
       ) : null}
 
-      <Section title="Waiting for you" id="waiting">
+      <Section title="Waiting for you" id="waiting" icon={CheckIcon} tone="primary" hint="Approve to let your helper send it, or send it yourself.">
         {waiting.length ? (
-          <ul className="space-y-3">
+          <ul>
             {waiting.map((m) => (
               <li key={m.id}>
                 <RowLink
                   href={`/approve/${m.id}`}
+                  lead={<Monogram name={m.contactName} />}
                   title={`${m.contactName}: ${what(m)}`}
                   meta={`Due ${formatWhen(m.scheduledFor, tz)}`}
-                  badge={<span className="badge badge-good">Approve</span>}
+                  badge={<span className="badge badge-solid">Approve</span>}
                 />
               </li>
             ))}
           </ul>
         ) : (
-          <Empty>Nothing waiting. When a message is due, it shows up here and on your phone.</Empty>
+          <Empty icon={CheckIcon}>Nothing waiting. When a message is due, it shows up here and on your phone.</Empty>
         )}
       </Section>
 
       {needsLook.length ? (
-        <Section title="Needs a look" id="check">
-          <ul className="space-y-3">
+        <Section title="Needs a look" id="check" icon={AlertIcon} tone="warn" hint="Your helper could not confirm these.">
+          <ul>
             {needsLook.map((m) => (
               <li key={m.id}>
                 <RowLink
                   href={`/approve/${m.id}`}
+                  lead={<Monogram name={m.contactName} />}
                   title={`${m.contactName}: ${what(m)}`}
                   meta={m.sendState === 'unknown' ? 'Not sure it was sent. Check your Signal chat.' : 'Your helper could not send it.'}
                   badge={<span className="badge badge-warn">{m.sendState === 'unknown' ? 'Not sure' : 'Not sent'}</span>}
@@ -88,12 +92,13 @@ export default async function ApprovalsPage() {
       ) : null}
 
       {withHelper.length ? (
-        <Section title="With your helper" id="sending">
-          <ul className="space-y-3">
+        <Section title="With your helper" id="sending" icon={SendIcon} hint="Approved, and on the way.">
+          <ul>
             {withHelper.map((m) => (
               <li key={m.id}>
                 <RowLink
                   href={`/approve/${m.id}`}
+                  lead={<Monogram name={m.contactName} />}
                   title={`${m.contactName}: ${what(m)}`}
                   meta={
                     m.sendState === 'sending'
