@@ -112,7 +112,8 @@ export default async function ContactPage({
       ? suggestPrompts(
           PROMPTS,
           contact.id,
-          situationsFor(contact.topics, pastMessages, now, soon?.kind),
+          // When the birthday panel already offers birthday starters, this list keeps to their other situations.
+          situationsFor(contact.topics, pastMessages, now, occasionStarters.length ? undefined : soon?.kind),
           pastMessages,
           now,
           promptLimit(mode) + shownStarters.size,
