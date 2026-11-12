@@ -7,14 +7,24 @@ import { SubmitButton } from '@/components/SubmitButton'
 import { ConsentBadge, CONSENT_LABEL, Done, Empty, PageTitle, RowLink, Section, SIGNAL_LABEL } from '@/components/ui'
 import type { ConsentState } from '@/lib/enums'
 import { getItem, itemHeading, itemText, itemTitle, LIBRARY } from '@/lib/content'
+import {
+  describeCadence,
+  describeDaysAway,
+  describePartialDate,
+  OCCASION_LABEL,
+  occasionPicks,
+  parsePartialDate,
+  UPCOMING_DAYS,
+} from '@/lib/occasions'
 import { describeDays } from '@/lib/schedule'
 import { contactConsentEvents, contactMessages, getContact } from '@/lib/server/data'
+import { contactOccasions, keepInTouchState } from '@/lib/server/nudges'
 import { getSettings, requireUser } from '@/lib/server/session'
 import { suggest } from '@/lib/suggest'
 import { formatDate, formatMinutes, formatWhen } from '@/lib/time'
 import { topicLabel } from '@/lib/topics'
 
-import { deleteContact, setConsent, surpriseMe } from '../../actions'
+import { deleteContact, markInTouch, setConsent, surpriseMe } from '../../actions'
 
 export const metadata: Metadata = { title: 'Person' }
 
@@ -42,31 +52,35 @@ export default async function ContactPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ done?: string; error?: string }>
+  searchParams: Promise<{ done?: string; error?: string; occasion?: string }>
 }) {
   const user = await requireUser()
   const { id } = await params
-  const { done, error } = await searchParams
+  const { done, error, occasion } = await searchParams
   const contact = await getContact(user.id, id)
   if (!contact) notFound()
-  const [settings, history, events] = await Promise.all([
+  const now = Date.now()
+  const [settings, history, events, touch] = await Promise.all([
     getSettings(user.id),
     contactMessages(user.id, id),
     contactConsentEvents(user.id, id),
+    keepInTouchState(contact, now),
   ])
   const tz = settings.timezone
-  const now = Date.now()
+  const occasions = contactOccasions(contact, now)
+  // The occasion the nudge pointed at, or the next one within two weeks.
+  const soon = occasions.find((o) => o.kind === occasion) ?? occasions.find((o) => o.daysAway <= UPCOMING_DAYS)
+  const pastForPicks = history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status }))
+  const picks = soon ? occasionPicks(LIBRARY, soon.kind, pastForPicks, now) : []
   const scheduled = history.filter((m) => m.status === 'scheduled').sort((a, b) => a.scheduledFor - b.scheduledFor)
   const past = history.filter((m) => m.status !== 'scheduled')
+  // Not the occasion's picks again, when those are shown above.
+  const shownPicks = new Set(contact.consent === 'yes' ? picks.map((p) => p.id) : [])
   const suggestions =
     contact.consent === 'yes'
-      ? suggest(
-          LIBRARY,
-          contact.id,
-          contact.topics,
-          history.map((m) => ({ contentId: m.contentId, at: m.sentAt ?? m.scheduledFor, status: m.status })),
-          now,
-        )
+      ? suggest(LIBRARY, contact.id, contact.topics, pastForPicks, now, 5 + shownPicks.size)
+          .filter((item) => !shownPicks.has(item.id))
+          .slice(0, 5)
       : []
   const timeline = [
     ...past.map((m) => ({
@@ -178,6 +192,86 @@ export default async function ContactPage({
           </>
         ) : null}
       </section>
+
+      <section aria-labelledby="touch-title" className="card mt-4 space-y-3">
+        <h2 id="touch-title" className="font-bold">
+          Keeping in touch
+        </h2>
+        <dl className="grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
+          <div>
+            <dt className="text-muted">Last in touch</dt>
+            <dd data-testid="last-in-touch">{touch.last ? formatDate(touch.last, tz) : 'Not yet'}</dd>
+          </div>
+          <div>
+            <dt className="text-muted">{touch.cadence ? describeCadence(contact.cadenceDays!) : 'Keep in touch'}</dt>
+            <dd data-testid="next-due">
+              {!touch.cadence ? (
+                <Link href={`/people/${contact.id}/edit#cadence`} className="underline underline-offset-2">
+                  Set how often
+                </Link>
+              ) : touch.cadence.scheduled ? (
+                'A message is scheduled'
+              ) : touch.cadence.dueAt <= now ? (
+                <span className="badge badge-warn">Due now</span>
+              ) : (
+                `Next due ${formatWhen(touch.cadence.dueAt, tz)}`
+              )}
+            </dd>
+          </div>
+          {occasions.map((o) => (
+            <div key={o.kind}>
+              <dt className="text-muted">{OCCASION_LABEL[o.kind]}</dt>
+              <dd>
+                {describePartialDate({ ...parsePartialDate(contact[o.kind])!, year: null })}
+                <span className="text-muted">
+                  {' '}
+                  · {o.daysAway === 0 ? 'today' : describeDaysAway(o.daysAway)}
+                  {o.years !== null && o.years > 0 ? (o.kind === 'birthday' ? `, turns ${o.years}` : `, ${o.years} ${o.years === 1 ? 'year' : 'years'}`) : ''}
+                </span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        {touch.cadence && contact.consent !== 'yes' ? (
+          <p className="hint">Keep-in-touch reminders start once {contact.name} says yes to messages.</p>
+        ) : null}
+        <div className="flex flex-wrap gap-2">
+          <form action={markInTouch.bind(null, contact.id)}>
+            <SubmitButton className="btn btn-secondary btn-sm">We were in touch today</SubmitButton>
+          </form>
+          {!occasions.length ? (
+            <Link href={`/people/${contact.id}/edit#birthday`} className="btn btn-ghost btn-sm">
+              Add a birthday
+            </Link>
+          ) : null}
+        </div>
+      </section>
+
+      {soon && contact.consent === 'yes' ? (
+        <Section title={soon.daysAway === 0 ? `For their ${soon.kind} today` : `For their ${soon.kind}, ${describeDaysAway(soon.daysAway)}`} id="occasion">
+          <p className="hint mb-3">
+            {soon.kind === 'birthday' ? 'A blessing or a hopeful word to send with your wishes.' : 'Passages about love and faithfulness to send with your wishes.'}
+          </p>
+          {picks.length ? (
+            <ul className="space-y-3">
+              {picks.map((item) => (
+                <li key={item.id} className="card">
+                  <p className="text-sm font-semibold">{itemHeading(item)}</p>
+                  <p className="passage mt-2 line-clamp-4">{itemText(item, contact.translation ?? settings.translation)}</p>
+                  <div className="mt-3 flex justify-end">
+                    <Link href={`/compose?contact=${contact.id}&content=${item.id}&occasion=${soon.kind}`} className="btn btn-primary btn-sm">
+                      Use this
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <Link href={`/compose?contact=${contact.id}&kind=personal&occasion=${soon.kind}`} className="btn btn-secondary mt-3">
+            Write your own wishes
+          </Link>
+        </Section>
+      ) : null}
 
       <Section title="Scheduled" id="scheduled">
         {scheduled.length ? (

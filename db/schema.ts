@@ -156,6 +156,16 @@ export const contacts = sqliteTable(
     allowedDays: integer('allowedDays').notNull().default(127),
     // Their own Bible translation; null means the sender's default.
     translation: text('translation').$type<Translation>(),
+    // Occasions (lib/occasions.ts): "YYYY-MM-DD", or "--MM-DD" without a year,
+    // a date in the person's own time zone; and how many days ahead to remind.
+    birthday: text('birthday'),
+    anniversary: text('anniversary'),
+    occasionLeadDays: integer('occasionLeadDays').notNull().default(3),
+    // Keep in touch: reach out every this many days (null: off), counted from
+    // the later of the last message marked sent and lastInTouchAt, a moment
+    // you recorded ("We were in touch today").
+    cadenceDays: integer('cadenceDays'),
+    lastInTouchAt: integer('lastInTouchAt'),
     stopToken: text('stopToken').notNull().unique(),
     archivedAt: integer('archivedAt'),
     createdAt: integer('createdAt').notNull(),
@@ -219,6 +229,26 @@ export const consentEvents = sqliteTable(
     at: integer('at').notNull(),
   },
   (t) => [index('consent_event_contact_idx').on(t.contactId, t.at)],
+)
+
+/**
+ * Occasion and keep-in-touch reminders already sent (lib/server/nudges.ts),
+ * one row per contact and key ("birthday:2026-11-14:day", "cadence:2026-11-20"),
+ * so overlapping cron runs and later runs never send the same one twice.
+ */
+export const nudges = sqliteTable(
+  'nudge',
+  {
+    contactId: text('contactId')
+      .notNull()
+      .references(() => contacts.id, { onDelete: 'cascade' }),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    key: text('key').notNull(),
+    at: integer('at').notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.contactId, t.key] }), index('nudge_at_idx').on(t.at)],
 )
 
 export const rateLimits = sqliteTable('rate_limit', {

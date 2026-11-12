@@ -8,6 +8,7 @@ import { PageTitle } from '@/components/ui'
 import { MESSAGE_KINDS, type MessageKind } from '@/lib/enums'
 import { getItem } from '@/lib/content'
 import { consentRequestBody } from '@/lib/format'
+import { OCCASION_KINDS, occasionGreeting, occasionSlot, parsePartialDate, upcoming } from '@/lib/occasions'
 import { allowedKinds, checkTime, nextGoodTime, REFUSAL_TEXT } from '@/lib/schedule'
 import { contactHistory, getContact, openConsentRequests, sentCount } from '@/lib/server/data'
 import { getSettings, requireUser } from '@/lib/server/session'
@@ -21,7 +22,7 @@ export const metadata: Metadata = { title: 'Compose' }
 export default async function ComposePage({
   searchParams,
 }: {
-  searchParams: Promise<{ contact?: string; content?: string; kind?: string; surprise?: string }>
+  searchParams: Promise<{ contact?: string; content?: string; kind?: string; surprise?: string; occasion?: string }>
 }) {
   const user = await requireUser()
   const params = await searchParams
@@ -61,7 +62,12 @@ export default async function ComposePage({
   const now = Date.now()
   const rules = contact
   const paused = Boolean(settings.pausedAt)
-  const nextAt = paused ? null : nextGoodTime(rules, history, now, Math.random, kind)
+  // From a birthday or anniversary: a greeting to start with, and their day itself as the time.
+  const occasionKind = OCCASION_KINDS.find((k) => k === params.occasion)
+  const occasionDate = occasionKind ? parsePartialDate(contact[occasionKind]) : null
+  const occasion = occasionKind && occasionDate ? upcoming(occasionKind, occasionDate, now, contact.timezone) : null
+  const onTheDay = occasion && !paused ? occasionSlot(rules, history, occasion.date, now, kind) : null
+  const nextAt = paused ? null : (onTheDay ?? nextGoodTime(rules, history, now, Math.random, kind))
   const nowRefusal = checkTime(rules, kind, history, now, now, { paused, openRequests })
   const title =
     kind === 'consent_request' ? `Ask ${contact.name}` : kind === 'personal' ? `Write to ${contact.name}` : `Send to ${contact.name}`
@@ -92,7 +98,14 @@ export default async function ComposePage({
         kind={kind}
         item={item}
         translation={contact.translation ?? settings.translation}
-        initialNote={kind === 'consent_request' ? consentRequestBody(contact.name, contact.minDaysBetween) : ''}
+        initialNote={
+          kind === 'consent_request'
+            ? consentRequestBody(contact.name, contact.minDaysBetween)
+            : occasion
+              ? occasionGreeting(occasion.kind, contact.name)
+              : ''
+        }
+        nextHeading={onTheDay && occasion ? `On their ${occasion.kind}` : 'Next good time'}
         stopUrl={publicUrl(`/stop/${contact.stopToken}`)}
         stopLinkDefault={sent < 3}
         nextAt={nextAt}

@@ -17,6 +17,7 @@ import { and, eq, inArray, notInArray } from 'drizzle-orm'
 import { db } from '@/db'
 import { pushSubscriptions } from '@/db/schema'
 import { PUSH_PER_USER_DAILY, PUSH_SITE_DAILY, PUSH_SUBSCRIPTIONS_PER_USER } from '@/lib/limits'
+import type { NudgeLine } from '@/lib/occasions'
 import { reminderPush, type PushItem, type PushPayload } from '@/lib/push'
 import { readLimit, spend } from '@/lib/server/limits'
 import { siteUrl } from '@/lib/url'
@@ -111,12 +112,12 @@ export async function pushToUser(
   return results.some((r) => !r.ok && r.retryable) ? 'retry' : 'refused'
 }
 
-/** The reminder run's push: one per run for the user's due items. */
-export function pushReminder(userId: string, subscriptions: Subscription[], items: PushItem[], now = Date.now()) {
+/** The reminder run's push: one per run for the user's due items and reminders. */
+export function pushReminder(userId: string, subscriptions: Subscription[], items: PushItem[], now = Date.now(), nudges: NudgeLine[] = []) {
   return pushToUser(
     userId,
     subscriptions,
-    reminderPush(items),
+    reminderPush(items, nudges),
     [
       { key: `push:user:${userId}`, limit: readLimit('PUSH_PER_USER_DAILY', PUSH_PER_USER_DAILY) },
       { key: 'push:site', limit: readLimit('PUSH_SITE_DAILY', PUSH_SITE_DAILY) },

@@ -21,7 +21,18 @@ import { hashKey, randomToken } from '@/lib/crypto'
 import { TELEGRAM_PER_USER_DAILY, TELEGRAM_PUBLIC_DAILY, TELEGRAM_SITE_DAILY } from '@/lib/limits'
 import { recordSent, snoozeDay } from '@/lib/server/messages'
 import { readLimit, spend } from '@/lib/server/limits'
-import { isCommand, parseCallback, parseStart, reminderKeyboard, reminderText, type InlineKeyboard, type ReminderItem } from '@/lib/telegram'
+import type { NudgeLine } from '@/lib/occasions'
+import {
+  isCommand,
+  nudgeKeyboard,
+  nudgeText,
+  parseCallback,
+  parseStart,
+  reminderKeyboard,
+  reminderText,
+  type InlineKeyboard,
+  type ReminderItem,
+} from '@/lib/telegram'
 import { formatWhen } from '@/lib/time'
 import { publicUrl } from '@/lib/url'
 
@@ -266,10 +277,14 @@ async function handleCallback(query: NonNullable<Update['callback_query']>, now:
 /* Reminders ---------------------------------------------------------------- */
 
 /** One Telegram message per due item, each within the caps. Returns how many went. */
-export async function sendTelegramReminders(chatId: string, userId: string, items: ReminderItem[]): Promise<number> {
+export async function sendTelegramReminders(chatId: string, userId: string, items: ReminderItem[], nudges: NudgeLine[] = []): Promise<number> {
   let sent = 0
   for (const item of items) {
     if (await sendTelegram(chatId, userId, reminderText(item), reminderKeyboard(item, publicUrl(`/send/${item.id}`)))) sent++
+    else return sent
+  }
+  for (const nudge of nudges) {
+    if (await sendTelegram(chatId, userId, nudgeText(nudge), nudgeKeyboard(publicUrl(nudge.path)))) sent++
     else break
   }
   return sent

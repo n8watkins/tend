@@ -111,6 +111,11 @@ Every application row carries `userId`, and every query filters by the signed-in
 | windowEnd | integer | default 1200 (20:00); must be after windowStart |
 | allowedDays | integer | bitmask, bit 0 = Sunday; default 127 (every day) |
 | translation | text null | their own Bible translation; null uses the sender's default |
+| birthday | text null | `YYYY-MM-DD`, or `--MM-DD` without a year (as vCard writes it); a date in their time zone |
+| anniversary | text null | same format |
+| occasionLeadDays | integer | default 3; one of 0, 1, 2, 3, 7, 14: the first reminder that many days ahead, and one on the day |
+| cadenceDays | integer null | keep in touch every this many days (1 to 365); null is off |
+| lastInTouchAt | integer null | a catch-up you recorded outside Tend ("We were in touch today", or a date on the form) |
 | stopToken | text unique | 32 random bytes, base64url |
 | archivedAt | integer null | |
 | createdAt, updatedAt | integer | |
@@ -142,6 +147,11 @@ Indexes: `(status, scheduledFor)` for the cron, `(contactId, sentAt)` for caps a
 
 `id, userId, contactId, from, to, by ('you' | 'recipient'), at`: an append-only log of consent changes, shown in contact history.
 
+### `nudge`
+
+`(contactId, key)` primary key, `userId`, `at`: birthday, anniversary and keep-in-touch reminders already sent, keyed like `birthday:2026-11-14:ahead`, `birthday:2026-11-14:day` or `cadence:2026-11-20`, so none is sent twice.
+Rows older than 400 days are pruned by the cron.
+
 ### `rate_limit`
 
 `key` text PK, `count` integer, `resetAt` integer: fixed-window counters for sign-in emails (per address hash, per IP hash, site-wide) and reminder emails (per user, site-wide).
@@ -160,12 +170,12 @@ Every page is light only (whatever the system setting), meets WCAG 2.2 AA contra
 | `/` | public | What Tend is, how it works in three steps, sign-in button ("Open Tend" when signed in) |
 | `/signin` | public | Email form (with Turnstile) and GitHub button when configured |
 | `/signin/check-email` | public | "Check your email" |
-| `/today` | user | Pause banner; Due now; Upcoming (next 14 days); people who could use a message (consent yes, nothing in the last `minDaysBetween` days and nothing scheduled) |
+| `/today` | user | Pause banner; Due now; Due to reach out (keep-in-touch cadences that have come due); Birthdays and anniversaries (next 14 days); Upcoming (next 14 days); people who could use a message (consent yes, nothing in the last `minDaysBetween` days and nothing scheduled) |
 | `/people` | user | Contact list with search, consent badges, next scheduled |
 | `/people/new` | user | Create contact |
-| `/people/[id]` | user | Consent panel, suggestions, scheduled, history, consent log, edit and delete |
+| `/people/[id]` | user | Consent panel, keeping in touch (last in touch, next due, birthday, anniversary, "We were in touch today"), picks for an occasion within 14 days, suggestions, scheduled, history, consent log, edit and delete |
 | `/people/[id]/edit` | user | Edit contact |
-| `/compose` | user | `?contact=&content=&kind=`: compose, preview, schedule |
+| `/compose` | user | `?contact=&content=&kind=&occasion=`: compose, preview, schedule; with an occasion, the greeting is written and their day itself is the suggested time |
 | `/send/[messageId]` | user | The send screen |
 | `/library` | user | Browse and filter the library by topic and kind |
 | `/history` | user | All sent, skipped and canceled messages |
@@ -302,6 +312,17 @@ The run:
 
 Due messages show in "Due now" whether or not an email was sent; messages more than 7 days overdue move to "Missed" with Reschedule and Skip.
 
+### Occasions and keeping in touch
+
+The rules are pure functions in `lib/occasions.ts`; `lib/server/nudges.ts` loads the data and the cron sends.
+
+- **Dates.** A birthday or anniversary is a month and day with an optional year, in the person's own time zone: it is "today" when it is that day where they live. 29 February falls on 28 February in common years.
+- **Occasion reminders.** One from `occasionLeadDays` before (a run that missed the first day sends it the next), and one on the day, each only while their contact window is open (their allowed weekdays do not apply: a birthday falls when it falls).
+- **Keep in touch.** Last in touch is the later of the last message marked sent and `lastInTouchAt`. The next due time is `cadenceDays` after that (or after the contact was added, if never), moved to the first slot their window, allowed days, spacing and 30-day cap allow (`nextGoodTime` from that moment, earliest slot). The reminder goes once that time has passed, while their window is open on an allowed day, keyed by the due date.
+- **Who gets reminded.** Only for a person at consent `yes`, not archived, with nothing already scheduled for them, while the user is not paused. Today and the person page still show the dates for everyone, with a note when they have not said yes.
+- **Delivery.** Each run's reminders are claimed in `nudge` (insert, do nothing on conflict) and travel with the due messages: one email, one phone notification, and one Telegram message each (with an "Open in Tend" button), within the same caps. If nothing delivers and a later run could, the claims are handed back.
+- **Suggestions.** A reminder opens the person page, which shows picks for the occasion (`OCCASION_PICKS`: blessings such as Numbers 6:24-26 for a birthday, passages on love and companionship for an anniversary; never one sent in the last 180 days or scheduled) and "Write your own wishes". Compose starts the note with "Happy birthday, Sam!" and offers the start of their window on the day itself when their rules allow it.
+
 ## 9. Consent flow
 
 1. New contact starts at `not_asked`.
@@ -343,8 +364,8 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 
 ## 12. Tests
 
-- **Unit (Vitest):** scheduling rules (`nextGoodTime`, caps, windows across DST and time zones), suggestion ranking, message formatting, consent transitions, encryption round trip, rate limits, library validity, cron claim logic against a local libSQL file.
-- **End to end (Playwright, Chromium, phone and desktop viewports):** sign in with the test-mode email provider (writes the link to a file); create a contact; ask consent and record yes; pick a suggestion, compose, schedule; run the cron route and see the reminder (test email sink); send screen copy and mark sent; caps refuse a too-soon message; recipient stop page stops and cancels; pause all; export; delete account; axe accessibility checks on every main page.
+- **Unit (Vitest):** scheduling rules (`nextGoodTime`, caps, windows across DST and time zones), occasion dates and reminders across time zones, cadence math, suggestion ranking, message formatting, consent transitions, encryption round trip, rate limits, library validity, cron claim logic against a local libSQL file.
+- **End to end (Playwright, Chromium, phone and desktop viewports):** sign in with the test-mode email provider (writes the link to a file); create a contact; ask consent and record yes; pick a suggestion, compose, schedule; run the cron route and see the reminder (test email sink); send screen copy and mark sent; caps refuse a too-soon message; a birthday today and a due keep-in-touch cadence each reminded once; recipient stop page stops and cancels; pause all; export; delete account; axe accessibility checks on every main page.
 - **CI:** lint, typecheck (app and worker), unit, Cloudflare build plus deploy dry run, e2e.
 
 ## 13. Deploy
