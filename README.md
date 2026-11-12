@@ -68,7 +68,8 @@ Sign in with any address; the link is in `.e2e/email/<address>.jsonl`.
 
 1. Create a Turso database and apply the migrations: `TURSO_DATABASE_URL=... TURSO_AUTH_TOKEN=... node scripts/migrate.mjs`.
 2. Change `name`, `routes`, `account_id`, `vars` and the `MAILROOM` service binding in `wrangler.jsonc` (a deployed mailroom Worker that allows your app name; Tend sends nothing without it).
-3. Set the Worker secrets with `wrangler secret put`: `AUTH_SECRET`, `DATA_ENCRYPTION_KEY` (a random string of 32 or more characters), `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, and optionally `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`.
+3. Set the Worker secrets with `wrangler secret put`: `AUTH_SECRET`, `DATA_ENCRYPTION_KEY` (a random string of 32 or more characters), `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` (production refuses email sign-in without them), and optionally `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`.
+   For local development set `TURNSTILE=off`, or use Cloudflare's [test keys](https://developers.cloudflare.com/turnstile/troubleshooting/testing/); both are ignored or refused in production.
 4. `npm run deploy`.
 
 ### Sign in with GitHub (optional)

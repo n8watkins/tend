@@ -1,7 +1,7 @@
 'use server'
 
 /**
- * Sign-in. The email path checks Turnstile (when configured) and the
+ * Sign-in. The email path checks Turnstile (refusing when it is not configured in production) and the
  * sign-in email limits before Auth.js sends a link: per address, per IP and
  * site-wide per day, because every link spends from the account's shared
  * Email Service quota. Addresses and IPs are stored only as salted hashes.
@@ -28,9 +28,12 @@ export async function emailSignIn(_prev: SignInState, form: FormData): Promise<S
   const h = await headers()
   const ip = h.get('cf-connecting-ip')?.trim() || null
   const token = form.get(TURNSTILE_FIELD)
-  if (!(await verifyTurnstile(typeof token === 'string' ? token : null, ip))) {
-    return { error: "We couldn't confirm you're human. Please try again." }
+  const human = await verifyTurnstile(typeof token === 'string' ? token : null, ip)
+  if (human === 'not_configured') {
+    console.error(JSON.stringify({ event: 'turnstile_not_configured' }))
+    return { error: 'Email sign-in is unavailable right now because the bot check is not set up. Please use GitHub or try again later.' }
   }
+  if (human !== 'ok') return { error: "We couldn't confirm you're human. Please try again." }
   const rules = [
     { key: `signin:addr:${await hashKey(email.data)}`, limit: readLimit('SIGNIN_PER_ADDRESS_DAILY', SIGNIN_PER_ADDRESS_DAILY) },
     ...(ip ? [{ key: `signin:ip:${await hashKey(ip)}`, limit: readLimit('SIGNIN_PER_IP_DAILY', SIGNIN_PER_IP_DAILY) }] : []),

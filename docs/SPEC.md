@@ -22,7 +22,7 @@ Tend is not affiliated with Signal; it is a companion app "for Signal".
 
 ### MVP (milestone 1)
 
-- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured; linked to the same account by the GitHub account's verified email), Turnstile on the email form when configured.
+- Sign in with an email link (sent through the shared mailroom) or GitHub (when configured; linked to the same account by the GitHub account's verified email), Turnstile on the email form (production refuses email sign-in when it is not configured).
 - Contacts with consent state, Signal status, topics with weights, time zone, contact window, frequency rules, optional phone and notes.
 - A curated content library of about 65 verified items across 16 topics.
 - Suggestions per contact, ranked by topic fit and freshness.
@@ -154,7 +154,7 @@ Every page is light only (whatever the system setting), meets WCAG 2.2 AA contra
 | Route | Access | Purpose |
 | --- | --- | --- |
 | `/` | public | What Tend is, how it works in three steps, sign-in button ("Open Tend" when signed in) |
-| `/signin` | public | Email form (with Turnstile when configured) and GitHub button when configured |
+| `/signin` | public | Email form (with Turnstile) and GitHub button when configured |
 | `/signin/check-email` | public | "Check your email" |
 | `/today` | user | Pause banner; Due now; Upcoming (next 14 days); people who could use a message (consent yes, nothing in the last `minDaysBetween` days and nothing scheduled) |
 | `/people` | user | Contact list with search, consent badges, next scheduled |
@@ -315,12 +315,12 @@ Due messages show in "Due now" whether or not an email was sent; messages more t
 - **Isolation:** every query is scoped by `userId`; a helper `requireUser()` returns the id or redirects; contact and message lookups use `(id, userId)`.
 - **Encryption:** `lib/crypto.ts` encrypts `phone` and `notes` with AES-256-GCM via WebCrypto; key derived with HKDF-SHA-256 from the `DATA_ENCRYPTION_KEY` secret (a random string of 32 or more characters); each value is `v1.<iv>.<ciphertext>`; a key version prefix allows rotation.
 - **Headers:** CSP with per-request nonce (scripts from self and `challenges.cloudflare.com` only), `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, HSTS, `Permissions-Policy` denying camera, microphone and geolocation.
-- **Abuse:** Turnstile on the email sign-in form when both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set as Worker settings (skipped otherwise, so turning it on needs no rebuild); the Auth.js route refuses a direct POST to `/api/auth/signin/email`, so every email link goes through that check; sign-in emails at most 5 per address and 20 per IP a day, and 10 a day site-wide (until Tend sends through the mailroom with a monthly slice); reminder emails as in section 8.
+- **Abuse:** Turnstile on the email sign-in form, with `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` as Worker settings (so changing them needs no rebuild); in production a missing key refuses email sign-in with a clear error, the token's hostname must be the app's own, and outside production Cloudflare's test keys or the dev flag `TURNSTILE=off` work; the Auth.js route refuses a direct POST to `/api/auth/signin/email`, so every email link goes through that check; sign-in emails at most 5 per address and 20 per IP a day, and 10 a day site-wide (until Tend sends through the mailroom with a monthly slice); reminder emails as in section 8.
 - **Stop tokens:** 256-bit random, compared by exact lookup; rate-limited by Cloudflare's default protections.
 - **Logging:** structured JSON logs with ids and outcomes only; never names, numbers, notes, message bodies or emails.
 - **Deletion:** deleting a contact deletes its messages and consent events; deleting the account deletes the user row and everything cascades; sessions end immediately.
 - **Export:** `/api/export` returns contacts (decrypted), topics, messages and consent events as JSON.
-- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`), kept in pass under `tend/`.
+- **Secrets:** Worker secrets only (`AUTH_SECRET`, `DATA_ENCRYPTION_KEY`, `CRON_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, optional `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`; `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are required for email sign-in), kept in pass under `tend/`.
 
 ## 11. Limits
 
