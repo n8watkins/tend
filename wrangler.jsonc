@@ -37,7 +37,8 @@
   // TURSO_AUTH_TOKEN, TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY (email sign-in
   // is refused without the two Turnstile keys); optional AUTH_GITHUB_ID,
   // AUTH_GITHUB_SECRET, and VAPID_PRIVATE_KEY for phone notifications (Web
-  // Push; the public key is derived from it).
+  // Push; the public key is derived from it), GOOGLE_CLIENT_ID and
+  // GOOGLE_CLIENT_SECRET for Google Contacts import (docs/SPEC.md).
   // Run next to the Turso database: every page makes several queries.
   "placement": { "mode": "targeted", "region": "aws:us-east-2" },
   "observability": { "enabled": true, "head_sampling_rate": 1 }

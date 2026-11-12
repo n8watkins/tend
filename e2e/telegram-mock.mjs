@@ -28,7 +28,48 @@ function push(req, res, id) {
   })
 }
 
+// Google OAuth and People API for the contact import (GOOGLE_API_BASE = this
+// server). The consent screen approves at once; calls go to .e2e/google.jsonl.
+const googleLog = join(dir, 'google.jsonl')
+const GOOGLE_PEOPLE = {
+  connections: [
+    {
+      names: [{ displayName: 'Priya Shah', metadata: { primary: true } }],
+      phoneNumbers: [
+        { value: '020 7946 0000', type: 'home' },
+        { value: '07700 900456', canonicalForm: '+447700900456', type: 'mobile' },
+      ],
+      emailAddresses: [{ value: 'priya@example.com', metadata: { primary: true } }],
+      birthdays: [{ date: { month: 5, day: 9 }, metadata: { primary: true } }],
+    },
+    { names: [{ displayName: 'Tom Becker' }], events: [{ type: 'anniversary', date: { year: 2015, month: 8, day: 22 } }] },
+    { emailAddresses: [{ value: 'no-name@example.com' }] },
+  ],
+}
+
+function google(req, res, url) {
+  appendFileSync(googleLog, `${JSON.stringify({ method: req.method, path: url.pathname, authorization: req.headers.authorization ?? null })}\n`)
+  if (url.pathname === '/google/auth') {
+    const back = new URL(url.searchParams.get('redirect_uri'))
+    back.searchParams.set('code', 'mock-code')
+    back.searchParams.set('state', url.searchParams.get('state') ?? '')
+    res.writeHead(302, { location: back.toString() }).end()
+  } else if (url.pathname === '/google/token') {
+    res.writeHead(200, { 'content-type': 'application/json' }).end(
+      JSON.stringify({ access_token: 'mock-access-token', token_type: 'Bearer', expires_in: 3599, scope: 'https://www.googleapis.com/auth/contacts.readonly' }),
+    )
+  } else if (url.pathname === '/google/people') {
+    res.writeHead(200, { 'content-type': 'application/json' }).end(JSON.stringify(GOOGLE_PEOPLE))
+  } else res.writeHead(200).end()
+}
+
 createServer((req, res) => {
+  const url = new URL(req.url ?? '/', 'http://localhost')
+  if (url.pathname.startsWith('/google/')) {
+    req.resume()
+    req.on('end', () => google(req, res, url))
+    return
+  }
   const pushMatch = req.url?.match(/^\/push\/([\w-]+)$/)
   if (req.method === 'POST' && pushMatch) {
     push(req, res, pushMatch[1])

@@ -24,7 +24,8 @@ export async function GET(): Promise<Response> {
       .where(eq(pushSubscriptions.userId, userId)),
   ])
   const exported = await Promise.all(
-    people.map(async ({ phoneEnc, notesEnc, stopToken: _stopToken, userId: _userId, ...contact }) => ({
+    // emailHash is a keyed hash for spotting duplicates on import: meaningless outside Tend.
+    people.map(async ({ phoneEnc, notesEnc, stopToken: _stopToken, userId: _userId, emailHash: _emailHash, ...contact }) => ({
       ...contact,
       phone: await decrypt(phoneEnc),
       notes: await decrypt(notesEnc),

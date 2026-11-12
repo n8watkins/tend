@@ -166,6 +166,10 @@ export const contacts = sqliteTable(
     // you recorded ("We were in touch today").
     cadenceDays: integer('cadenceDays'),
     lastInTouchAt: integer('lastInTouchAt'),
+    // Import (lib/server/import.ts): a keyed hash of the email address the
+    // contact came with, only to spot the same person in a later import.
+    // Tend does not keep email addresses.
+    emailHash: text('emailHash'),
     stopToken: text('stopToken').notNull().unique(),
     archivedAt: integer('archivedAt'),
     createdAt: integer('createdAt').notNull(),
