@@ -20,8 +20,7 @@ const DOTTED_ROUTES = new Set(['/manifest.webmanifest', '/icon.svg', '/apple-ico
 /** Whether a path is file-like (a dot in any segment) and not a known route. */
 export function isMissingFile(pathname: string): boolean {
   if (!pathname.includes('.')) return false
-  if (DOTTED_ROUTES.has(pathname)) return false
-  return !pathname.startsWith('/.well-known/')
+  return !DOTTED_ROUTES.has(pathname)
 }
 
 /**
