@@ -8,6 +8,7 @@
 import openNext from '../.open-next/worker.js'
 import { scheduledReminders } from './cron'
 import { healthCheck } from './health'
+import { missingFile } from './missing-file'
 
 type Env = CloudflareEnv
 type FetchHandler = { fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> }
@@ -16,7 +17,7 @@ const app = openNext as FetchHandler
 
 export default {
   fetch(request, env, ctx) {
-    return healthCheck(request) ?? app.fetch(request, env, ctx)
+    return healthCheck(request) ?? missingFile(request) ?? app.fetch(request, env, ctx)
   },
 
   async scheduled(_controller, env) {
