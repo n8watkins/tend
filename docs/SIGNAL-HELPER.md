@@ -302,9 +302,9 @@ signal-cli --version
 Install tend-helper from this repository:
 
 ```sh
-git -C ~/projects/public/tend pull
-chmod +x ~/projects/public/tend/helper/bin/tend-helper.mjs
-ln -sf ~/projects/public/tend/helper/bin/tend-helper.mjs ~/.local/bin/tend-helper
+git -C ~/projects/apps/tend pull
+chmod +x ~/projects/apps/tend/helper/bin/tend-helper.mjs
+ln -sf ~/projects/apps/tend/helper/bin/tend-helper.mjs ~/.local/bin/tend-helper
 tend-helper version
 ```
 
